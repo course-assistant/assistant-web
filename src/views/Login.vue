@@ -16,6 +16,11 @@
             v-model="formData.password"
             placeholder="请输入密码"
           />
+          <el-checkbox
+            v-model="rememberMe"
+            style="float: left; margin: 10px 0 0 30px"
+            >7天内记住我</el-checkbox
+          >
           <el-button
             @click="handleLogin"
             class="btn-login"
@@ -47,15 +52,22 @@
 export default {
   data() {
     return {
+      rememberMe: false,
       formData: {
-        username: '111',
-        password: '333'
+        username: '',
+        password: ''
       }
     }
   },
   methods: {
     handleLogin() {
-      this.$message.warning('点击登录');
+      // 空字符串判断
+      if (this.formData.username.trim() === '' || this.formData.password.trim() === '') {
+        this.$message.warning('请输入');
+        return;
+      }
+
+      this.$router.push('/');
     }
   }
 }
