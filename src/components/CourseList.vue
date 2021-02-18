@@ -1,38 +1,37 @@
 <template>
-  <div class="course-list">
-    <!-- 工具栏 -->
-    <div class="toolbar">
-      <el-button type="primary" icon="el-icon-plus" round>新建课程</el-button>
+  <div class="container">
+    <div class="course-list">
+      <!-- 工具栏 -->
+      <div class="toolbar">
+        <el-button type="primary" icon="el-icon-plus" round>新建课程</el-button>
 
-      <el-input
-        v-model="searchText"
-        style="margin-left: 15px; width: 300px"
-        placeholder="搜索"
-        prefix-icon="el-icon-search"
-      >
-      </el-input>
+        <el-input
+          v-model="searchText"
+          style="margin-left: 15px; width: 300px"
+          placeholder="搜索"
+          prefix-icon="el-icon-search"
+        >
+        </el-input>
 
-      <el-button type="primary" style="margin-left: 12px" plain round>
-        搜索
-      </el-button>
+        <el-button type="primary" style="margin-left: 12px" plain round>
+          搜索
+        </el-button>
 
-      <el-link
-        type="info"
-        :underline="false"
-        icon="el-icon-collection"
-        style="position: absolute; right: 80px"
-        >已结束的课程</el-link
-      >
-    </div>
+        <el-link
+          type="info"
+          :underline="false"
+          icon="el-icon-collection"
+          style="position: absolute; right: 80px"
+          >已结束的课程</el-link
+        >
+      </div>
 
-    <!-- 课程列表 -->
-    <div class="list">
-      <CourseItem />
-      <CourseItem />
-      <CourseItem />
-      <CourseItem />
-      <CourseItem />
-      <CourseItem />
+      <!-- 课程列表 -->
+      <div class="list">
+        <CourseItem />
+        <CourseItem />
+        <CourseItem />
+      </div>
     </div>
   </div>
 </template>
@@ -52,12 +51,21 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.course-list {
+.container {
   width: 100%;
   height: 100%;
-  background: #ffffff;
+  background: #f2f4f7;
+  padding: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.course-list {
+  height: calc(100% - 60px);
+  width: 100%;
   border-radius: 16px;
-  // background: salmon;
+  background: #fff;
 
   .toolbar {
     position: relative;

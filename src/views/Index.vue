@@ -91,8 +91,8 @@ export default {
     align-items: center;
 
     .router-view {
-      width: calc(100% - @router-padding);
-      height: calc(100% - @router-padding);
+      width: 100%;
+      height: 100%;
     }
   }
 
