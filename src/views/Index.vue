@@ -1,21 +1,46 @@
 <template>
   <div id="index">
+    <!-- 顶部 -->
     <div id="header">
-      <span> header </span>
+      <!-- LOGO -->
+      <img
+        class="logo"
+        src="https://i.loli.net/2021/02/18/yrSGnMYqtmhHjbU.png"
+        alt="logo"
+        @click="toIndex"
+      />
+
+      <!-- 头像 -->
+      <el-avatar
+        class="avatar"
+        :size="34"
+        src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"
+      />
     </div>
+
+    <!-- 中间内容 -->
     <div id="content">
       <router-view class="router-view" />
     </div>
+
+    <!-- 底部 -->
     <div id="footer">
       <p>Copyright © 课程助手</p>
     </div>
-  </div> 
+  </div>
 </template>
 
 <script>
 export default {
   name: 'Index',
   components: {
+  },
+  methods: {
+    toIndex() {
+      if (this.$route.path !== '/') {
+        this.$router.push('/');
+      }
+    }
   }
 }
 </script>
@@ -35,11 +60,22 @@ export default {
     width: 100%;
     height: @header_height;
     background: #fff;
-    box-shadow: 0 2px 4px -1px #cccccc;
+    box-shadow: 0 1px 12px 0 rgba(1, 39, 78, 0.12);
+    display: flex;
+    align-items: center;
 
-    span {
-      height: @header_height;
-      line-height: @header_height;
+    .logo {
+      position: absolute;
+      width: 106px;
+      height: 28px;
+      left: 30px;
+      cursor: pointer;
+    }
+
+    .avatar {
+      position: absolute;
+      right: 30px;
+      cursor: pointer;
     }
   }
 

@@ -20,7 +20,7 @@
         type="info"
         :underline="false"
         icon="el-icon-collection"
-        style="position: absolute;right:80px;"
+        style="position: absolute; right: 80px"
         >已结束的课程</el-link
       >
     </div>
@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import CourseItem from '@/components/Index/CourseItem.vue';
+import CourseItem from '@/components/CourseItem.vue';
 export default {
   data() {
     return {
@@ -75,7 +75,7 @@ export default {
     margin: 0 auto;
     display: flex;
     flex-wrap: wrap;
-    justify-content: start;
+    justify-content: flex-start;
     align-content: flex-start;
     overflow-y: auto;
     // background: sandybrown;

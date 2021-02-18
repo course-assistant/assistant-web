@@ -15,7 +15,7 @@ export default {
   methods: {
     fun() {
       this.$message.info('点击');
-      const newtab = this.$router.resolve('/login');
+      const newtab = this.$router.resolve('/course');
       window.open(newtab.href, '_blank');
     }
   }
