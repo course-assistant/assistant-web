@@ -3,6 +3,8 @@ import VueRouter from 'vue-router'
 
 import Login from '@/views/Login';
 import Index from '@/views/Index';
+import CourseList from '@/components/Index/CourseList.vue';
+
 
 Vue.use(VueRouter)
 
@@ -16,11 +18,21 @@ const routes = [{
   },
   {
     path: '/',
-    name: 'Index',
     component: Index,
     meta: {
       title: '教师首页'
-    }
+    },
+    children: [
+      // 教师列表
+      {
+        name: 'course',
+        path: '',
+        component: CourseList,
+        meta: {
+          title: '教师首页'
+        }
+      }
+    ],
   },
 ]
 
