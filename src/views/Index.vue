@@ -9,7 +9,7 @@
     <div id="footer">
       <p>Copyright © 课程助手</p>
     </div>
-  </div>
+  </div> 
 </template>
 
 <script>
