@@ -5,18 +5,28 @@
       src="http://p.ananas.chaoxing.com/star3/240_130c/b7b9a80175b2d80938d72fcbfdabce24.jpg"
       alt=""
     />
-    <h4 class="course-name">网站建设技术</h4>
-    <p class="teacher-name">张妍琰</p>
+    <h4 class="course-name">{{ courseName }}</h4>
+    <p class="teacher-name">{{ teacherName }}</p>
   </div>
 </template>
 
 <script>
 export default {
+  data() {
+    return {
+      // 课程的基本属性
+      courseId: 1,
+      courseName: '网站建设技术',
+      teacherName: '张妍琰'
+    }
+  },
   methods: {
     fun() {
-      this.$message.info('点击');
-      const newtab = this.$router.resolve('/course');
-      window.open(newtab.href, '_blank');
+      let routeUrl = this.$router.resolve({
+        path: '/course',
+        query: { courseid: this.courseId }
+      });
+      window.open(routeUrl.href, '_blank');
     }
   }
 }

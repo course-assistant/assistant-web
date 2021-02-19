@@ -46,7 +46,10 @@ export default {
   },
   components: {
     CourseItem
-  }
+  },
+  beforeCreate() {
+    this.$message.success('欢迎回来');
+  },
 }
 </script>
 

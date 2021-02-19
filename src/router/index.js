@@ -6,6 +6,8 @@ import Index from '@/views/Index';
 import CourseList from '@/components/CourseList.vue';
 import CourseIndex from '@/components/CourseIndex.vue';
 
+import ClassManagement from '@/components/Course/ClassManagement.vue';
+import Period from '@/components/Course/Period.vue';
 
 Vue.use(VueRouter)
 
@@ -40,7 +42,25 @@ const routes = [{
         component: CourseIndex,
         meta: {
           title: '课程详情'
-        }
+        },
+        children: [
+          // 班级管理
+          {
+            name: 'ClassManagement',
+            path: 'class',
+            component: ClassManagement,
+            meta: {
+              title: '课程详情 - 班级管理'
+            }
+          }, {
+            name: 'Period',
+            path: 'period',
+            component: Period,
+            meta: {
+              title: '课程详情 - 课程学时'
+            }
+          }
+        ],
       }
     ],
   },
