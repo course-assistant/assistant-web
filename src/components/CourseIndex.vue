@@ -55,6 +55,7 @@
 export default {
   data() {
     return {
+      // 这个0可以记录有没有传递课程id，没有传递的默认就是0
       courseId: 0,
       courseName: '测试课程',
       courseCover: 'http://p.ananas.chaoxing.com/star3/240_130c/b7b9a80175b2d80938d72fcbfdabce24.jpg',
@@ -68,9 +69,19 @@ export default {
     }
   },
 
-  created() {
+  async created() {
     // 获取传递的参数
     this.courseId = this.$route.query.courseid;
+    // 根据id查询课程
+    let [data, err] = await this.$awaitWrap(this.$get('course/findbyid', {
+      id: this.courseId
+    }));
+    if (err) {
+      this.$message.warning(err);
+      return;
+    }
+    this.courseName = data.data.course_name;
+    this.courseCover = data.data.course_cover;
   },
 
   mounted() {

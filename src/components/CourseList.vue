@@ -64,7 +64,7 @@ export default {
     let jwt = localStorage.getItem('hncj_management_teacher_token');
     let id = jwtDecode(jwt).id;
     // 获取正在教的课程
-    let [data, err] = await this.$awaitWrap(this.$get('course/find', {
+    let [data, err] = await this.$awaitWrap(this.$get('course/findbyteacherid', {
       id: id,
       page: 0,
       size: 12,
