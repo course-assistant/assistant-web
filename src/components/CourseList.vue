@@ -3,7 +3,9 @@
     <div class="course-list">
       <!-- 工具栏 -->
       <div class="toolbar">
-        <el-button type="primary" icon="el-icon-plus" round>新建课程</el-button>
+        <el-button type="primary" icon="el-icon-plus" round @click="addCourse">
+          新建课程
+        </el-button>
 
         <el-input
           v-model="searchText"
@@ -54,6 +56,12 @@ export default {
     CourseItem
   },
 
+  methods: {
+    addCourse() {
+      this.$router.push('addcourse');
+    }
+  },
+
   beforeCreate() {
     this.$message.success('欢迎回来');
   },
@@ -97,6 +105,7 @@ export default {
   width: 100%;
   border-radius: 16px;
   background: #fff;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
 
   .toolbar {
     position: relative;
