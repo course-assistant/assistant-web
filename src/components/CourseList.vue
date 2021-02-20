@@ -40,29 +40,16 @@
 
 <script>
 import CourseItem from '@/components/CourseItem.vue';
+import jwtDecode from '@/util/jwt-decode.js';
+
 export default {
   data() {
     return {
       searchText: '',
-
-      courses: [
-        {
-          courseId: 1,
-          courseName: '网站建设技术',
-          teacherName: '张妍琰',
-          courseCover: 'http://p.ananas.chaoxing.com/star3/240_130c/b7b9a80175b2d80938d72fcbfdabce24.jpg'
-        },
-        {
-          courseId: 2,
-          courseName: '网站建设技术',
-          teacherName: '张妍琰',
-          courseCover: 'http://p.ananas.chaoxing.com/star3/240_130c/b7b9a80175b2d80938d72fcbfdabce24.jpg'
-        }
-      ]
-
+      courses: []
     }
   },
-  
+
   components: {
     CourseItem
   },
@@ -71,9 +58,25 @@ export default {
     this.$message.success('欢迎回来');
   },
 
-  beforeMount() {
-    // 请求服务器，拿到数据
-
+  // 请求服务器，拿到数据
+  async beforeMount() {
+    // 获取教师id
+    let jwt = localStorage.getItem('hncj_management_teacher_token');
+    let id = jwtDecode(jwt).id;
+    // 获取正在教的课程
+    let [data, err] = await this.$awaitWrap(this.$get('course/find', {
+      id: id,
+      page: 0,
+      size: 12,
+      status: 1
+    }));
+    if (err) {
+      this.$message.warning(err);
+      return;
+    }
+    console.log(data);
+    this.courses = data.data;
+    console.log(this.courses);
   },
 }
 </script>

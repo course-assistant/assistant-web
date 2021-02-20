@@ -5,6 +5,7 @@ import Login from '@/views/Login';
 import Index from '@/views/Index';
 import CourseList from '@/components/CourseList.vue';
 import CourseIndex from '@/components/CourseIndex.vue';
+import TeacherHome from '@/components/TeacherHome.vue';
 
 import ClassManagement from '@/components/Course/ClassManagement.vue';
 import Period from '@/components/Course/Period.vue';
@@ -61,7 +62,16 @@ const routes = [{
             }
           }
         ],
-      }
+      },
+      // 教师个人页面
+      {
+        name: 'TeacherHome',
+        path: 'teacher',
+        component: TeacherHome,
+        meta: {
+          title: '教师个人空间'
+        }
+      },
     ],
   },
 ]

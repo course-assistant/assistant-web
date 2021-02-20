@@ -1,8 +1,8 @@
 <template>
   <div class="course-item" @click="fun">
-    <img class="cover" :src="courseData.courseCover" alt="" />
-    <h4 class="course-name">{{ courseData.courseName }}</h4>
-    <p class="teacher-name">{{ courseData.teacherName }}</p>
+    <img class="cover" :src="courseData.course_cover" alt="" />
+    <h4 class="course-name">{{ courseData.course_name }}</h4>
+    <p class="teacher-name">{{ courseData.teacher_name }}</p>
   </div>
 </template>
 
@@ -13,10 +13,10 @@ export default {
     return {
       courseData: {
         // 课程的基本属性
-        courseId: 1,
-        courseName: '网站建设技术',
-        teacherName: '张妍琰',
-        courseCover: 'http://p.ananas.chaoxing.com/star3/240_130c/b7b9a80175b2d80938d72fcbfdabce24.jpg'
+        course_id: 1,
+        course_name: '课程名',
+        teacher_name: '教师名',
+        course_cover: 'http://p.ananas.chaoxing.com/star3/240_130c/b7b9a80175b2d80938d72fcbfdabce24.jpg'
       }
     }
   },
@@ -27,7 +27,7 @@ export default {
     fun() {
       let routeUrl = this.$router.resolve({
         path: '/course',
-        query: { courseid: this.courseData.courseId }
+        query: { courseid: this.courseData.course_id }
       });
       window.open(routeUrl.href, '_blank');
     }
@@ -36,6 +36,7 @@ export default {
   // 接收父组件传来的数据
   beforeMount() {
     this.courseData = this.course;
+    console.log(this.course);
 
   }
 }

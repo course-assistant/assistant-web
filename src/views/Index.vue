@@ -2,7 +2,6 @@
   <div id="index">
     <!-- 顶部 -->
     <div id="header">
-      <!-- LOGO -->
       <img
         class="logo"
         src="https://i.loli.net/2021/02/18/yrSGnMYqtmhHjbU.png"
@@ -10,11 +9,13 @@
         @click="toIndex"
       />
 
-      <!-- 头像 -->
-      <el-avatar
+      <p class="teacher-name">{{ teacherName }}</p>
+
+      <img
         class="avatar"
-        :size="34"
-        src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"
+        :src="teacherAvatar"
+        alt="头像"
+        @click="toTeacherHome"
       />
     </div>
 
@@ -31,14 +32,30 @@
 </template>
 
 <script>
+import jwtDecode from '@/util/jwt-decode.js';
+
 export default {
   name: 'Index',
+  data() {
+    return {
+      teacherAvatar: '',
+      teacherName: '',
+    }
+  },
   components: {
   },
   methods: {
+    // 跳转至首页
     toIndex() {
       if (this.$route.path !== '/') {
         this.$router.push('/');
+      }
+    },
+
+    // 跳转至教师个人页面
+    toTeacherHome() {
+      if (this.$route.path !== '/teacher') {
+        this.$router.push('/teacher');
       }
     }
   },
@@ -67,13 +84,23 @@ export default {
     }
 
     // 验证成功
-    console.log('身份验证成功');
+    // console.log('身份验证成功');
   },
 
   // 获取一些数据
-  beforeMount() {
+  async beforeMount() {
     // 获取教师id
-    
+    let jwt = localStorage.getItem('hncj_management_teacher_token');
+    let obj = jwtDecode(jwt);
+    let id = obj.id;
+    // 获取教师信息
+    let [data, err] = await this.$awaitWrap(this.$get('teacher/selectbyid', { id: id }));
+    if (err) {
+      this.$message.warning(err);
+      return;
+    }
+    this.teacherName = data.data.teacher_name;
+    this.teacherAvatar = data.data.teacher_avatar;
   }
 
 }
@@ -106,9 +133,17 @@ export default {
       cursor: pointer;
     }
 
+    .teacher-name {
+      position: absolute;
+      right: 70px;
+    }
+
     .avatar {
       position: absolute;
+      width: 34px;
+      height: 34px;
       right: 30px;
+      border-radius: 50%;
       cursor: pointer;
     }
   }
