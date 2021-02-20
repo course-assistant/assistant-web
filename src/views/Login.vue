@@ -49,6 +49,8 @@
 </template>
 
 <script>
+import MD5Util from '@/util/MD5Util';
+
 export default {
   data() {
     return {
@@ -60,15 +62,26 @@ export default {
     }
   },
   methods: {
-    handleLogin() {
+    async handleLogin() {
       // 空字符串判断
       if (this.formData.username.trim() === '' || this.formData.password.trim() === '') {
-        this.$message.warning('请输入');
+        this.$message.warning('用户名和密码不能为空 ！');
         return;
       }
 
-
-
+      // 验证用户名和密码
+      let [data, err] = await this.$awaitWrap(this.$post('login', {
+        username: this.formData.username,
+        password: MD5Util(this.formData.password),
+        type: 2
+      }));
+      if (err) {
+        this.$message.warning(err);
+        return;
+      }
+      // 登录成功，将token存入本地存储
+      localStorage.setItem('hncj_management_teacher_token', data.data.token);
+      localStorage.setItem('hncj_management_teacher_id', data.data.id);
       this.$router.push('/');
     }
   }

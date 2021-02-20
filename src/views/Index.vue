@@ -43,6 +43,39 @@ export default {
     }
   },
 
+  // 做token验证
+  async beforeCreate() {
+    // 获取token
+    let token = localStorage.getItem("hncj_management_teacher_token");
+
+    // 检测token是否为空
+    if (token === null || token.trim() === '') {
+      this.$message.warning('请先登录');
+      this.$router.push('/login');
+      return;
+    }
+
+    // 验证token是否有效
+    let [data, err] = await this.$awaitWrap(this.$post('authentication', {
+      token: token,
+      type: 2
+    }));
+    if (err) {
+      this.$message.error(err);
+      this.$router.push('/login');
+      return;
+    }
+
+    // 验证成功
+    console.log('身份验证成功');
+  },
+
+  // 获取一些数据
+  beforeMount() {
+    // 获取教师id
+    
+  }
+
 }
 </script>
 
