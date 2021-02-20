@@ -7,9 +7,10 @@
         label-position="right"
         label-width="80px"
         :model="addCourseFormData"
+        :rules="rules"
       >
-        <el-form-item label="课程名称">
-          <el-input v-model="addCourseFormData.courseName"></el-input>
+        <el-form-item label="课程名称" prop="courseName">
+          <el-input v-model="addCourseFormData.courseName" clearable></el-input>
         </el-form-item>
 
         <el-form-item label="课程教师">
@@ -21,6 +22,10 @@
             src="http://p.ananas.chaoxing.com/star3/240_130c/b7b9a80175b2d80938d72fcbfdabce24.jpg"
           ></el-image>
           <el-button type="text">选择系统封面</el-button>
+        </el-form-item>
+
+        <el-form-item label="课程说明">
+          <el-input v-model="addCourseFormData.type" clearable></el-input>
         </el-form-item>
 
         <el-button type="primary" icon="el-icon-connection" round
@@ -38,9 +43,15 @@ export default {
   data() {
     return {
       addCourseFormData: {
-        name: '',
-        region: '',
+        courseName: '',
+        teacherName: '',
         type: ''
+      },
+
+      rules: {
+        courseName: [
+          { required: true, message: '请输入课程名称', trigger: 'blur' }
+        ]
       }
     }
   },
