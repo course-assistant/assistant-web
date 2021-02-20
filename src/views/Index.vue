@@ -16,7 +16,17 @@
         :src="teacherAvatar"
         alt="头像"
         @click="toTeacherHome"
+        @mouseover="avatarOver"
+        @mouseout="avatarOut"
       />
+
+      <div v-bind:class="[menuShow]">
+        <ul>
+          <li @click="handleLogout">
+            <i class="el-icon-switch-button"></i> 退出登录
+          </li>
+        </ul>
+      </div>
     </div>
 
     <!-- 中间内容 -->
@@ -38,6 +48,7 @@ export default {
   name: 'Index',
   data() {
     return {
+      menuShow: 'hide',
       teacherAvatar: '',
       teacherName: '',
     }
@@ -57,6 +68,25 @@ export default {
       if (this.$route.path !== '/teacher') {
         this.$router.push('/teacher');
       }
+    },
+
+    // 退出登录
+    handleLogout() {
+      localStorage.setItem('hncj_management_teacher_token', '');
+      this.$router.push('/login');
+      this.$message.info('已退出');
+    },
+
+    // 鼠标移入头像
+    avatarOver() {
+      this.menuShow = 'header-menu';
+    },
+
+    // 鼠标移出头像
+    avatarOut() {
+      setTimeout(() => {
+        this.menuShow = 'hide';
+      }, 1000);
     }
   },
 
@@ -145,6 +175,38 @@ export default {
       right: 30px;
       border-radius: 50%;
       cursor: pointer;
+    }
+
+    .hide {
+      display: none;
+    }
+
+    .header-menu {
+      position: absolute;
+      width: 116px;
+      right: 26px;
+      top: 48px;
+      border-radius: 6px;
+      background: #fff;
+      box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+
+      ul {
+        position: relative;
+        list-style: none;
+        text-align: center;
+
+        li {
+          position: relative;
+          padding: 12px 0;
+          color: #646873;
+          cursor: pointer;
+
+          &:hover {
+            background: #f5f8fb;
+            color: #3b90ff;
+          }
+        }
+      }
     }
   }
 
