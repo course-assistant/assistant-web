@@ -28,9 +28,11 @@
 
       <!-- 课程列表 -->
       <div class="list">
-        <CourseItem />
-        <CourseItem />
-        <CourseItem />
+        <CourseItem
+          v-for="(course, index) in courses"
+          :key="index"
+          :course="course"
+        />
       </div>
     </div>
   </div>
@@ -42,13 +44,35 @@ export default {
   data() {
     return {
       searchText: '',
+
+      courses: [
+        {
+          courseId: 1,
+          courseName: '网站建设技术',
+          teacherName: '张妍琰',
+          courseCover: 'http://p.ananas.chaoxing.com/star3/240_130c/b7b9a80175b2d80938d72fcbfdabce24.jpg'
+        },
+        {
+          courseId: 2,
+          courseName: '网站建设技术',
+          teacherName: '张妍琰',
+          courseCover: 'http://p.ananas.chaoxing.com/star3/240_130c/b7b9a80175b2d80938d72fcbfdabce24.jpg'
+        }
+      ]
+
     }
   },
   components: {
     CourseItem
   },
+
   beforeCreate() {
     this.$message.success('欢迎回来');
+  },
+
+  beforeMount() {
+    // 请求服务器，拿到数据
+
   },
 }
 </script>
