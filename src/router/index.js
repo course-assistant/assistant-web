@@ -26,7 +26,7 @@ const routes = [{
       title: '教师首页'
     },
     children: [
-      // 教师列表
+      // 课程列表
       {
         name: 'CourseList',
         path: '',
@@ -35,7 +35,7 @@ const routes = [{
           title: '教师首页'
         }
       },
-      // 教师列表
+      // 课程首页
       {
         name: 'CourseIndex',
         path: 'course',

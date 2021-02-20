@@ -62,26 +62,21 @@ export default {
   },
 
   methods: {
-    // 点击菜单切换
+    // 点击菜单切换 并携带参数
     handleSelect(index) {
-      this.$router.replace({ name: index });
+      this.$router.replace({ name: index, query: { courseid: this.courseId } });
     }
   },
 
   created() {
-    // 没有携带参数
-    // if (!this.$route.query.courseid) {
-    //   this.$router.push('/');
-    //   return;
-    // }
-    // this.courseId = this.$route.query.courseId;
-
+    // 获取传递的参数
+    this.courseId = this.$route.query.courseid;
   },
 
   mounted() {
     // 默认打开学时菜单
     if (this.$route.path !== '/course/period') {
-      this.$router.replace({ name: 'Period' });
+      this.$router.replace({ name: 'Period', query: { courseid: this.courseId } });
     }
   }
 }
