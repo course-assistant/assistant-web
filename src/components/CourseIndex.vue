@@ -95,7 +95,7 @@ export default {
 
 <style lang="less" scoped>
 .course-index {
-  background: palegreen;
+  // background: palegreen;
 
   display: flex;
   .aside {

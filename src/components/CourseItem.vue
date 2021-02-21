@@ -108,11 +108,13 @@ export default {
 
   .course-name {
     margin: 0;
+    margin-left: 5px;
     height: 35px;
     line-height: 35px;
   }
   .teacher-name {
     margin: 0;
+    margin-left: 5px;
     height: 30px;
     line-height: 30px;
   }
