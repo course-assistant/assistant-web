@@ -96,7 +96,13 @@
             克隆已有课程
           </el-button>
           <el-button round @click="handleCancel">取消创建</el-button>
-          <el-button type="primary" round @click="handleFinish">完成</el-button>
+          <el-button
+            type="primary"
+            round
+            @click="handleFinish"
+            v-loading.fullscreen.lock="fullscreenLoading"
+            >完成</el-button
+          >
         </div>
       </el-form>
     </div>
@@ -148,7 +154,9 @@ export default {
         weekPeriodNum: [
           { required: true, message: '请输入周学时数' }
         ]
-      }
+      },
+
+      fullscreenLoading: false
     }
   },
 
@@ -177,12 +185,29 @@ export default {
     },
 
     // 点击完成
-    handleFinish() {
+    async handleFinish() {
       console.log(this.addCourseFormData);
       if (!this.checkForm()) {
         this.$message.warning('请填写所有内容 ！');
         return;
       }
+      // 加载loading
+      this.fullscreenLoading = true;
+
+      let [data, err] = await this.$awaitWrap(this.$post('course/insert', {
+        teacher_id: this.addCourseFormData.teacherId,
+        name: this.addCourseFormData.courseName,
+        cover: this.addCourseFormData.courseCover,
+        week: this.addCourseFormData.courseWeekNum,
+        odd_period: this.addCourseFormData.oddPeriod,
+        even_period: this.addCourseFormData.evenPeriod
+      }));
+      if (err) {
+        this.$message.warning(err);
+        return;
+      }
+      this.fullscreenLoading = false;
+      this.$router.replace('/');
     },
 
     // 检查表单内容

@@ -102,7 +102,7 @@ export default {
     height: 584px;
     border-radius: 16px;
     background: #ffffff;
-    // box-shadow: 0 0 20px 0 rgb(175 187 204 / 15%);
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
     display: flex;
 
     .left {
