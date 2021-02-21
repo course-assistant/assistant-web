@@ -12,7 +12,7 @@
         class="el-menu-vertical-demo"
         @select="handleSelect"
       >
-        <el-menu-item index="ClassManagement">
+        <el-menu-item index="ClassManage">
           <i class="el-icon-menu"></i>
           <span slot="title">班级管理</span>
         </el-menu-item>
@@ -22,22 +22,22 @@
           <span slot="title">课程学时</span>
         </el-menu-item>
 
-        <el-menu-item index="3">
+        <el-menu-item index="WeekMission">
           <i class="el-icon-s-order"></i>
           <span slot="title">周任务</span>
         </el-menu-item>
 
-        <el-menu-item index="4">
+        <el-menu-item index="Discuss">
           <i class="el-icon-s-comment"></i>
           <span slot="title">课堂讨论</span>
         </el-menu-item>
 
-        <el-menu-item index="5">
+        <el-menu-item index="Statistics">
           <i class="el-icon-s-marketing"></i>
-          <span slot="title">学时统计</span>
+          <span slot="title">统计</span>
         </el-menu-item>
 
-        <el-menu-item index="6">
+        <el-menu-item index="Setting">
           <i class="el-icon-s-tools"></i>
           <span slot="title">管理</span>
         </el-menu-item>

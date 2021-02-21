@@ -8,8 +8,12 @@ import CourseList from '@/views/Course/CourseList.vue';
 import CourseIndex from '@/views/Course/CourseIndex.vue';
 import TeacherHome from '@/views/Teacher/TeacherHome.vue';
 import AddCourse from '@/views/Course/AddCourse.vue';
-import ClassManagement from '@/views/Course/menu/ClassManagement.vue';
+import ClassManage from '@/views/Course/menu/ClassManage.vue';
 import Period from '@/views/Course/menu/Period.vue';
+import WeekMission from '@/views/Course/menu/WeekMission.vue';
+import Discuss from '@/views/Course/menu/Discuss.vue';
+import Statistics from '@/views/Course/menu/Statistics.vue';
+import Setting from '@/views/Course/menu/Setting.vue';
 
 Vue.use(VueRouter)
 
@@ -67,18 +71,56 @@ const routes = [{
         children: [
           // 班级管理
           {
-            name: 'ClassManagement',
+            name: 'ClassManage',
             path: 'class',
-            component: ClassManagement,
+            component: ClassManage,
             meta: {
               title: '课程详情 - 班级管理'
             }
-          }, {
+          },
+          // 课程学时
+          {
             name: 'Period',
             path: 'period',
             component: Period,
             meta: {
               title: '课程详情 - 课程学时'
+            }
+          },
+          // 周任务
+          {
+            name: 'WeekMission',
+            path: 'weekMission',
+            component: WeekMission,
+            meta: {
+              title: '课程详情 - 周任务'
+            }
+          },
+          // 课堂讨论
+          {
+            name: 'Discuss',
+            path: 'discuss',
+            component: Discuss,
+            meta: {
+              title: '课程详情 - 课堂讨论'
+            }
+          },
+          // 统计
+          {
+            name: 'Statistics',
+            path: 'statistics',
+            component: Statistics,
+            meta: {
+              title: '课程详情 - 统计'
+            }
+          },
+          // 管理
+          {
+            name: 'Setting',
+            path: 'setting',
+            component: Setting,
+            meta: {
+              title: '课程详情 - 管理'
             }
           }
         ],
