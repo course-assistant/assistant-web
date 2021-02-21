@@ -68,18 +68,21 @@
         </el-form-item>
 
         <el-form-item label="周学时数">
-          <el-col class="line" :span="2" style="margin-left: 10px"
-            >单周学时</el-col
-          >
+          <el-col class="line" :span="2" style="margin-left: 10px">
+            单周学时
+          </el-col>
           <el-col :span="4">
             <el-input v-model="addCourseFormData.oddPeriod"></el-input>
           </el-col>
 
           <el-col class="line" :span="2" style="margin-left: 10px">
-            双周学时</el-col
-          >
+            双周学时
+          </el-col>
           <el-col :span="4">
             <el-input v-model="addCourseFormData.evenPeriod"></el-input>
+          </el-col>
+          <el-col class="line" :span="10" style="margin-left: 20px">
+            注：45分钟的一节课为一学时
           </el-col>
         </el-form-item>
 

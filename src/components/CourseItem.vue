@@ -1,5 +1,15 @@
 <template>
-  <div class="course-item" @click="fun">
+  <div
+    class="course-item"
+    @click="toCourseIndex"
+    @mouseover="over"
+    @mouseout="out"
+  >
+    <div class="opts" v-show="showOpts">
+      <span @click.stop="handleEnd">结课</span>
+      <span @click.stop="handleDelete">删除</span>
+    </div>
+
     <img class="cover" :src="courseData.course_cover" alt="" />
     <h4 class="course-name">{{ courseData.course_name }}</h4>
     <p class="teacher-name">{{ courseData.teacher_name }}</p>
@@ -17,14 +27,33 @@ export default {
         course_name: '课程名',
         teacher_name: '教师名',
         course_cover: 'http://p.ananas.chaoxing.com/star3/240_130c/b7b9a80175b2d80938d72fcbfdabce24.jpg'
-      }
+      },
+
+      showOpts: false,
     }
   },
 
   props: ['course'],
 
   methods: {
-    fun() {
+    over() {
+      this.showOpts = true;
+    },
+
+    out() {
+      this.showOpts = false;
+    },
+
+    handleEnd() {
+      console.log('结课' + this.courseData.course_id);
+    },
+
+    handleDelete() {
+      console.log('删除' + this.courseData.course_id);
+    },
+
+    // 跳转至课程主页
+    toCourseIndex() {
       let routeUrl = this.$router.resolve({
         path: '/course',
         query: { courseid: this.courseData.course_id }
@@ -36,18 +65,39 @@ export default {
   // 接收父组件传来的数据
   beforeMount() {
     this.courseData = this.course;
-    console.log(this.course);
-
   }
 }
 </script>
 
 <style lang="less" scoped>
 .course-item {
+  position: relative;
   width: 240px;
   height: 200px;
   margin: 20px;
   cursor: pointer;
+
+  // 操作按钮
+  .opts {
+    position: absolute;
+    width: 120px;
+    height: 32px;
+    right: 0;
+    background: rgba(255, 255, 255, 0.9);
+    border-top-right-radius: 12px;
+    border-bottom-left-radius: 12px;
+
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    span {
+      color: #3a8bff;
+      &:hover {
+        color: #909399;
+      }
+    }
+  }
 
   .cover {
     width: 240px;
