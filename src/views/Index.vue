@@ -166,7 +166,7 @@ export default {
     .teacher-name {
       position: absolute;
       right: 70px;
-    }
+    } 
 
     .avatar {
       position: absolute;

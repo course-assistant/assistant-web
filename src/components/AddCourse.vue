@@ -21,7 +21,7 @@
         <el-form-item label="课程封面">
           <el-image
             :src="addCourseFormData.courseCover"
-            style="width: 240px; height: 130px;border-radius:5px;"
+            style="width: 240px; height: 130px; border-radius: 5px"
           >
           </el-image>
 
@@ -55,8 +55,30 @@
           </el-popover>
         </el-form-item>
 
-        <el-form-item label="课程说明">
+        <!-- <el-form-item label="课程说明">
           <el-input v-model="addCourseFormData.type" clearable></el-input>
+        </el-form-item> -->
+
+        <el-form-item
+          style="width: 300px"
+          label="课程周数"
+          prop="courseWeekNum"
+        >
+          <el-input
+            v-model="addCourseFormData.courseWeekNum"
+            clearable
+          ></el-input>
+        </el-form-item>
+
+        <el-form-item
+          style="width: 300px"
+          label="周学时数"
+          prop="weekPeriodNum"
+        >
+          <el-input
+            v-model="addCourseFormData.weekPeriodNum"
+            clearable
+          ></el-input>
         </el-form-item>
 
         <div class="btns">
@@ -77,16 +99,21 @@
 </template>
 
 <script>
+import jwtDecode from '@/util/jwt-decode.js';
+
 export default {
   data() {
     return {
       addCourseFormData: {
+        teacherId: '0',
         courseName: '',
         teacherName: '',
         courseCover: 'https://p.ananas.chaoxing.com/star3/origin/b7b9a80175b2d80938d72fcbfdabce24.jpg',
-        courseNote: ''
+        courseWeekNum: 17,
+        weekPeriodNum: 2
       },
 
+      // 封面url
       coverUrls: [
         'https://p.ananas.chaoxing.com/star3/origin/b7b9a80175b2d80938d72fcbfdabce24.jpg',
         'https://p.ananas.chaoxing.com/star3/origin/ebe4b550f689a518631aa3f61a36c10e.jpg',
@@ -104,9 +131,16 @@ export default {
         'https://p.ananas.chaoxing.com/star3/origin/8c9ec6b14aa72c81c375091ce79cf7cb.jpg'
       ],
 
+      // 检验规则
       rules: {
         courseName: [
-          { required: true, message: '请输入课程名称', trigger: 'blur' }
+          { required: true, message: '请输入课程名称' }
+        ],
+        courseWeekNum: [
+          { required: true, message: '请输入课程周数' }
+        ],
+        weekPeriodNum: [
+          { required: true, message: '请输入周学时数' }
         ]
       }
     }
@@ -120,7 +154,15 @@ export default {
 
     // 取消创建
     handleCancel() {
-      this.$router.replace('/');
+      this.$confirm('此操作将无法撤销, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$router.replace('/');
+      }).catch(() => {
+        // this.$message.info('操作已取消');
+      });
     },
 
     // 点击克隆
@@ -130,9 +172,26 @@ export default {
 
     // 点击完成
     handleFinish() {
-      this.$message.info('finish');
+      console.log(this.addCourseFormData);
     }
-  }
+  },
+
+  // 获取数据
+  async beforeMount() {
+    // 获取教师id
+    let jwt = localStorage.getItem('hncj_management_teacher_token');
+    this.addCourseFormData.teacherId = jwtDecode(jwt).id;
+    // 获取教师名
+    let [data, err] = await this.$awaitWrap(this.$get('teacher/selectbyid', {
+      id: this.addCourseFormData.teacherId
+    }));
+    if (err) {
+      this.$message.warning(err);
+      return;
+    }
+    this.addCourseFormData.teacherName = data.data.teacher_name;
+  },
+
 }
 </script>
 
@@ -147,8 +206,8 @@ export default {
   align-items: center;
 
   .round-div {
-    height: 500px;
-    width: 840px;
+    height: 560px;
+    width: 980px;
     border-radius: 16px;
     background: #fff;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
