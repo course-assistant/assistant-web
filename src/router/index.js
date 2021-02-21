@@ -3,13 +3,13 @@ import VueRouter from 'vue-router'
 
 import Login from '@/views/Login';
 import Index from '@/views/Index';
-import CourseList from '@/components/CourseList.vue';
-import CourseIndex from '@/components/CourseIndex.vue';
-import TeacherHome from '@/components/TeacherHome.vue';
-import AddCourse from '@/components/AddCourse.vue';
 
-import ClassManagement from '@/components/Course/ClassManagement.vue';
-import Period from '@/components/Course/Period.vue';
+import CourseList from '@/views/Course/CourseList.vue';
+import CourseIndex from '@/views/Course/CourseIndex.vue';
+import TeacherHome from '@/views/Teacher/TeacherHome.vue';
+import AddCourse from '@/views/Course/AddCourse.vue';
+import ClassManagement from '@/views/Course/menu/ClassManagement.vue';
+import Period from '@/views/Course/menu/Period.vue';
 
 Vue.use(VueRouter)
 
