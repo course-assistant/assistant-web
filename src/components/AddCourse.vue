@@ -64,21 +64,23 @@
           label="课程周数"
           prop="courseWeekNum"
         >
-          <el-input
-            v-model="addCourseFormData.courseWeekNum"
-            clearable
-          ></el-input>
+          <el-input v-model="addCourseFormData.courseWeekNum"></el-input>
         </el-form-item>
 
-        <el-form-item
-          style="width: 300px"
-          label="周学时数"
-          prop="weekPeriodNum"
-        >
-          <el-input
-            v-model="addCourseFormData.weekPeriodNum"
-            clearable
-          ></el-input>
+        <el-form-item label="周学时数">
+          <el-col class="line" :span="2" style="margin-left: 10px"
+            >单周学时</el-col
+          >
+          <el-col :span="4">
+            <el-input v-model="addCourseFormData.oddPeriod"></el-input>
+          </el-col>
+
+          <el-col class="line" :span="2" style="margin-left: 10px">
+            双周学时</el-col
+          >
+          <el-col :span="4">
+            <el-input v-model="addCourseFormData.evenPeriod"></el-input>
+          </el-col>
         </el-form-item>
 
         <div class="btns">
@@ -110,7 +112,8 @@ export default {
         teacherName: '',
         courseCover: 'https://p.ananas.chaoxing.com/star3/origin/b7b9a80175b2d80938d72fcbfdabce24.jpg',
         courseWeekNum: 17,
-        weekPeriodNum: 2
+        oddPeriod: 2,
+        evenPeriod: 1
       },
 
       // 封面url
@@ -173,6 +176,21 @@ export default {
     // 点击完成
     handleFinish() {
       console.log(this.addCourseFormData);
+      if (!this.checkForm()) {
+        this.$message.warning('请填写所有内容 ！');
+        return;
+      }
+    },
+
+    // 检查表单内容
+    checkForm() {
+      if (this.addCourseFormData.courseName.trim() === ''
+        || this.addCourseFormData.courseWeekNum === ''
+        || this.addCourseFormData.oddPeriod === ''
+        || this.addCourseFormData.evenPeriod === '') {
+        return false;
+      }
+      return true;
     }
   },
 
