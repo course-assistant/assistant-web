@@ -24,6 +24,7 @@
           @editWeek="editWeek"
           @deletePeriod="deletePeriod"
           @deleteWeek="deleteWeek"
+          @addPeriod="addPeriod"
         />
       </div>
     </div>
@@ -41,7 +42,7 @@
         </el-form-item>
 
         <el-form-item label="类 型" label-width="50px">
-          <el-select v-model="editPeriodForm.periodType" placeholder="性别">
+          <el-select v-model="editPeriodForm.periodType" placeholder="类型">
             <el-option
               v-for="item in typeOpts"
               :key="item.value"
@@ -52,8 +53,8 @@
           </el-select>
         </el-form-item>
 
-        <el-form-item label="类 型" label-width="50px">
-          <el-select v-model="editPeriodForm.periodStatus" placeholder="性别">
+        <el-form-item label="状 态" label-width="50px">
+          <el-select v-model="editPeriodForm.periodStatus" placeholder="状态">
             <el-option
               v-for="item in statusOpts"
               :key="item.value"
@@ -82,6 +83,40 @@
       <div slot="footer" class="dialog-footer">
         <el-button @click="editWeekDialogVisible = false"> 取 消 </el-button>
         <el-button type="primary" @click="onEditWeekClick"> 确 定 </el-button>
+      </div>
+    </el-dialog>
+
+    <!-- 添加period的对话框 -->
+    <el-dialog
+      title="添加学时"
+      :visible.sync="addPeriodDialogVisible"
+      width="45%"
+    >
+      <el-form :model="addPeriodForm" label-position="left">
+        <el-form-item label="周" label-width="50px">
+          <el-input v-model="addPeriodForm.weekName" disabled></el-input>
+        </el-form-item>
+
+        <el-form-item label="名 称" label-width="50px">
+          <el-input v-model="addPeriodForm.periodName" clearable=""></el-input>
+        </el-form-item>
+
+        <el-form-item label="类 型" label-width="50px">
+          <el-select v-model="addPeriodForm.periodType" placeholder="类型">
+            <el-option
+              v-for="item in typeOpts"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            >
+            </el-option>
+          </el-select>
+        </el-form-item>
+      </el-form>
+
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="addPeriodDialogVisible = false"> 取 消 </el-button>
+        <el-button type="primary" @click="onAddPeriodClick"> 确 定 </el-button>
       </div>
     </el-dialog>
   </div>
@@ -128,6 +163,13 @@ export default {
         periodName: '',
         periodType: 1,
         periodStatus: 1
+      },
+      addPeriodDialogVisible: false,
+      addPeriodForm: {
+        weekId: 0,
+        weekName: '',
+        periodName: '',
+        periodType: 1
       },
       typeOpts: [{
         value: 1,
@@ -261,6 +303,12 @@ export default {
         });
       });
     },
+    // 添加学时
+    addPeriod(week_id, week_name) {
+      this.addPeriodForm.weekId = week_id;
+      this.addPeriodForm.weekName = week_name;
+      this.addPeriodDialogVisible = true;
+    },
 
     // 确定编辑学时
     async onEditPeriodClick() {
@@ -292,6 +340,23 @@ export default {
       this.$message.success(data.msg);
       this.editWeekDialogVisible = false;
       this.refreshWeekPeriod();
+    },
+
+    // 确定添加学时
+    async onAddPeriodClick() {
+      console.log(this.addPeriodForm);
+      let [data, err] = await this.$awaitWrap(this.$post('weekperiod/addperiod', {
+        week_id: this.addPeriodForm.weekId,
+        name: this.addPeriodForm.periodName,
+        type: this.addPeriodForm.periodType
+      }));
+      if (err) {
+        this.$message.warning(err);
+        return;
+      }
+      this.$message.success(data.msg);
+      this.addPeriodDialogVisible = false;
+      this.refreshWeekPeriod()
     },
   },
 

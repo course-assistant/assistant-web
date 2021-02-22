@@ -15,6 +15,15 @@
       </el-button>
 
       <el-button
+        class="add"
+        type="success"
+        size="mini"
+        round
+        @click="handleAddPeriod(weekData.week_id, weekData.week_name)"
+        >添加学时
+      </el-button>
+
+      <el-button
         class="delete"
         type="danger"
         size="mini"
@@ -90,6 +99,9 @@ export default {
     handledeleteWeek(weekId) {
       this.$emit('deleteWeek', weekId);
     },
+    handleAddPeriod(weekId, weekName) {
+      this.$emit('addPeriod', weekId, weekName);
+    },
   },
 }
 </script>
@@ -134,7 +146,7 @@ export default {
       display: none;
     }
 
-    .delete {
+    .add {
       position: absolute;
       top: 7px;
       left: 720px;
@@ -142,8 +154,19 @@ export default {
       display: none;
     }
 
+    .delete {
+      position: absolute;
+      top: 7px;
+      left: 823px;
+      margin-left: 30px;
+      display: none;
+    }
+
     &:hover {
       .edit {
+        display: block;
+      }
+      .add {
         display: block;
       }
       .delete {
