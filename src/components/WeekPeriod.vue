@@ -4,6 +4,15 @@
     <div class="week-item hover-shadow">
       <i class="el-icon-s-opportunity" style="color: #d0d5db"></i>
       <span>{{ weekData.week_name }}</span>
+
+      <el-button
+        class="edit"
+        type="primary"
+        size="mini"
+        round
+        @click="handleEditWeek(weekData)"
+        >编辑</el-button
+      >
     </div>
 
     <!-- 学时 -->
@@ -21,13 +30,13 @@
 
       <code v-show="period.period_status === 1" class="status">开放中</code>
       <code v-show="period.period_status === 2" class="status">已结束</code>
-      
+
       <el-button
         class="edit"
         type="primary"
         size="mini"
         round
-        @click="handleEdit(period)"
+        @click="handleEditPeriod(period)"
         >编辑</el-button
       >
     </div>
@@ -47,9 +56,16 @@ export default {
 
   methods: {
     // 点击编辑，传递给父组件调用
-    handleEdit(period) {
+    handleEditPeriod(period) {
       this.$emit('editPeriod', period);
     },
+    handleEditWeek(weekData) {
+      let week = {
+        week_id: weekData.week_id,
+        week_name: weekData.week_name
+      };
+      this.$emit('editWeek', week);
+    }
   },
 }
 </script>
@@ -74,6 +90,7 @@ export default {
   }
 
   .week-item {
+    position: relative;
     font-weight: bold;
     color: #000;
     i {
@@ -83,6 +100,20 @@ export default {
 
     span {
       margin-left: 14px;
+    }
+
+    .edit {
+      position: absolute;
+      top: 7px;
+      left: 640px;
+      margin-left: 30px;
+      display: none;
+    }
+
+    &:hover {
+      .edit {
+        display: block;
+      }
     }
   }
 

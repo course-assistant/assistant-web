@@ -5,19 +5,34 @@
       v-loading="loading"
       element-loading-text="正在加载中，请稍等..."
     >
+      <div class="options">
+        <el-button
+          type="primary"
+          icon="el-icon-plus"
+          round
+          @click="handleAddWeek"
+          >添加周
+        </el-button>
+      </div>
+
       <div class="weekperiod-list">
         <WeekPeriod
           v-for="(week, index) in weeks"
           :week-data="week"
           :key="index"
           @editPeriod="editPeriod"
+          @editWeek="editWeek"
         />
       </div>
     </div>
 
     <!-- 对话框 -->
     <!-- 编辑period的对话框 -->
-    <el-dialog title="编辑学时" :visible.sync="editDialogVisible" width="45%">
+    <el-dialog
+      title="编辑学时"
+      :visible.sync="editPeriodDialogVisible"
+      width="45%"
+    >
       <el-form :model="editPeriodForm" label-position="left">
         <el-form-item label="名 称" label-width="50px">
           <el-input v-model="editPeriodForm.periodName"></el-input>
@@ -49,8 +64,22 @@
       </el-form>
 
       <div slot="footer" class="dialog-footer">
-        <el-button @click="editDialogVisible = false"> 取 消 </el-button>
-        <el-button type="primary" @click="onEditClick"> 确 定 </el-button>
+        <el-button @click="editPeriodDialogVisible = false"> 取 消 </el-button>
+        <el-button type="primary" @click="onEditPeriodClick"> 确 定 </el-button>
+      </div>
+    </el-dialog>
+
+    <!-- 编辑week的对话框 -->
+    <el-dialog title="编辑周" :visible.sync="editWeekDialogVisible" width="45%">
+      <el-form :model="editWeekForm" label-position="left">
+        <el-form-item label="名 称" label-width="50px">
+          <el-input v-model="editWeekForm.weekName"></el-input>
+        </el-form-item>
+      </el-form>
+
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="editWeekDialogVisible = false"> 取 消 </el-button>
+        <el-button type="primary" @click="onEditWeekClick"> 确 定 </el-button>
       </div>
     </el-dialog>
   </div>
@@ -91,7 +120,7 @@ export default {
         }
       ],
 
-      editDialogVisible: false,
+      editPeriodDialogVisible: false,
       editPeriodForm: {
         periodId: 0,
         periodName: '',
@@ -111,7 +140,13 @@ export default {
       }, {
         value: 2,
         label: '已结束'
-      }]
+      }],
+
+      editWeekDialogVisible: false,
+      editWeekForm: {
+        weekId: 0,
+        weekName: ''
+      },
     }
   },
 
@@ -122,6 +157,7 @@ export default {
   methods: {
     // 刷新数据
     async refreshWeekPeriod() {
+      console.log('start');
       this.loading = true;
 
       let [data, err] = await this.$awaitWrap(this.$get('weekperiod/select', {
@@ -136,20 +172,53 @@ export default {
 
       // 关闭loading
       this.loading = false;
+      console.log('end');
     },
 
-    // 监听子组件点击编辑
+    // 点击添加周
+    handleAddWeek() {
+      this.$confirm('确定添加新周次？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(async () => {
+        let [data, err] = await this.$awaitWrap(this.$post('weekperiod/addweek', {
+          course_id: this.courseId,
+          name: '新建周'
+        }));
+        if (err) {
+          this.$message.warning(err);
+          return;
+        }
+        this.$message.success(data.msg);
+        this.refreshWeekPeriod();
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消操作'
+        });
+      });
+
+    },
+
+    // 监听子组件
     editPeriod(period) {
       this.editPeriodForm.periodId = period.period_id;
       this.editPeriodForm.periodName = period.period_name;
       this.editPeriodForm.periodType = period.period_type;
       this.editPeriodForm.periodStatus = period.period_status;
-      this.editDialogVisible = true;
+      this.editPeriodDialogVisible = true;
     },
 
+    // 监听子组件
+    editWeek(week) {
+      this.editWeekForm.weekId = week.week_id;
+      this.editWeekForm.weekName = week.week_name;
+      this.editWeekDialogVisible = true;
+    },
 
-    // 点击确定编辑
-    async onEditClick() {
+    // 确定编辑学时
+    async onEditPeriodClick() {
       let [data, err] = await this.$awaitWrap(this.$post('weekperiod/updateperiod', {
         id: this.editPeriodForm.periodId,
         name: this.editPeriodForm.periodName,
@@ -161,9 +230,24 @@ export default {
         return;
       }
       this.$message.success(data.msg);
-      this.editDialogVisible = false;
+      this.editPeriodDialogVisible = false;
       this.refreshWeekPeriod();
-    }
+    },
+
+    // 确定编辑周
+    async onEditWeekClick() {
+      let [data, err] = await this.$awaitWrap(this.$post('weekperiod/updateweek', {
+        id: this.editWeekForm.weekId,
+        name: this.editWeekForm.weekName
+      }));
+      if (err) {
+        this.$message.warning(err);
+        return;
+      }
+      this.$message.success(data.msg);
+      this.editWeekDialogVisible = false;
+      this.refreshWeekPeriod();
+    },
   },
 
   beforeCreate() {
@@ -174,10 +258,12 @@ export default {
   },
 
   // 加载数据
-  async beforeMount() {
+  beforeMount() {
+    console.log('加载数据');
     this.courseId = this.$route.query.courseid;
     this.refreshWeekPeriod();
   }
+
 }
 </script>
 
@@ -195,14 +281,18 @@ export default {
     min-width: 1000px;
     height: calc(100% - 60px);
     margin: 30px;
-    margin-top: 30px;
+    margin-top: 20px;
     border-radius: 16px;
     background: #fff;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
     overflow: auto;
 
+    .options {
+      padding: 20px 0 0 40px;
+    }
+
     .weekperiod-list {
-      margin-top: 26px;
+      margin-top: 16px;
     }
   }
 }
