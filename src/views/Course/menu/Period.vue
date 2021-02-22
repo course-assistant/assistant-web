@@ -1,6 +1,10 @@
 <template>
   <div class="container">
-    <div class="round-div" v-loading="loading">
+    <div
+      class="round-div"
+      v-loading="loading"
+      element-loading-text="正在加载中，请稍等..."
+    >
       <ul>
         <ul>
           第一周
@@ -38,7 +42,6 @@ export default {
     // 检有没有携带参数
     if (this.$route.query.courseid === 0) {
       this.$router.replace('/');
-      console.log(0);
     }
   },
 

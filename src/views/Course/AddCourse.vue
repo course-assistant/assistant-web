@@ -101,8 +101,10 @@
             round
             @click="handleFinish"
             v-loading.fullscreen.lock="fullscreenLoading"
-            >完成</el-button
+            element-loading-text="正在创建课程！请不要离开此页面！"
           >
+            完成
+          </el-button>
         </div>
       </el-form>
     </div>

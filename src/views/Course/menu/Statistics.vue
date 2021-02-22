@@ -19,7 +19,6 @@ export default {
     // 检有没有携带参数
     if (this.$route.query.courseid === 0) {
       this.$router.replace('/');
-      console.log(0);
     }
   },
 
