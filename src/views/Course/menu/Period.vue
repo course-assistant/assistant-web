@@ -22,6 +22,8 @@
           :key="index"
           @editPeriod="editPeriod"
           @editWeek="editWeek"
+          @deletePeriod="deletePeriod"
+          @deleteWeek="deleteWeek"
         />
       </div>
     </div>
@@ -102,7 +104,7 @@ export default {
             {
               period_content: "内容",
               period_id: 1,
-              period_name: "第01学时 - 概要",
+              period_name: "第01学时",
               period_status: 1,
               period_type: 1,
               week_id: 1
@@ -110,7 +112,7 @@ export default {
             {
               period_content: "内容",
               period_id: 2,
-              period_name: "第02学时 - html基础",
+              period_name: "第02学时",
               period_status: 1,
               period_type: 1,
               week_id: 1,
@@ -157,7 +159,6 @@ export default {
   methods: {
     // 刷新数据
     async refreshWeekPeriod() {
-      console.log('start');
       this.loading = true;
 
       let [data, err] = await this.$awaitWrap(this.$get('weekperiod/select', {
@@ -172,7 +173,6 @@ export default {
 
       // 关闭loading
       this.loading = false;
-      console.log('end');
     },
 
     // 点击添加周
@@ -209,12 +209,57 @@ export default {
       this.editPeriodForm.periodStatus = period.period_status;
       this.editPeriodDialogVisible = true;
     },
-
-    // 监听子组件
     editWeek(week) {
       this.editWeekForm.weekId = week.week_id;
       this.editWeekForm.weekName = week.week_name;
       this.editWeekDialogVisible = true;
+    },
+    // 删除学时
+    deletePeriod(id) {
+      console.log('删除学时' + id);
+      this.$confirm('此操作将永久删除, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(async () => {
+        this.$post('weekperiod/deleteperiod', { id })
+          .then((data) => {
+            this.$message.success(data.msg);
+            this.refreshWeekPeriod();
+          })
+          .catch(err => {
+            this.$$message.warning(err);
+            return;
+          });
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
+      });
+    },
+    // 删除周
+    deleteWeek(id) {
+      this.$confirm('此操作将永久删除, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$post('weekperiod/deleteweek', { id })
+          .then((data) => {
+            this.$message.success(data.msg);
+            this.refreshWeekPeriod();
+          })
+          .catch(err => {
+            this.$$message.warning(err);
+            return;
+          });
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
+      });
     },
 
     // 确定编辑学时
@@ -259,7 +304,6 @@ export default {
 
   // 加载数据
   beforeMount() {
-    console.log('加载数据');
     this.courseId = this.$route.query.courseid;
     this.refreshWeekPeriod();
   }

@@ -11,8 +11,17 @@
         size="mini"
         round
         @click="handleEditWeek(weekData)"
-        >编辑</el-button
-      >
+        >编辑
+      </el-button>
+
+      <el-button
+        class="delete"
+        type="danger"
+        size="mini"
+        round
+        @click="handledeleteWeek(weekData.week_id)"
+        >删除
+      </el-button>
     </div>
 
     <!-- 学时 -->
@@ -37,8 +46,17 @@
         size="mini"
         round
         @click="handleEditPeriod(period)"
-        >编辑</el-button
-      >
+        >编辑
+      </el-button>
+
+      <el-button
+        class="delete"
+        type="danger"
+        size="mini"
+        round
+        @click="handleDeletePeriod(period.period_id)"
+        >删除
+      </el-button>
     </div>
   </div>
 </template>
@@ -65,7 +83,13 @@ export default {
         week_name: weekData.week_name
       };
       this.$emit('editWeek', week);
-    }
+    },
+    handleDeletePeriod(periodId) {
+      this.$emit('deletePeriod', periodId);
+    },
+    handledeleteWeek(weekId) {
+      this.$emit('deleteWeek', weekId);
+    },
   },
 }
 </script>
@@ -110,8 +134,19 @@ export default {
       display: none;
     }
 
+    .delete {
+      position: absolute;
+      top: 7px;
+      left: 720px;
+      margin-left: 30px;
+      display: none;
+    }
+
     &:hover {
       .edit {
+        display: block;
+      }
+      .delete {
         display: block;
       }
     }
@@ -153,15 +188,26 @@ export default {
     }
 
     .edit {
+      position: absolute;
       top: 5px;
       left: 610px;
+      margin-left: 30px;
+      display: none;
+    }
+
+    .delete {
       position: absolute;
+      top: 5px;
+      left: 690px;
       margin-left: 30px;
       display: none;
     }
 
     &:hover {
       .edit {
+        display: block;
+      }
+      .delete {
         display: block;
       }
     }
