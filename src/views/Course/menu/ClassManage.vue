@@ -31,15 +31,17 @@ export default {
 
   data() {
     return {
+      courseId: 0,
+
       classes: [
         {
-          classId: 1,
-          className: '0814171',
+          classId: -1,
+          className: '班级1',
           classStuNum: 10
         },
         {
-          classId: 2,
-          className: '0814172',
+          classId: -2,
+          className: '班级2',
           classStuNum: 12
         }
       ]
@@ -60,12 +62,43 @@ export default {
     // 检有没有携带参数
     if (this.$route.query.courseid === 0) {
       this.$router.replace('/');
+      return;
     }
   },
 
 
-  beforeMount() {
-
+  // 加载数据
+  async beforeMount() {
+    this.courseId = this.$route.query.courseid;
+    // 先加载所有班级
+    let [data, err] = await this.$awaitWrap(this.$get('class/findbycourseid', {
+      course_id: this.courseId
+    }));
+    if (err) {
+      this.$message.warning(err);
+      return;
+    }
+    let classes = [];
+    // 根据班级查找人数
+    let classData = data.data;
+    classData.forEach(async (cls, index) => {
+      console.log(cls, index);
+      let [d, e] = await this.$awaitWrap(this.$get('class/countbycourseid', {
+        class_id: cls.class_id
+      }));
+      if (e) {
+        this.$message.warning(e);
+        this.$router.push('/');
+        return;
+      }
+      console.log(d);
+      classes.push({
+        classId: cls.class_id,
+        className: cls.class_name,
+        classStuNum: d.data.count
+      });
+    });
+    this.classes = classes;
   }
 }
 </script>

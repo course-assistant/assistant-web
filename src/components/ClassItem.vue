@@ -5,7 +5,9 @@
       <p class="class-stu-num">学生人数：{{ classData.classStuNum }}</p>
     </div>
 
-    <div class="invite-code" @click.stop="showQrCode">邀请码：111111</div>
+    <div class="invite-code" @click.stop="showQrCode">
+      邀请码：{{ inviteCode }}
+    </div>
   </div>
 </template>
 
@@ -40,7 +42,7 @@ export default {
   },
 
   beforeMount() {
-    this.inviteCode = this.classData.classId + '000';
+    this.inviteCode = this.classData.classId ^ 0x1111;
   },
 
 }

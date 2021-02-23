@@ -1,6 +1,10 @@
 <template>
   <div class="student-management">
-    <div class="round-div">
+    <div
+      class="round-div"
+      v-loading="loading"
+      element-loading-text="正在加载中，请稍等..."
+    >
       <div class="head">
         <span class="class-name">{{ className }}</span>
       </div>
@@ -30,13 +34,17 @@
         >
           <el-table-column type="selection" width="55"> </el-table-column>
 
-          <el-table-column prop="name" label="姓名" width="130">
+          <el-table-column prop="student_name" label="姓名" width="130">
           </el-table-column>
 
-          <el-table-column prop="id" label="学号" width="130">
+          <el-table-column prop="student_id" label="学号" width="130">
           </el-table-column>
 
-          <el-table-column prop="phone" label="电话" show-overflow-tooltip>
+          <el-table-column
+            prop="student_phone"
+            label="电话"
+            show-overflow-tooltip
+          >
           </el-table-column>
         </el-table>
       </div>
@@ -49,18 +57,16 @@ export default {
 
   data() {
     return {
+
+      loading: true,
+
       classId: 0,
-      className: '班级名',
+      className: '',
       students: [
         {
-          id: '081417137',
-          name: '吴硕',
-          phone: '15139744921'
-        },
-        {
-          id: '081417137',
-          name: '吴硕',
-          phone: '15139744921'
+          student_id: '',
+          student_name: '',
+          student_phone: ''
         }
       ],
       multipleSelection: []
@@ -76,8 +82,28 @@ export default {
   },
 
   // 加载数据
-  beforeMount() {
+  async beforeMount() {
+    this.classId = this.$route.query.classid;
+    // 加载班级名
+    let [clsData, e] = await this.$awaitWrap(this.$get('class/findbyclassid', {
+      class_id: this.classId
+    }));
+    if (e) {
+      this.$message.warning(err);
+      return;
+    }
+    this.className = clsData.data.class_name;
 
+    // 加载学生
+    let [data, err] = await this.$awaitWrap(this.$get('student/selectbyclassid', {
+      class_id: this.classId
+    }));
+    if (err) {
+      this.$message.warning(err);
+      return;
+    }
+    this.students = data.data.students;
+    this.loading = false;
   },
 
   // 检有没有携带参数
