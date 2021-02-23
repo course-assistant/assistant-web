@@ -8,6 +8,7 @@ import CourseList from '@/views/Course/CourseList.vue';
 import CourseIndex from '@/views/Course/CourseIndex.vue';
 import TeacherHome from '@/views/Teacher/TeacherHome.vue';
 import AddCourse from '@/views/Course/AddCourse.vue';
+import StudentManage from '@/views/Course/StudentManage.vue';
 import ClassManage from '@/views/Course/menu/ClassManage.vue';
 import Period from '@/views/Course/menu/Period.vue';
 import WeekMission from '@/views/Course/menu/WeekMission.vue';
@@ -42,7 +43,6 @@ const routes = [{
         }
       },
       // 添加课程页面
-      // 教师个人页面
       {
         name: 'AddCourse',
         path: 'addcourse',
@@ -58,6 +58,15 @@ const routes = [{
         component: TeacherHome,
         meta: {
           title: '教师个人空间'
+        }
+      },
+      // 班级学生管理页面
+      {
+        name: 'StudentManage',
+        path: 'student',
+        component: StudentManage,
+        meta: {
+          title: '学生管理'
         }
       },
       // 课程首页
