@@ -9,6 +9,8 @@ import CourseIndex from '@/views/Course/CourseIndex.vue';
 import TeacherHome from '@/views/Teacher/TeacherHome.vue';
 import AddCourse from '@/views/Course/AddCourse.vue';
 import StudentManage from '@/views/Course/StudentManage.vue';
+import PeriodDetail from '@/views/Course/PeriodDetail.vue';
+
 import ClassManage from '@/views/Course/menu/ClassManage.vue';
 import Period from '@/views/Course/menu/Period.vue';
 import WeekMission from '@/views/Course/menu/WeekMission.vue';
@@ -67,6 +69,15 @@ const routes = [{
         component: StudentManage,
         meta: {
           title: '学生管理'
+        }
+      },
+      // 班级学生管理页面
+      {
+        name: 'PeriodDetail',
+        path: 'period-detail',
+        component: PeriodDetail,
+        meta: {
+          title: '学时详情'
         }
       },
       // 课程首页

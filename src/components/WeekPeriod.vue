@@ -38,6 +38,7 @@
       class="period-item hover-shadow"
       v-for="(period, index) in weekData.periods"
       :key="index"
+      @click="toPeriodDetail(period.period_id)"
     >
       <span class="period-name">
         {{ period.period_name }}
@@ -101,6 +102,17 @@ export default {
     },
     handleAddPeriod(weekId, weekName) {
       this.$emit('addPeriod', weekId, weekName);
+    },
+
+
+    // 跳转到学时详情
+    toPeriodDetail(period_id) {
+      console.log(period_id);
+      let routeUrl = this.$router.resolve({
+        name: 'PeriodDetail',
+        query: { periodid: period_id }
+      });
+      window.open(routeUrl.href, '_blank');
     },
   },
 }
