@@ -1,18 +1,46 @@
 <template>
   <div class="container">
     <div class="round-div">
-      <p>周任务</p>
+      <div class="head">
+        <p>周任务</p>
+      </div>
+
+      <div class="weekmission-list">
+        <WeekMissionItem
+          v-for="(weekMission, index) in weekMissions"
+          :key="index"
+          :week-mission="weekMission"
+        />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import WeekMissionItem from '@/components/WeekMissionItem.vue';
+
 export default {
 
   data() {
     return {
-      courseId: 0
+      courseId: 0,
+
+      weekMissions: [
+        {
+          week_name: '第01周'
+        },
+        {
+          week_name: '第02周'
+        },
+        {
+          week_name: '第03周'
+        },
+      ]
     }
+  },
+
+  components: {
+    WeekMissionItem
   },
 
   beforeCreate() {
@@ -47,6 +75,19 @@ export default {
     border-radius: 16px;
     background: #fff;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+    overflow: auto;
+
+    .head {
+      p {
+        margin: 20px 30px;
+        font-size: 22px;
+      }
+    }
+
+    .weekmission-list {
+      width: 100%;
+      // height: 100%;
+    }
   }
 }
 </style>
