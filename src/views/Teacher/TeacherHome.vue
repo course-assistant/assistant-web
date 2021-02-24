@@ -175,16 +175,24 @@ export default {
 
 
     // 点击确定注销账号
-    onCancelAccount() {
+    async onCancelAccount() {
       if (confirm('确定注销账户？此操作将永久删除你的账号、课程等所有记录，并且不能撤销！')) {
         if (confirm('确定？')) {
           // 注销
-
-
+          let [data, err] = await this.$awaitWrap(this.$post('teacher/cancel', {
+            id: this.formData.teacher_id,
+            password: this.cancelAccountForm.password
+          }));
+          if (err) {
+            this.$message.warning(err);
+            return;
+          }
+          this.$message.success(data.msg);
           this.$router.replace('/login');
         }
       }
     },
+    
 
     // 点击确定修改密码
     async onChangePassword() {
