@@ -1,12 +1,18 @@
 <template>
-  <div class="week-mission">
-    <p>{{ weekMission.week_name }}</p>
+  <div class="week-mission" @click="changeWeekMission">
+    <p>{{ weekMission.week_mission_name }}</p>
   </div>
 </template>
 
 <script>
 export default {
-  props: ['weekMission']
+  props: ['weekMission'],
+
+  methods: {
+    changeWeekMission() {
+      this.$emit('changeWeekMission', this.weekMission.week_mission_id);
+    }
+  },
 }
 </script>
 
