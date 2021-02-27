@@ -134,13 +134,14 @@ export default {
       .weekmission-list {
         flex: 1;
         height: 100%;
+        border-right: solid 1px #f2f2f2;
         overflow: auto;
       }
 
       .weekmission-detail {
         flex: 3;
         margin: 0 30px 0 10px;
-        background: palegoldenrod;
+        // background: palegoldenrod;
       }
     }
   }
