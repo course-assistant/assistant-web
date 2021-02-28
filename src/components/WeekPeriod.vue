@@ -55,7 +55,7 @@
         type="primary"
         size="mini"
         round
-        @click="handleEditPeriod(period)"
+        @click.stop="handleEditPeriod(period)"
         >编辑
       </el-button>
 
@@ -64,7 +64,7 @@
         type="danger"
         size="mini"
         round
-        @click="handleDeletePeriod(period.period_id)"
+        @click.stop="handleDeletePeriod(period.period_id)"
         >删除
       </el-button>
     </div>

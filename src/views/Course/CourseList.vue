@@ -1,5 +1,9 @@
 <template>
-  <div class="container">
+  <div
+    class="container"
+    v-loading.fullscreen.lock="loading"
+    element-loading-text="正在加载中，请稍等..."
+  >
     <div class="course-list">
       <!-- 工具栏 -->
       <div class="toolbar">
@@ -47,6 +51,7 @@ import jwtDecode from '@/util/jwt-decode.js';
 export default {
   data() {
     return {
+      loading: true,
       searchText: '',
       courses: []
     }
@@ -85,6 +90,7 @@ export default {
     console.log(data);
     this.courses = data.data;
     console.log(this.courses);
+    this.loading = false;
   },
 }
 </script>
