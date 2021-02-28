@@ -53,6 +53,7 @@
           <DiscussionItem
             v-for="(discussion, index) in discussions"
             :key="index"
+            :discussion="discussion"
           />
         </div>
       </div>
@@ -147,15 +148,9 @@ export default {
       discussions: [
         {
           discussion_id: 1,
-          discussion_title: '标题',                                                                 
-          discussion_content: '内容内天  ad啊ad',
-          discussion_date: '2021-1-1 12:34'
-        },
-        {
-          discussion_id: 2,
-          discussion_title: '标题22',
-          discussion_content: '内22222222',
-          discussion_date: '2021-1-1 23:45'
+          discussion_title: '',
+          discussion_content: '',
+          discussion_date: ''
         }
       ],
 
@@ -171,8 +166,20 @@ export default {
 
   methods: {
     // 点击某一学时
-    selectPeriod(index) {
-      console.log(index);
+    async selectPeriod(id) {
+      // 根据index刷新右边的讨论
+      console.log(id);
+      this.loading = true;
+      let [data, err] = await this.$awaitWrap(this.$get('discussioncomment/selectdissbyperiodid', {
+        id
+      }));
+      if (err) {
+        this.$message.warning(err);
+        return;
+      }
+      this.discussions = data.data;
+      console.log(this.discussions);
+      this.loading = false;
     },
 
 
@@ -205,6 +212,9 @@ export default {
     }
     console.log(data);
     this.weekPeriods = data.data;
+
+    // 加载第一个学时的讨论
+    this.selectPeriod(this.weekPeriods[0].periods[0].period_id);
 
     // 关闭loading
     this.loading = false;

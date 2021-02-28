@@ -6,10 +6,10 @@
     <div class="right">
       <p class="teacher-name">
         {{ teacherName }}
-        <span class="date">2021-2-27 23:09</span>
+        <span class="date">{{ discussion.discussion_date }}</span>
       </p>
-      <p class="discussion-title">话题标题</p>
-      <p class="discussion-content">话题内容</p>
+      <p class="discussion-title">{{ discussion.discussion_title }}</p>
+      <p class="discussion-content">{{ discussion.discussion_content }}</p>
     </div>
   </div>
 </template>
@@ -17,6 +17,7 @@
 <script>
 export default {
 
+  props: ['discussion'],
 
   data() {
     return {
@@ -73,7 +74,7 @@ export default {
       margin: 4px 0;
       font-size: 18px;
     }
-    
+
     .discussion-content {
       margin: 3px 0;
       font-size: 16px;
