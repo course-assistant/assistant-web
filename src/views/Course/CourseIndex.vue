@@ -27,6 +27,11 @@
           <span slot="title">周任务</span>
         </el-menu-item>
 
+        <el-menu-item index="PeriodTest">
+          <i class="el-icon-s-claim"></i>
+          <span slot="title">随堂测试</span>
+        </el-menu-item>
+
         <el-menu-item index="Discuss">
           <i class="el-icon-s-comment"></i>
           <span slot="title">课堂讨论</span>

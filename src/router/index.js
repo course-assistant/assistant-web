@@ -14,6 +14,7 @@ import PeriodDetail from '@/views/Course/PeriodDetail.vue';
 import ClassManage from '@/views/Course/menu/ClassManage.vue';
 import Period from '@/views/Course/menu/Period.vue';
 import WeekMission from '@/views/Course/menu/WeekMission.vue';
+import PeriodTest from '@/views/Course/menu/PeriodTest.vue';
 import Discuss from '@/views/Course/menu/Discuss.vue';
 import Statistics from '@/views/Course/menu/Statistics.vue';
 import Setting from '@/views/Course/menu/Setting.vue';
@@ -114,6 +115,15 @@ const routes = [{
             component: WeekMission,
             meta: {
               title: '课程详情 - 周任务'
+            }
+          },
+          // 随堂测试
+          {
+            name: 'PeriodTest',
+            path: 'period-test',
+            component: PeriodTest,
+            meta: {
+              title: '课程详情 - 随堂测试'
             }
           },
           // 课堂讨论

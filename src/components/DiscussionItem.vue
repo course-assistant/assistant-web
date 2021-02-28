@@ -12,7 +12,7 @@
       <p class="discussion-content">{{ discussion.discussion_content }}</p>
     </div>
   </div>
-</template>
+</template> 
 
 <script>
 export default {
