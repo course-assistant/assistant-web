@@ -72,7 +72,11 @@ export default {
 
     // 退出登录
     handleLogout() {
+      // 清空localstorage
       localStorage.setItem('hncj_management_teacher_token', '');
+      localStorage.setItem('hncj_assistant_web_teacher_id', '');
+      localStorage.setItem('hncj_assistant_web_teacher_name', '');
+      localStorage.setItem('hncj_assistant_web_teacher_avatar', '');
       this.$router.push('/login');
       this.$message.info('已退出');
     },
@@ -131,6 +135,11 @@ export default {
     }
     this.teacherName = data.data.teacher_name;
     this.teacherAvatar = data.data.teacher_avatar;
+
+    // 存到localstorage
+    localStorage.setItem('hncj_assistant_web_teacher_id', id);
+    localStorage.setItem('hncj_assistant_web_teacher_name', this.teacherName);
+    localStorage.setItem('hncj_assistant_web_teacher_avatar', this.teacherAvatar);
   }
 
 }
@@ -166,7 +175,7 @@ export default {
     .teacher-name {
       position: absolute;
       right: 70px;
-    } 
+    }
 
     .avatar {
       position: absolute;
