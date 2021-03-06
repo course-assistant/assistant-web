@@ -55,7 +55,7 @@ MyAxiosHttp.install = (Vue) => {
         return new Promise((resolve, reject) => {
             axios_instance.post(path, qs.stringify(params), {
                 headers: {
-                    token: localStorage.getItem('hncj_management_admin_token')
+                    token: localStorage.getItem('hncj_management_teacher_token')
                 }
             }).then(res => {
                 if (res.data) {
