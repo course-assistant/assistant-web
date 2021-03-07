@@ -1,8 +1,10 @@
 <template>
   <div class="container">
-    <div class="round-div"
+    <div
+      class="round-div"
       v-loading="loading"
-      element-loading-text="正在加载中，请稍等...">
+      element-loading-text="正在加载中，请稍等..."
+    >
       <!-- 讨论 -->
       <!-- 左 -- 周 -->
       <div class="test-week">
@@ -38,24 +40,19 @@
 
       <!-- 右 -- 测试 -->
       <div class="test-list">
-        <el-button
-          type="primary"
-          round
-          @click="addTestDialogVisible = true"
-          >
+        <el-button type="primary" round @click="addTestDialogVisible = true">
           添加测试
-          </el-button>
+        </el-button>
         <p style="margin: 20px 8px">全部随堂测试</p>
 
         <div class="tests">
-          <PeriodTestItem 
-            v-for="(test,index) in tests"
-            :key="index" 
-            :test="test"/>   
+          <PeriodTestItem
+            v-for="(test, index) in tests"
+            :key="index"
+            :test="test"
+          />
         </div>
-
       </div>
-    </div>
     </div>
   </div>
 </template>
@@ -105,18 +102,7 @@ export default {
         }
       ],
 
-      tests: [
-        {
-          period_test_id: 1,
-          period_test_name: '第01学时 测试1',
-          period_test_status: 1
-        },
-        {
-          period_test_id: 2,
-          period_test_name: '第01学时 测试2',
-          period_test_status: 2
-        }
-      ],
+      tests: [],
 
       addTestDialogVisible: false,
       addTestForm: {
@@ -128,9 +114,16 @@ export default {
   components: { PeriodTestItem },
 
   methods: {
-    // 刷新学时的课堂讨论
-    refreshPeriodTest(id) {
-      console.log(id);
+    // 加载学时为id的测试
+    async refreshPeriodTest(id) {
+      let [data, err] = await this.$awaitWrap(this.$get('periodtest/selecttestbyperiodid', {
+        id
+      }));
+      if (err) {
+        this.$message.warning(err);
+        return;
+      }
+      this.tests = data.data;
     }
   },
 
