@@ -54,6 +54,29 @@
         </div>
       </div>
     </div>
+
+    <!-- 对话框 -->
+    <el-dialog
+      title="添加测试"
+      :visible.sync="addTestDialogVisible"
+      width="50%"
+    >
+      <el-form :model="addTestForm" label-position="left">
+        <el-form-item>
+          <el-input
+            v-model="addTestForm.name"
+            placeholder="请输入名称"
+          ></el-input>
+        </el-form-item>
+      </el-form>
+
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="addTestDialogVisible = false" clearable>
+          取 消
+        </el-button>
+        <el-button type="primary" @click="onAddTest"> 确 定 </el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -67,6 +90,8 @@ export default {
       loading: false,
 
       courseId: 0,
+
+      currentPeriodId: 0,
 
       weekTests: [
         {
@@ -106,7 +131,7 @@ export default {
 
       addTestDialogVisible: false,
       addTestForm: {
-
+        name: ''
       }
     }
   },
@@ -116,6 +141,7 @@ export default {
   methods: {
     // 加载学时为id的测试
     async refreshPeriodTest(id) {
+      this.currentPeriodId = id;
       let [data, err] = await this.$awaitWrap(this.$get('periodtest/selecttestbyperiodid', {
         id
       }));
@@ -124,6 +150,28 @@ export default {
         return;
       }
       this.tests = data.data;
+    },
+
+
+    // 点击确定添加测试
+    onAddTest() {
+      console.log(this.addTestForm);
+      if (this.addTestForm.name.trim() === '') {
+        this.$message.warning('请输入');
+        return;
+      }
+      // 添加
+      this.$post('periodtest/inserttest', {
+        id: this.currentPeriodId,
+        name: this.addTestForm.name
+      }).then(res => {
+        this.$message.success(res.msg);
+        this.addTestDialogVisible = false;
+        // 刷新
+        this.refreshPeriodTest(this.currentPeriodId);
+      }).catch(err => {
+        this.$message.warning(err);
+      });
     }
   },
 
