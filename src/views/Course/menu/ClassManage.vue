@@ -7,7 +7,7 @@
           type="primary"
           icon="el-icon-plus"
           round
-          @click="handleAddClass"
+          @click="addClassDialogVisible = true"
           >添加班级
         </el-button>
       </div>
@@ -21,6 +21,25 @@
         />
       </div>
     </div>
+
+    <!-- 对话框 -->
+    <!-- 添加班级的对话框 -->
+    <el-dialog
+      title="添加班级"
+      :visible.sync="addClassDialogVisible"
+      width="45%"
+    >
+      <el-form :model="addClassForm" label-position="left">
+        <el-form-item label="名 称" label-width="50px">
+          <el-input v-model="addClassForm.name"></el-input>
+        </el-form-item>
+      </el-form>
+
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="addClassDialogVisible = false"> 取 消 </el-button>
+        <el-button type="primary" @click="onAddClassClick"> 确 定 </el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -44,17 +63,77 @@ export default {
           className: '班级2',
           classStuNum: 12
         }
-      ]
+      ],
+
+      addClassDialogVisible: false,
+      addClassForm: {
+        name: ''
+      },
     }
   },
 
   components: { ClassItem },
 
   methods: {
+    async refreshClass() {
+      // 先加载所有班级
+      let [data, err] = await this.$awaitWrap(this.$get('class/findbycourseid', {
+        course_id: this.courseId
+      }));
+      if (err) {
+        this.$message.warning(err);
+        return;
+      }
+
+      console.log(data);
+
+      // 如果没有班级，显示没有
+      if (!data.data) {
+        this.classes = [];
+        return;
+      }
+
+      let classes = [];
+      // 根据班级查找人数
+      let classData = data.data;
+
+      classData.forEach(async (cls, index) => {
+        console.log(cls, index);
+        let [d, e] = await this.$awaitWrap(this.$get('class/countbycourseid', {
+          class_id: cls.class_id
+        }));
+        if (e) {
+          this.$message.warning(e);
+          this.$router.push('/');
+          return;
+        }
+        console.log(d);
+        classes.push({
+          classId: cls.class_id,
+          className: cls.class_name,
+          classStuNum: d.data.count
+        });
+      });
+      this.classes = classes;
+    },
 
     // 点击添加班级
-    handleAddClass() {
-      console.log('添加班级');
+    async onAddClassClick() {
+      if (this.addClassForm.name.trim() === '') {
+        this.$message.warning('请输入');
+        return;
+      }
+      let [data, err] = await this.$awaitWrap(this.$post('class/insert', {
+        course_id: this.courseId,
+        name: this.addClassForm.name
+      }));
+      if (err) {
+        this.$message.warning(err);
+        return;
+      }
+      this.addClassDialogVisible = false;
+      // 刷新班级列表
+      await this.refreshClass();
     }
   },
 
@@ -70,35 +149,7 @@ export default {
   // 加载数据
   async beforeMount() {
     this.courseId = this.$route.query.courseid;
-    // 先加载所有班级
-    let [data, err] = await this.$awaitWrap(this.$get('class/findbycourseid', {
-      course_id: this.courseId
-    }));
-    if (err) {
-      this.$message.warning(err);
-      return;
-    }
-    let classes = [];
-    // 根据班级查找人数
-    let classData = data.data;
-    classData.forEach(async (cls, index) => {
-      console.log(cls, index);
-      let [d, e] = await this.$awaitWrap(this.$get('class/countbycourseid', {
-        class_id: cls.class_id
-      }));
-      if (e) {
-        this.$message.warning(e);
-        this.$router.push('/');
-        return;
-      }
-      console.log(d);
-      classes.push({
-        classId: cls.class_id,
-        className: cls.class_name,
-        classStuNum: d.data.count
-      });
-    });
-    this.classes = classes;
+    await this.refreshClass();
   }
 }
 </script>
