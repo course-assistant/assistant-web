@@ -18,6 +18,7 @@
           v-for="(cls, index) in classes"
           :key="index"
           :class-data="cls"
+          @showQrCode="showQrCode"
         />
       </div>
     </div>
@@ -40,11 +41,17 @@
         <el-button type="primary" @click="onAddClassClick"> 确 定 </el-button>
       </div>
     </el-dialog>
+
+    <!-- 显示二维码的对话框 -->
+    <el-dialog title="邀请码" :visible.sync="QRCodeDialogVisible" width="230px">
+      <vue-qr :text="QRCodeText"></vue-qr>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import ClassItem from '@/components/ClassItem.vue';
+import VueQr from 'vue-qr';
 
 export default {
 
@@ -69,10 +76,13 @@ export default {
       addClassForm: {
         name: ''
       },
+
+      QRCodeText: '',
+      QRCodeDialogVisible: false,
     }
   },
 
-  components: { ClassItem },
+  components: { ClassItem, VueQr },
 
   methods: {
     async refreshClass() {
@@ -134,8 +144,19 @@ export default {
       this.addClassDialogVisible = false;
       // 刷新班级列表
       await this.refreshClass();
-    }
+    },
+
+
+    // 显示二维码邀请码
+    showQrCode(text) {
+      this.QRCodeText = text + '';
+      this.QRCodeDialogVisible = true;
+    },
+
+
   },
+
+
 
   beforeCreate() {
     // 检有没有携带参数

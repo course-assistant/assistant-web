@@ -37,7 +37,7 @@ export default {
 
     // 显示邀请码
     showQrCode() {
-      console.log(this.inviteCode);
+      this.$emit('showQrCode', this.inviteCode);
     }
   },
 
