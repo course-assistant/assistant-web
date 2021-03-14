@@ -16,12 +16,50 @@
         </div>
 
         <div class="weekmission-detail">
-          <div class="name">{{ currWeekMission.week_mission_name }}</div>
+          <h2>{{ currWeekMission.week_mission_name }}</h2>
+
+          <el-button
+            class="edit"
+            type="primary"
+            round
+            @click="
+              editMissionDialogForm.content =
+                currWeekMission.week_mission_content;
+              editMissionDialogVisible = true;
+            "
+          >
+            编辑周任务
+          </el-button>
 
           <div class="content">{{ currWeekMission.week_mission_content }}</div>
         </div>
       </div>
     </div>
+
+    <!-- 对话框 -->
+    <!-- 编辑周任务的对话框 -->
+    <el-dialog
+      title="编辑周任务"
+      :visible.sync="editMissionDialogVisible"
+      width="45%"
+    >
+      <el-form :model="editMissionDialogForm" label-position="left">
+        <el-form-item>
+          <el-input
+            type="textarea"
+            :rows="12"
+            placeholder="请输入内容"
+            v-model="editMissionDialogForm.content"
+          >
+          </el-input>
+        </el-form-item>
+      </el-form>
+
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="editMissionDialogVisible = false"> 取 消 </el-button>
+        <el-button type="primary" @click="onEditWeekMission"> 确 定 </el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -53,6 +91,11 @@ export default {
         week_mission_id: 1,
         week_mission_name: "第01周 任务",
         week_mission_status: 1
+      },
+
+      editMissionDialogVisible: false,
+      editMissionDialogForm: {
+        content: ''
       }
     }
   },
@@ -68,7 +111,23 @@ export default {
         id
       }));
       this.currWeekMission = d.data;
-    }
+    },
+
+
+    // 点击修改周任务
+    async onEditWeekMission() {
+      let [data, err] = await this.$awaitWrap(this.$post('weekmission/updatecontent', {
+        id: this.currWeekMission.week_mission_id,
+        content: this.editMissionDialogForm.content
+      }));
+      this.editMissionDialogVisible = false;
+      if (err) {
+        this.$message.warning(err);
+        return;
+      }
+      this.$message.success(data.msg);
+      await this.changeWeekMission(this.currWeekMission.week_mission_id,);
+    },
   },
 
   beforeCreate() {
@@ -141,7 +200,10 @@ export default {
       .weekmission-detail {
         flex: 3;
         margin: 0 30px 0 10px;
-        // background: palegoldenrod;
+
+        .edit {
+          margin: 12px 0;
+        }
       }
     }
   }
