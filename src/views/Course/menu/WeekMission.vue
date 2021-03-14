@@ -31,7 +31,9 @@
             编辑周任务
           </el-button>
 
-          <div class="content">{{ currWeekMission.week_mission_content }}</div>
+          <div class="content" v-html="content"></div>
+
+          <!-- <p v-html="currWeekMission.week_mission_content">3</p> -->
         </div>
       </div>
     </div>
@@ -100,6 +102,13 @@ export default {
     }
   },
 
+  computed: {
+    content() {
+      let content = this.currWeekMission.week_mission_content.replace(/\n/g, '<br>');
+      return content;
+    }
+  },
+
   components: {
     WeekMissionItem
   },
@@ -111,6 +120,7 @@ export default {
         id
       }));
       this.currWeekMission = d.data;
+      console.log(this.currWeekMission);
     },
 
 
