@@ -109,6 +109,8 @@ export default {
     return {
       loading: true,
 
+      currPeriodId: 0,
+
       courseId: 0,
 
       weekPeriods: [
@@ -167,6 +169,7 @@ export default {
   methods: {
     // 点击某一学时
     async selectPeriod(id) {
+      this.currPeriodId = id;
       // 根据index刷新右边的讨论
       console.log(id);
       this.loading = true;
@@ -184,8 +187,21 @@ export default {
 
 
     // 点击确定添加讨论
-    onAddDiscussion() {
-      console.log(this.addDiscussionForm);
+    async onAddDiscussion() {
+      this.loading = true;
+      let [data, err] = await this.$awaitWrap(this.$post('discussioncomment/issuediscussion', {
+        id: this.currPeriodId,
+        title: this.addDiscussionForm.title,
+        content: this.addDiscussionForm.content
+      }));
+      if (err) {
+        this.$message.warning(err);
+        return;
+      }
+      this.selectPeriod(this.currPeriodId);
+      this.addDiscussionDialogVisible = false;
+      this.loading = false;
+      this.$message.success(data.msg);
     }
   },
 
