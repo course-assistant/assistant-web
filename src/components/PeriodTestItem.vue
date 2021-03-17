@@ -3,7 +3,11 @@
     <div class="desc">
       <p class="test-name">{{ test.period_test_name }}</p>
 
-      <p class="test-status unissue" v-show="test.period_test_status === 2">
+      <p
+        class="test-status unissue"
+        v-show="test.period_test_status === 2"
+        @click="showTip"
+      >
         未发布
       </p>
       <p class="test-status issued" v-show="test.period_test_status === 1">
@@ -12,9 +16,13 @@
     </div>
 
     <div class="opts">
-      <el-button class="btn-edit" type="text" @click="toTestDetail"
-        >编辑</el-button
-      >
+      <el-button class="btn-edit" type="text" @click.stop="toTestDetail">
+        编辑
+      </el-button>
+
+      <el-button class="btn-delete" type="text" @click.stop="deleteTest">
+        删除
+      </el-button>
     </div>
   </div>
 </template>
@@ -26,8 +34,17 @@ export default {
   methods: {
     // 跳转至随堂测试的详情
     toTestDetail() {
-
       console.log(this.test.period_test_id);
+    },
+
+    //删除测试
+    deleteTest() {
+      this.$emit('deleteTest', this.test.period_test_id);
+    },
+
+    // 显示提示
+    showTip() {
+      this.$message.info('请在移动端发布测试');
     }
   },
 }
@@ -79,6 +96,12 @@ export default {
     .btn-edit {
       font-size: 16px;
       margin-right: 10px;
+    }
+
+    .btn-delete {
+      color: #f00;
+      font-size: 16px;
+      margin-right: 15px;
     }
   }
 }

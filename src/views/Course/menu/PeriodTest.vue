@@ -5,7 +5,6 @@
       v-loading="loading"
       element-loading-text="正在加载中，请稍等..."
     >
-      <!-- 讨论 -->
       <!-- 左 -- 周 -->
       <div class="test-week">
         <el-menu
@@ -50,6 +49,7 @@
             v-for="(test, index) in tests"
             :key="index"
             :test="test"
+            @deleteTest="deleteTest"
           />
         </div>
       </div>
@@ -171,6 +171,33 @@ export default {
         this.refreshPeriodTest(this.currentPeriodId);
       }).catch(err => {
         this.$message.warning(err);
+      });
+    },
+
+
+    // 删除测试
+    deleteTest(id) {
+      this.$confirm('确定删除?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(async () => {
+        this.loading = true;
+        // 执行删除操作
+        let [data, err] = await this.$awaitWrap(this.$post('periodtest/delete', {
+          id
+        }));
+        if (err) {
+          this.$message.warning(err);
+        }
+        await this.refreshPeriodTest(this.currentPeriodId);
+        this.loading = false;
+        this.$message.success(data.msg);
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '操作已取消'
+        });
       });
     }
   },
