@@ -10,6 +10,7 @@ import TeacherHome from '@/views/Teacher/TeacherHome.vue';
 import AddCourse from '@/views/Course/AddCourse.vue';
 import StudentManage from '@/views/Course/StudentManage.vue';
 import PeriodDetail from '@/views/Course/PeriodDetail.vue';
+import TestDetail from '@/views/Course/TestDetail.vue';
 
 import ClassManage from '@/views/Course/menu/ClassManage.vue';
 import Period from '@/views/Course/menu/Period.vue';
@@ -79,6 +80,15 @@ const routes = [{
         component: PeriodDetail,
         meta: {
           title: '学时详情'
+        }
+      },
+      // 随堂测试编辑页面
+      {
+        name: 'TestDetail',
+        path: 'test-detail',
+        component: TestDetail,
+        meta: {
+          title: '测试详情'
         }
       },
       // 课程首页

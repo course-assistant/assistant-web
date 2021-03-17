@@ -34,7 +34,11 @@ export default {
   methods: {
     // 跳转至随堂测试的详情
     toTestDetail() {
-      console.log(this.test.period_test_id);
+      let routeUrl = this.$router.resolve({
+        path: '/test-detail',
+        query: { test_id: this.test.period_test_id }
+      });
+      window.open(routeUrl.href, '_blank');
     },
 
     //删除测试
