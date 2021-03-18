@@ -16,7 +16,13 @@
     </div>
 
     <div class="opts">
-      <el-button class="btn-edit" type="text" @click.stop="toTestDetail">
+      <!-- 已发布的测试不显示编辑按钮 -->
+      <el-button
+        v-if="test.period_test_status === 2"
+        class="btn-edit"
+        type="text"
+        @click.stop="toTestDetail"
+      >
         编辑
       </el-button>
 
