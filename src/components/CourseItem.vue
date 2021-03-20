@@ -49,7 +49,7 @@ export default {
     },
 
     handleDelete() {
-      console.log('删除' + this.courseData.course_id);
+      this.$emit('deletec', this.courseData.course_id);
     },
 
     // 跳转至课程主页

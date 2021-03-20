@@ -4,7 +4,10 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 
 import MyAxiosHttp from '@/plugin/http.js';
+import Util from '@/plugin/util.js';
 Vue.use(MyAxiosHttp);
+Vue.use(Util);
+
 
 import App from './App.vue'
 import router from './router'

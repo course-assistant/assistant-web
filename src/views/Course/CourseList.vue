@@ -38,6 +38,7 @@
           v-for="(course, index) in courses"
           :key="index"
           :course="course"
+          @deletec="deletec"
         />
       </div>
     </div>
@@ -62,8 +63,45 @@ export default {
   },
 
   methods: {
+    // 刷新课程
+    async refreshCourses() {
+      // 获取教师id
+      let jwt = localStorage.getItem('hncj_management_teacher_token');
+      let id = jwtDecode(jwt).id;
+      let [data, err] = await this.$awaitWrap(this.$get('course/findbyteacherid', {
+        id: id,
+        page: 0,
+        size: 12,
+        status: 1
+      }));
+      if (err) {
+        this.$message.warning(err);
+        return;
+      }
+      console.log(data);
+      this.courses = data.data;
+      console.log(this.courses);
+    },
+
+    // 点击添加课程
     addCourse() {
       this.$router.push('addcourse');
+    },
+
+    // 点击删除课程
+    deletec(id) {
+      this.$cfm('确认删除？', async () => {
+        let [data, err] = await this.$awaitWrap(this.$post('course/delete', { id }));
+        if (err) {
+          this.$message.warning(err);
+          return;
+        }
+        this.$message.success(data.msg);
+        // 刷新课程
+        this.loading = true;
+        this.refreshCourses();
+        this.loading = false;
+      });
     }
   },
 
@@ -71,25 +109,10 @@ export default {
     this.$message.success('欢迎回来');
   },
 
-  // 请求服务器，拿到数据
+
   async beforeMount() {
-    // 获取教师id
-    let jwt = localStorage.getItem('hncj_management_teacher_token');
-    let id = jwtDecode(jwt).id;
-    // 获取正在教的课程
-    let [data, err] = await this.$awaitWrap(this.$get('course/findbyteacherid', {
-      id: id,
-      page: 0,
-      size: 12,
-      status: 1
-    }));
-    if (err) {
-      this.$message.warning(err);
-      return;
-    }
-    console.log(data);
-    this.courses = data.data;
-    console.log(this.courses);
+    // 请求服务器，拿到数据
+    this.refreshCourses();
     this.loading = false;
   },
 }
