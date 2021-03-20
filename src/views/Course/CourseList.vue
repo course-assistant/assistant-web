@@ -78,8 +78,8 @@ export default {
         this.$message.warning(err);
         return;
       }
-      console.log(data);
       this.courses = data.data;
+      console.log('刷新课程');
       console.log(this.courses);
     },
 
@@ -97,10 +97,8 @@ export default {
           return;
         }
         this.$message.success(data.msg);
-        // 刷新课程
-        this.loading = true;
-        this.refreshCourses();
-        this.loading = false;
+        // 刷新
+        location.reload();
       });
     }
   },
@@ -112,7 +110,7 @@ export default {
 
   async beforeMount() {
     // 请求服务器，拿到数据
-    this.refreshCourses();
+    await this.refreshCourses();
     this.loading = false;
   },
 }
