@@ -11,6 +11,13 @@
       <p class="discussion-title">{{ discussion.discussion_title }}</p>
       <p class="discussion-content">{{ discussion.discussion_content }}</p>
     </div>
+
+    <el-button
+      class="btn-delete"
+      type="primary"
+      icon="el-icon-delete"
+      @click.stop="deleteDiscussion"
+    ></el-button>
   </div>
 </template> 
 
@@ -31,6 +38,11 @@ export default {
   methods: {
     sss() {
       localStorage.getItem('hncj_assistant_web_teacher_avatar');
+    },
+
+
+    deleteDiscussion() {
+      this.$emit('delete', this.discussion.discussion_id);
     }
   },
 }
@@ -38,6 +50,7 @@ export default {
 
 <style lang="less" scoped>
 .discussion-item {
+  position: relative;
   width: 100%;
   height: 146px;
   background: #fff;
@@ -79,6 +92,12 @@ export default {
       margin: 3px 0;
       font-size: 16px;
     }
+  }
+
+  .btn-delete {
+    position: absolute;
+    right: 5px;
+    top: 5px;
   }
 }
 </style>

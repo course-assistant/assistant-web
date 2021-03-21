@@ -54,11 +54,15 @@
             v-for="(discussion, index) in discussions"
             :key="index"
             :discussion="discussion"
+            @delete="deleteDiscussion"
           />
         </div>
 
         <!-- 为空时显示 -->
-        <Empty v-if="discussions == null || discussions.length == 0" text="暂无课堂讨论" />
+        <Empty
+          v-if="discussions == null || discussions.length == 0"
+          text="暂无课堂讨论"
+        />
       </div>
     </div>
 
@@ -205,7 +209,16 @@ export default {
       this.addDiscussionDialogVisible = false;
       this.loading = false;
       this.$message.success(data.msg);
-    }
+    },
+
+
+    // 点击删除讨论
+    deleteDiscussion(id) {
+      this.$cfm('确定删除？', async () => {
+        await this.$post('discussioncomment/deletediscussion', { id });
+        await this.selectPeriod(this.currPeriodId);
+      });
+    },
   },
 
   beforeCreate() {
