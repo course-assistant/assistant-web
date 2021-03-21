@@ -11,7 +11,7 @@
             v-for="(weekMission, index) in weekMissions"
             :key="index"
             :week-mission="weekMission"
-            @changeWeekMission="changeWeekMission"
+            @changeWeekMission="changeWeekMission(weekMission.week_id)"
           />
         </div>
 
@@ -28,10 +28,39 @@
               editMissionDialogVisible = true;
             "
           >
-            编辑周任务
+            编辑主要内容
           </el-button>
 
+          <h3>主要内容</h3>
           <div class="content" v-html="content"></div>
+
+          <h3>记忆目标</h3>
+          <ul>
+            <li v-for="(goal, index) in currWeekGoal.remember" :key="index">
+              {{ goal.week_goal_content }}
+            </li>
+          </ul>
+
+          <h3>理解目标</h3>
+          <ul>
+            <li v-for="(goal, index) in currWeekGoal.understand" :key="index">
+              {{ goal.week_goal_content }}
+            </li>
+          </ul>
+
+          <h3>应用目标</h3>
+          <ul>
+            <li v-for="(goal, index) in currWeekGoal.apply" :key="index">
+              {{ goal.week_goal_content }}
+            </li>
+          </ul>
+
+          <h3>创造目标</h3>
+          <ul>
+            <li v-for="(goal, index) in currWeekGoal.create" :key="index">
+              {{ goal.week_goal_content }}
+            </li>
+          </ul>
 
           <!-- <p v-html="currWeekMission.week_mission_content">3</p> -->
         </div>
@@ -74,16 +103,17 @@ export default {
     return {
       courseId: 0,
 
+      // 所有的周
       weekMissions: [
-        {
-          week_mission_name: '第01周'
-        },
-        {
-          week_mission_name: '第02周'
-        },
-        {
-          week_mission_name: '第03周'
-        }
+        // {
+        //   week_mission_name: '第01周'
+        // },
+        // {
+        //   week_mission_name: '第02周'
+        // },
+        // {
+        //   week_mission_name: '第03周'
+        // }
       ],
 
       // 当前显示的周任务
@@ -93,6 +123,36 @@ export default {
         week_mission_id: 1,
         week_mission_name: "第01周 任务",
         week_mission_status: 1
+      },
+
+      // 周目标
+      currWeekGoal: {
+        // 记忆目标
+        remember: [{
+          week_goal_id: 0,
+          week_goal_content: 'HTML、CSS、JavaScript等语法'
+        }],
+        // 理解目标
+        understand: [
+          {
+            week_goal_id: 0,
+            week_goal_content: 'CSS中的动画'
+          },
+          {
+            week_goal_id: 0,
+            week_goal_content: '熟悉JQuery框架'
+          },
+        ],
+        // 应用目标
+        apply: [{
+          week_goal_id: 0,
+          week_goal_content: '使用HTML、CSS、JavaScript进行网页编写'
+        }],
+        // 操作目标
+        create: [{
+          week_goal_id: 0,
+          week_goal_content: '使用所学的技术，编写一个简单的登录页面'
+        }],
       },
 
       editMissionDialogVisible: false,
@@ -114,15 +174,58 @@ export default {
   },
 
   methods: {
-    // 切换正在显示的周任务
+    // 点击切换正在显示的周
     async changeWeekMission(id) {
-      let [d, e] = await this.$awaitWrap(this.$get('weekmission/selectbyid', {
-        id
-      }));
-      this.currWeekMission = d.data;
-      console.log(this.currWeekMission);
+      // 刷新周的周任务
+      await this.refreshWeekMission(id);
+      // 刷新周的周目标
+      await this.refreshWeekGoal(id);
     },
 
+
+    // 刷新周任务
+    async refreshWeekMission(id) {
+      let [data, err] = await this.$awaitWrap(this.$get('weekmission/selectbyweekid', { id }));
+      if (err) {
+        this.$message.warning(err);
+        return;
+      }
+      this.currWeekMission = data.data;
+    },
+
+    // 刷新周目标
+    async refreshWeekGoal(id) {
+      let [data, err] = await this.$awaitWrap(this.$get('weekgoal/selectbyweekid', { id }));
+      if (err) {
+        this.$message.warning(err);
+        return;
+      }
+      // 将周任务按类型 分类
+      let remember = [];
+      let understand = [];
+      let apply = [];
+      let create = [];
+      data.data.forEach(goal => {
+        switch (goal.week_goal_type) {
+          case 1:
+            remember.push(goal);
+            break;
+          case 2:
+            understand.push(goal);
+            break;
+          case 3:
+            apply.push(goal);
+            break;
+          case 4:
+            create.push(goal);
+            break;
+        };
+      });
+      this.currWeekGoal.remember = remember;
+      this.currWeekGoal.understand = understand;
+      this.currWeekGoal.apply = apply;
+      this.currWeekGoal.create = create;
+    },
 
     // 点击修改周任务
     async onEditWeekMission() {
@@ -147,6 +250,7 @@ export default {
     }
   },
 
+
   // 加载数据
   async beforeMount() {
     this.courseId = this.$route.query.courseid;
@@ -159,12 +263,9 @@ export default {
       return;
     }
     this.weekMissions = data.data;
-    console.log(this.weekMissions);
-    // 再加载第一个周任务
-    let [d, e] = await this.$awaitWrap(this.$get('weekmission/selectbyid', {
-      id: this.weekMissions[0].week_mission_id
-    }));
-    this.currWeekMission = d.data;
+
+    // 加载第一个周
+    await this.changeWeekMission(this.weekMissions[0].week_id);
   }
 }
 </script>
@@ -210,6 +311,8 @@ export default {
       .weekmission-detail {
         flex: 3;
         margin: 0 30px 0 10px;
+
+        background: salmon;
 
         .edit {
           margin: 12px 0;
