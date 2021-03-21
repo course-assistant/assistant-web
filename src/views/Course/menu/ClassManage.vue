@@ -21,6 +21,9 @@
           @showQrCode="showQrCode"
         />
       </div>
+
+      <!-- 为空时显示 -->
+      <Empty v-if="(classes == null || classes.length == 0)" text="暂无班级" />
     </div>
 
     <!-- 对话框 -->
@@ -60,16 +63,16 @@ export default {
       courseId: 0,
 
       classes: [
-        {
-          classId: -1,
-          className: '班级1',
-          classStuNum: 10
-        },
-        {
-          classId: -2,
-          className: '班级2',
-          classStuNum: 12
-        }
+        // {
+        //   classId: -1,
+        //   className: '班级1',
+        //   classStuNum: 10
+        // },
+        // {
+        //   classId: -2,
+        //   className: '班级2',
+        //   classStuNum: 12
+        // }
       ],
 
       addClassDialogVisible: false,

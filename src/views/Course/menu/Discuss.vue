@@ -56,6 +56,9 @@
             :discussion="discussion"
           />
         </div>
+
+        <!-- 为空时显示 -->
+        <Empty v-if="discussions == null || discussions.length == 0" text="暂无课堂讨论" />
       </div>
     </div>
 

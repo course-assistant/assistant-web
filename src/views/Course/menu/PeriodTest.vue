@@ -52,6 +52,9 @@
             @deleteTest="deleteTest"
           />
         </div>
+
+        <!-- 为空时显示 -->
+        <Empty v-if="tests == null || tests.length == 0" text="暂无随堂测试" />
       </div>
     </div>
 

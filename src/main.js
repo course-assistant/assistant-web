@@ -5,8 +5,10 @@ import 'element-ui/lib/theme-chalk/index.css';
 
 import MyAxiosHttp from '@/plugin/http.js';
 import Util from '@/plugin/util.js';
+import MyUI from '@/plugin/my-ui.js';
 Vue.use(MyAxiosHttp);
 Vue.use(Util);
+Vue.use(MyUI);
 
 
 import App from './App.vue'
