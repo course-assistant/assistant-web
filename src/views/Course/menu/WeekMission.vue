@@ -61,8 +61,6 @@
               {{ goal.week_goal_content }}
             </li>
           </ul>
-
-          <!-- <p v-html="currWeekMission.week_mission_content">3</p> -->
         </div>
       </div>
     </div>
@@ -227,6 +225,7 @@ export default {
       this.currWeekGoal.create = create;
     },
 
+
     // 点击修改周任务
     async onEditWeekMission() {
       let [data, err] = await this.$awaitWrap(this.$post('weekmission/updatecontent', {
@@ -239,7 +238,8 @@ export default {
         return;
       }
       this.$message.success(data.msg);
-      await this.changeWeekMission(this.currWeekMission.week_mission_id,);
+      // 刷新内容
+      await this.changeWeekMission(this.currWeekMission.week_id,);
     },
   },
 
@@ -312,7 +312,7 @@ export default {
         flex: 3;
         margin: 0 30px 0 10px;
 
-        background: salmon;
+        // background: salmon;
 
         .edit {
           margin: 12px 0;
