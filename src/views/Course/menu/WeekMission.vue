@@ -18,26 +18,33 @@
         <div class="weekmission-detail">
           <h2>{{ currWeekMission.week_mission_name }}</h2>
 
-          <el-button
-            class="edit"
-            type="primary"
-            round
-            @click="
-              editMissionDialogForm.content =
-                currWeekMission.week_mission_content;
-              editMissionDialogVisible = true;
-            "
-          >
-            编辑主要内容
-          </el-button>
-
-          <h3>主要内容</h3>
+          <h3>
+            主要内容
+            <el-button
+              class="edit"
+              type="primary"
+              round
+              @click="
+                editMissionDialogForm.content =
+                  currWeekMission.week_mission_content;
+                editMissionDialogVisible = true;
+              "
+            >
+              编辑主要内容
+            </el-button>
+          </h3>
           <div class="content" v-html="content"></div>
 
           <h3>记忆目标</h3>
           <ul>
             <li v-for="(goal, index) in currWeekGoal.remember" :key="index">
               {{ goal.week_goal_content }}
+              <button
+                class="delete"
+                @click.stop="deleteGoal(goal.week_goal_id)"
+              >
+                删除
+              </button>
             </li>
           </ul>
 
@@ -45,6 +52,12 @@
           <ul>
             <li v-for="(goal, index) in currWeekGoal.understand" :key="index">
               {{ goal.week_goal_content }}
+              <button
+                class="delete"
+                @click.stop="deleteGoal(goal.week_goal_id)"
+              >
+                删除
+              </button>
             </li>
           </ul>
 
@@ -52,6 +65,12 @@
           <ul>
             <li v-for="(goal, index) in currWeekGoal.apply" :key="index">
               {{ goal.week_goal_content }}
+              <button
+                class="delete"
+                @click.stop="deleteGoal(goal.week_goal_id)"
+              >
+                删除
+              </button>
             </li>
           </ul>
 
@@ -59,6 +78,12 @@
           <ul>
             <li v-for="(goal, index) in currWeekGoal.create" :key="index">
               {{ goal.week_goal_content }}
+              <button
+                class="delete"
+                @click.stop="deleteGoal(goal.week_goal_id)"
+              >
+                删除
+              </button>
             </li>
           </ul>
         </div>
@@ -116,7 +141,7 @@ export default {
 
       // 当前显示的周任务
       currWeekMission: {
-        week_id: 1,
+        week_id: 0,
         week_mission_content: "任务1 任务2",
         week_mission_id: 1,
         week_mission_name: "第01周 任务",
@@ -226,7 +251,7 @@ export default {
     },
 
 
-    // 点击修改周任务
+    // 点击修改周任务内容
     async onEditWeekMission() {
       let [data, err] = await this.$awaitWrap(this.$post('weekmission/updatecontent', {
         id: this.currWeekMission.week_mission_id,
@@ -241,7 +266,22 @@ export default {
       // 刷新内容
       await this.changeWeekMission(this.currWeekMission.week_id,);
     },
+
+
+    // 点击删除周目标
+    deleteGoal(id) {
+      this.$cfm('确定删除', async () => {
+        let [data, err] = await this.$awaitWrap(this.$post('weekgoal/delete', { id }));
+        if (err) {
+          this.$message.warning(err);
+          return;
+        }
+        this.$message.success(data.msg);
+        await this.changeWeekMission(this.currWeekMission.week_id);
+      });
+    },
   },
+
 
   beforeCreate() {
     // 检有没有携带参数
@@ -316,6 +356,22 @@ export default {
 
         .edit {
           margin: 12px 0;
+        }
+
+        li {
+          // width: fit-content;
+          display: flex;
+          cursor: pointer;
+
+          .delete {
+            display: none;
+          }
+
+          &:hover {
+            .delete {
+              display: block;
+            }
+          }
         }
       }
     }
