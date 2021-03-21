@@ -35,7 +35,17 @@
           </h3>
           <div class="content" v-html="content"></div>
 
-          <h3>记忆目标</h3>
+          <br />
+
+          <h3>
+            记忆目标
+            <el-button
+              type="primary"
+              icon="el-icon-plus"
+              circle
+              @click="insertGoal(1)"
+            ></el-button>
+          </h3>
           <ul>
             <li v-for="(goal, index) in currWeekGoal.remember" :key="index">
               {{ goal.week_goal_content }}
@@ -48,7 +58,15 @@
             </li>
           </ul>
 
-          <h3>理解目标</h3>
+          <h3>
+            理解目标
+            <el-button
+              type="primary"
+              icon="el-icon-plus"
+              circle
+              @click="insertGoal(2)"
+            ></el-button>
+          </h3>
           <ul>
             <li v-for="(goal, index) in currWeekGoal.understand" :key="index">
               {{ goal.week_goal_content }}
@@ -61,7 +79,15 @@
             </li>
           </ul>
 
-          <h3>应用目标</h3>
+          <h3>
+            应用目标
+            <el-button
+              type="primary"
+              icon="el-icon-plus"
+              circle
+              @click="insertGoal(3)"
+            ></el-button>
+          </h3>
           <ul>
             <li v-for="(goal, index) in currWeekGoal.apply" :key="index">
               {{ goal.week_goal_content }}
@@ -74,7 +100,15 @@
             </li>
           </ul>
 
-          <h3>创造目标</h3>
+          <h3>
+            创造目标
+            <el-button
+              type="primary"
+              icon="el-icon-plus"
+              circle
+              @click="insertGoal(4)"
+            ></el-button>
+          </h3>
           <ul>
             <li v-for="(goal, index) in currWeekGoal.create" :key="index">
               {{ goal.week_goal_content }}
@@ -268,6 +302,30 @@ export default {
     },
 
 
+    // 点击添加周目标
+    insertGoal(type) {
+      this.$prompt('请输入', '', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+      }).then(async ({ value }) => {
+        // 发送请求
+        let [data, err] = await this.$awaitWrap(this.$post('weekgoal/insert', {
+          id: this.currWeekMission.week_id,
+          type: type,
+          content: value
+        }));
+        if (err) {
+          this.$message.warning(err);
+          return;
+        }
+        await this.changeWeekMission(this.currWeekMission.week_id);
+        this.$message.success(data.msg);
+      }).catch(() => {
+        this.$message.info('操作取消');
+      });
+    },
+
+
     // 点击删除周目标
     deleteGoal(id) {
       this.$cfm('确定删除', async () => {
@@ -276,8 +334,8 @@ export default {
           this.$message.warning(err);
           return;
         }
-        this.$message.success(data.msg);
         await this.changeWeekMission(this.currWeekMission.week_id);
+        this.$message.success(data.msg);
       });
     },
   },
