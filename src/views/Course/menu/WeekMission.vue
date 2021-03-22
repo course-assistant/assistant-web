@@ -38,80 +38,21 @@
           <br />
 
           <h3>
-            记忆目标
+            主要目标
             <el-button
+              class="edit"
               type="primary"
-              icon="el-icon-plus"
-              circle
-              @click="insertGoal(1)"
-            ></el-button>
+              round
+              @click="addGoalDialogVisible = true"
+            >
+              添加目标
+            </el-button>
           </h3>
           <ul>
-            <li v-for="(goal, index) in currWeekGoal.remember" :key="index">
+            <li v-for="(goal, index) in currWeekGoal" :key="index">
+              {{ goal.week_goal_title }} :
               {{ goal.week_goal_content }}
-              <button
-                class="delete"
-                @click.stop="deleteGoal(goal.week_goal_id)"
-              >
-                删除
-              </button>
-            </li>
-          </ul>
 
-          <h3>
-            理解目标
-            <el-button
-              type="primary"
-              icon="el-icon-plus"
-              circle
-              @click="insertGoal(2)"
-            ></el-button>
-          </h3>
-          <ul>
-            <li v-for="(goal, index) in currWeekGoal.understand" :key="index">
-              {{ goal.week_goal_content }}
-              <button
-                class="delete"
-                @click.stop="deleteGoal(goal.week_goal_id)"
-              >
-                删除
-              </button>
-            </li>
-          </ul>
-
-          <h3>
-            应用目标
-            <el-button
-              type="primary"
-              icon="el-icon-plus"
-              circle
-              @click="insertGoal(3)"
-            ></el-button>
-          </h3>
-          <ul>
-            <li v-for="(goal, index) in currWeekGoal.apply" :key="index">
-              {{ goal.week_goal_content }}
-              <button
-                class="delete"
-                @click.stop="deleteGoal(goal.week_goal_id)"
-              >
-                删除
-              </button>
-            </li>
-          </ul>
-
-          <h3>
-            创造目标
-            <el-button
-              type="primary"
-              icon="el-icon-plus"
-              circle
-              @click="insertGoal(4)"
-            ></el-button>
-          </h3>
-          <ul>
-            <li v-for="(goal, index) in currWeekGoal.create" :key="index">
-              {{ goal.week_goal_content }}
               <button
                 class="delete"
                 @click.stop="deleteGoal(goal.week_goal_id)"
@@ -127,7 +68,7 @@
     <!-- 对话框 -->
     <!-- 编辑周任务的对话框 -->
     <el-dialog
-      title="编辑周任务"
+      title="添加"
       :visible.sync="editMissionDialogVisible"
       width="45%"
     >
@@ -146,6 +87,37 @@
       <div slot="footer" class="dialog-footer">
         <el-button @click="editMissionDialogVisible = false"> 取 消 </el-button>
         <el-button type="primary" @click="onEditWeekMission"> 确 定 </el-button>
+      </div>
+    </el-dialog>
+
+    <!-- 添加周目标的对话框 -->
+    <el-dialog
+      title="添加目标"
+      :visible.sync="addGoalDialogVisible"
+      width="500px"
+    >
+      <el-form :model="addGoalDialogForm">
+        <el-form-item>
+          <el-input
+            placeholder="请输入目标标题"
+            v-model="addGoalDialogForm.title"
+            clearable
+          >
+          </el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-input
+            placeholder="请输入目标内容"
+            v-model="addGoalDialogForm.content"
+            clearable
+          >
+          </el-input>
+        </el-form-item>
+      </el-form>
+
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="addGoalDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="insertGoal">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -183,39 +155,25 @@ export default {
       },
 
       // 周目标
-      currWeekGoal: {
-        // 记忆目标
-        remember: [{
+      currWeekGoal: [
+        {
           week_goal_id: 0,
-          week_goal_content: 'HTML、CSS、JavaScript等语法'
-        }],
-        // 理解目标
-        understand: [
-          {
-            week_goal_id: 0,
-            week_goal_content: 'CSS中的动画'
-          },
-          {
-            week_goal_id: 0,
-            week_goal_content: '熟悉JQuery框架'
-          },
-        ],
-        // 应用目标
-        apply: [{
-          week_goal_id: 0,
-          week_goal_content: '使用HTML、CSS、JavaScript进行网页编写'
-        }],
-        // 操作目标
-        create: [{
-          week_goal_id: 0,
-          week_goal_content: '使用所学的技术，编写一个简单的登录页面'
-        }],
-      },
+          week_id: 0,
+          week_goal_title: '记忆目标',
+          week_goal_content: 'html'
+        }
+      ],
 
       editMissionDialogVisible: false,
       editMissionDialogForm: {
         content: ''
-      }
+      },
+
+      addGoalDialogVisible: false,
+      addGoalDialogForm: {
+        title: '',
+        content: ''
+      },
     }
   },
 
@@ -257,31 +215,9 @@ export default {
         this.$message.warning(err);
         return;
       }
-      // 将周任务按类型 分类
-      let remember = [];
-      let understand = [];
-      let apply = [];
-      let create = [];
-      data.data.forEach(goal => {
-        switch (goal.week_goal_type) {
-          case 1:
-            remember.push(goal);
-            break;
-          case 2:
-            understand.push(goal);
-            break;
-          case 3:
-            apply.push(goal);
-            break;
-          case 4:
-            create.push(goal);
-            break;
-        };
-      });
-      this.currWeekGoal.remember = remember;
-      this.currWeekGoal.understand = understand;
-      this.currWeekGoal.apply = apply;
-      this.currWeekGoal.create = create;
+      // console.log('目标');
+      // console.log(data);
+      this.currWeekGoal = data.data;
     },
 
 
@@ -302,27 +238,24 @@ export default {
     },
 
 
-    // 点击添加周目标
-    insertGoal(type) {
-      this.$prompt('请输入', '', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-      }).then(async ({ value }) => {
-        // 发送请求
-        let [data, err] = await this.$awaitWrap(this.$post('weekgoal/insert', {
-          id: this.currWeekMission.week_id,
-          type: type,
-          content: value
-        }));
-        if (err) {
-          this.$message.warning(err);
-          return;
-        }
-        await this.changeWeekMission(this.currWeekMission.week_id);
-        this.$message.success(data.msg);
-      }).catch(() => {
-        this.$message.info('操作取消');
-      });
+    // 点击确定添加周目标
+    async insertGoal() {
+      if (this.addGoalDialogForm.title.trim() === '' || this.addGoalDialogForm.content.trim() === '') {
+        this.$message.warning('请输入');
+        return;
+      }
+      let [data, err] = await this.$awaitWrap(this.$post('weekgoal/insert', {
+        id: this.currWeekMission.week_id,
+        title: this.addGoalDialogForm.title,
+        content: this.addGoalDialogForm.content
+      }));
+      if (err) {
+        this.$message.warning(err);
+        return;
+      }
+      await this.changeWeekMission(this.currWeekMission.week_id);
+      this.addGoalDialogVisible = false;
+      this.$message.success(data.msg);
     },
 
 
