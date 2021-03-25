@@ -14,11 +14,14 @@ import TestDetail from '@/views/Course/TestDetail.vue';
 
 import ClassManage from '@/views/Course/menu/ClassManage.vue';
 import Period from '@/views/Course/menu/Period.vue';
-import WeekMission from '@/views/Course/menu/WeekMission.vue';
 import PeriodTest from '@/views/Course/menu/PeriodTest.vue';
 import Discuss from '@/views/Course/menu/Discuss.vue';
 import Statistics from '@/views/Course/menu/Statistics.vue';
 import Setting from '@/views/Course/menu/Setting.vue';
+import WeekMission from '@/views/Course/menu/WeekMission.vue';
+import WeekMissionList from '@/views/Course/menu/WeekMissionList.vue';
+import WeekLessonMission from '@/views/Course/menu/WeekLessonMission.vue';
+import WeekMissionDetail from '@/views/Course/menu/WeekMissionDetail.vue';
 
 Vue.use(VueRouter)
 
@@ -121,11 +124,39 @@ const routes = [{
           // 周任务
           {
             name: 'WeekMission',
-            path: 'weekMission',
+            path: 'week-mission',
             component: WeekMission,
-            meta: {
-              title: '课程详情 - 周任务'
-            }
+            children: [
+              // 任务列表
+              {
+                name: 'WeekMissionList',
+                path: 'week-mission-list',
+                component: WeekMissionList,
+                meta: {
+                  title: '课程 - 周任务'
+                }
+              },
+              // 周 节任务
+              {
+                name: 'WeekLessonMission',
+                path: 'week-lesson-mission',
+                component: WeekLessonMission,
+                meta: {
+                  title: '课程 - 周任务'
+                }
+              },
+              // 任务详情
+              {
+                name: 'WeekMissionDetail',
+                path: 'week-mission-detail',
+                component: WeekMissionDetail,
+                meta: {
+                  title: '课程 - 周任务'
+                }
+              },
+            ],
+
+
           },
           // 随堂测试
           {

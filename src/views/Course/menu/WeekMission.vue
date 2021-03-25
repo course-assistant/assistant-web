@@ -1,12 +1,16 @@
 <template>
   <div class="container">
     <div class="round-div">
-      <div class="head">
-        <p>周任务</p>
+      <div class="head" style="display: flex">
+        <p @click="to('WeekMissionList')">周任务</p>
+        <p @click="to('WeekLessonMission')">第01周任务</p>
+        <p @click="to('WeekMissionDetail')">任务01</p>
       </div>
 
-      <div class="weekmission">
-        <div class="weekmission-list">
+      <router-view class="week-mission-content" />
+
+      <!-- <div class="weekmission">
+        <div class="weekmission-list" style="margin-right: 10px">
           <WeekMissionItem
             v-for="(weekMission, index) in weekMissions"
             :key="index"
@@ -14,7 +18,9 @@
             @changeWeekMission="changeWeekMission(weekMission.week_id)"
           />
         </div>
+      </div> -->
 
+      <!-- 
         <div class="weekmission-detail">
           <h2>{{ currWeekMission.week_mission_name }}</h2>
 
@@ -61,13 +67,12 @@
               </button>
             </li>
           </ul>
-        </div>
-      </div>
+        </div> -->
     </div>
 
     <!-- 对话框 -->
     <!-- 编辑周任务的对话框 -->
-    <el-dialog
+    <!-- <el-dialog
       title="添加"
       :visible.sync="editMissionDialogVisible"
       width="45%"
@@ -88,10 +93,10 @@
         <el-button @click="editMissionDialogVisible = false"> 取 消 </el-button>
         <el-button type="primary" @click="onEditWeekMission"> 确 定 </el-button>
       </div>
-    </el-dialog>
+    </el-dialog> -->
 
     <!-- 添加周目标的对话框 -->
-    <el-dialog
+    <!-- <el-dialog
       title="添加目标"
       :visible.sync="addGoalDialogVisible"
       width="500px"
@@ -119,7 +124,7 @@
         <el-button @click="addGoalDialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="insertGoal">确 定</el-button>
       </div>
-    </el-dialog>
+    </el-dialog> -->
   </div>
 </template>
 
@@ -189,6 +194,15 @@ export default {
   },
 
   methods: {
+
+    to(name) {
+      if (this.$route.name === name) {
+        return;
+      }
+      this.$router.push({ name: name });
+    },
+
+
     // 点击切换正在显示的周
     async changeWeekMission(id) {
       // 刷新周的周任务
@@ -320,9 +334,18 @@ export default {
     background: #fff;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
 
+    .week-mission-content {
+      width: 100%;
+      height: calc(100% - 100px);
+      // background: salmon;
+    }
+
+    /////
+
     .head {
+      margin-left: 20px;
       p {
-        margin: 20px 30px;
+        margin: 20px 10px;
         font-size: 22px;
       }
     }
