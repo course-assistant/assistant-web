@@ -3,128 +3,14 @@
     <div class="round-div">
       <div class="head" style="display: flex">
         <p @click="to('WeekMissionList')">周任务</p>
+        <p>/</p>
         <p @click="to('WeekLessonMission')">第01周任务</p>
+        <p>/</p>
         <p @click="to('WeekMissionDetail')">任务01</p>
       </div>
 
       <router-view class="week-mission-content" />
-
-      <!-- <div class="weekmission">
-        <div class="weekmission-list" style="margin-right: 10px">
-          <WeekMissionItem
-            v-for="(weekMission, index) in weekMissions"
-            :key="index"
-            :week-mission="weekMission"
-            @changeWeekMission="changeWeekMission(weekMission.week_id)"
-          />
-        </div>
-      </div> -->
-
-      <!-- 
-        <div class="weekmission-detail">
-          <h2>{{ currWeekMission.week_mission_name }}</h2>
-
-          <h3>
-            主要内容
-            <el-button
-              class="edit"
-              type="primary"
-              round
-              @click="
-                editMissionDialogForm.content =
-                  currWeekMission.week_mission_content;
-                editMissionDialogVisible = true;
-              "
-            >
-              编辑主要内容
-            </el-button>
-          </h3>
-          <div class="content" v-html="content"></div>
-
-          <br />
-
-          <h3>
-            主要目标
-            <el-button
-              class="edit"
-              type="primary"
-              round
-              @click="addGoalDialogVisible = true"
-            >
-              添加目标
-            </el-button>
-          </h3>
-          <ul>
-            <li v-for="(goal, index) in currWeekGoal" :key="index">
-              {{ goal.week_goal_title }} :
-              {{ goal.week_goal_content }}
-
-              <button
-                class="delete"
-                @click.stop="deleteGoal(goal.week_goal_id)"
-              >
-                删除
-              </button>
-            </li>
-          </ul>
-        </div> -->
     </div>
-
-    <!-- 对话框 -->
-    <!-- 编辑周任务的对话框 -->
-    <!-- <el-dialog
-      title="添加"
-      :visible.sync="editMissionDialogVisible"
-      width="45%"
-    >
-      <el-form :model="editMissionDialogForm" label-position="left">
-        <el-form-item>
-          <el-input
-            type="textarea"
-            :rows="12"
-            placeholder="请输入内容"
-            v-model="editMissionDialogForm.content"
-          >
-          </el-input>
-        </el-form-item>
-      </el-form>
-
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="editMissionDialogVisible = false"> 取 消 </el-button>
-        <el-button type="primary" @click="onEditWeekMission"> 确 定 </el-button>
-      </div>
-    </el-dialog> -->
-
-    <!-- 添加周目标的对话框 -->
-    <!-- <el-dialog
-      title="添加目标"
-      :visible.sync="addGoalDialogVisible"
-      width="500px"
-    >
-      <el-form :model="addGoalDialogForm">
-        <el-form-item>
-          <el-input
-            placeholder="请输入目标标题"
-            v-model="addGoalDialogForm.title"
-            clearable
-          >
-          </el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-input
-            placeholder="请输入目标内容"
-            v-model="addGoalDialogForm.content"
-            clearable
-          >
-          </el-input>
-        </el-form-item>
-      </el-form>
-
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="addGoalDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="insertGoal">确 定</el-button>
-      </div>
-    </el-dialog> -->
   </div>
 </template>
 
@@ -136,19 +22,6 @@ export default {
   data() {
     return {
       courseId: 0,
-
-      // 所有的周
-      weekMissions: [
-        // {
-        //   week_mission_name: '第01周'
-        // },
-        // {
-        //   week_mission_name: '第02周'
-        // },
-        // {
-        //   week_mission_name: '第03周'
-        // }
-      ],
 
       // 当前显示的周任务
       currWeekMission: {
@@ -335,7 +208,7 @@ export default {
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
 
     .week-mission-content {
-      width: 100%;
+      // width: 100%;
       height: calc(100% - 100px);
       // background: salmon;
     }
@@ -347,6 +220,8 @@ export default {
       p {
         margin: 20px 10px;
         font-size: 22px;
+        height: 30px;
+        line-height: 30px;
       }
     }
 

@@ -17,7 +17,7 @@
       </h3>
 
       <ul>
-        <li >
+        <li>
           记忆目标 : HTML、CSS
           <button class="delete">删除</button>
         </li>
@@ -34,5 +34,8 @@ export default {
 
 <style lang="less" scoped>
 .week-mission-detail {
+  width: calc(100% - 80px);
+  margin: 0 auto;
+  // background: palegoldenrod;
 }
 </style>

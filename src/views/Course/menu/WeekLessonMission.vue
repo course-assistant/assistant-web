@@ -2,7 +2,7 @@
   <div class="week-lesson-mission">
     <div class="tools">
       <!-- 全选框 -->
-      <el-checkbox v-model="checked" style="margin-left: 30px">
+      <el-checkbox v-model="selectedAll" style="margin-left: 30px">
         全选
       </el-checkbox>
 
@@ -30,6 +30,9 @@ import LessonMessionItem from '@/components/LessonMissionItem.vue';
 export default {
   data() {
     return {
+
+      selectedAll: false,
+
       LessonMissions: [
         {
           name: '任务01',
@@ -57,6 +60,7 @@ export default {
 .week-lesson-mission {
   background: #fff;
   width: calc(100% - 80px);
+  // width: 500px;
   margin: 0 auto;
 
   .tools {
@@ -64,17 +68,11 @@ export default {
     height: 70px;
     margin: 0 auto;
     margin-top: 10px;
-    // margin-left: 40px;
     background: #fff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
-
     display: flex;
     justify-content: space-between;
     align-items: center;
-
-    // &:hover {
-    //   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-    // }
   }
 
   .mission-list {

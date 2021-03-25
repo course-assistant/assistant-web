@@ -17,6 +17,7 @@ import WeekMissionItem from '@/components/WeekMissionItem.vue';
 export default {
   data() {
     return {
+
       weekMissions: [
         {
           week_mission_name: '第01周',
@@ -40,5 +41,7 @@ export default {
 
 <style lang="less" scoped>
 .week-mission-list {
+  width: 100%;
+  overflow: auto;
 }
 </style>

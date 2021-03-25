@@ -3,7 +3,7 @@
     <el-checkbox class="checked" v-model="lesson_mission.checked"></el-checkbox>
 
     <div class="head">
-      <b style="margin-right: 20px">作业01</b>
+      <b style="margin-right: 20px">任务01</b>
 
       <el-tag
         v-if="lesson_mission.status == 1"
