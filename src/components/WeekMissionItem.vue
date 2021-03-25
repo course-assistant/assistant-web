@@ -8,10 +8,10 @@
       size="medium"
       type="primary"
     >
-      已发布
+      开放中
     </el-tag>
 
-    <el-tag v-else class="tag" size="medium" type="info">未发布</el-tag>
+    <el-tag v-else class="tag" size="medium" type="info">未开放</el-tag>
   </div>
 </template>
 
@@ -21,7 +21,7 @@ export default {
 
   methods: {
     changeWeekMission() {
-      this.$emit('changeWeekMission', this.week_mission.week_mission_id);
+
     }
   },
 }
@@ -33,7 +33,6 @@ export default {
   height: 95px;
   background: #fff;
   border-bottom: solid 1px #f2f2f2;
-  cursor: pointer;
 
   display: flex;
   align-items: center;
@@ -41,6 +40,7 @@ export default {
 
   .tag {
     margin: 0 20px;
+    cursor: pointer;
   }
 
   &:hover {

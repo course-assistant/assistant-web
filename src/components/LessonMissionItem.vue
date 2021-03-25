@@ -5,15 +5,31 @@
     <div class="head">
       <b style="margin-right: 20px">任务01</b>
 
-      <el-tag
-        v-if="lesson_mission.status == 1"
-        class="tag"
-        size="medium"
-        type="primary"
-      >
-        已发布
-      </el-tag>
-      <el-tag v-else class="tag" size="medium" type="info">未发布</el-tag>
+      <div style="margin-right: 20px">
+        <el-tag
+          v-if="lesson_mission.type == 1"
+          class="tag"
+          size="medium"
+          type="primary"
+        >
+          理论课
+        </el-tag>
+        <el-tag v-else class="tag" size="medium" type="info">实验课</el-tag>
+      </div>
+
+      <div>
+        <el-tag
+          v-if="lesson_mission.status == 1"
+          class="tag"
+          size="medium"
+          type="primary"
+        >
+          已发布
+        </el-tag>
+        <el-tag v-else class="tag" size="medium" type="info">未发布</el-tag>
+      </div>
+
+      <span style="margin-left: 20px; color: #999">10人已查看</span>
     </div>
 
     <div class="info">
@@ -71,7 +87,7 @@ export default {
 
   .info {
     position: absolute;
-    top: 68px;
+    top: 78px;
     left: 60px;
     color: #999999;
     font-size: 14px;

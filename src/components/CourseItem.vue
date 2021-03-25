@@ -55,9 +55,12 @@ export default {
     // 跳转至课程主页
     toCourseIndex() {
       let routeUrl = this.$router.resolve({
-        path: '/course',
-        query: { courseid: this.courseData.course_id }
+        path: `/course/${this.courseData.course_id}`,
       });
+      // let routeUrl = this.$router.resolve({
+      //   path: '/course',
+      //   query: { courseid: this.courseData.course_id }
+      // });
       window.open(routeUrl.href, '_blank');
     }
   },

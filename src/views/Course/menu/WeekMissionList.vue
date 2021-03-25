@@ -17,7 +17,6 @@ import WeekMissionItem from '@/components/WeekMissionItem.vue';
 export default {
   data() {
     return {
-
       weekMissions: [
         {
           week_mission_name: '第01周',

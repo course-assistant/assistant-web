@@ -97,7 +97,8 @@ const routes = [{
       // 课程首页
       {
         name: 'CourseIndex',
-        path: 'course',
+        // path: 'course',
+        path: 'course/:courseid',
         component: CourseIndex,
         meta: {
           title: '课程详情'

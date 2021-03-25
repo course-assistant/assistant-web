@@ -369,7 +369,8 @@ export default {
 
   // 加载数据
   beforeMount() {
-    this.courseId = this.$route.query.courseid;
+    // this.courseId = this.$route.query.courseid;
+    this.courseId = this.$route.params.courseid;
     this.refreshWeekPeriod();
   }
 

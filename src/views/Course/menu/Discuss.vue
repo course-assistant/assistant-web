@@ -230,9 +230,10 @@ export default {
 
   // 加载数据
   async beforeMount() {
-    this.courseId = this.$route.query.courseid;
-    // 加载周和学时
+    // this.courseId = this.$route.query.courseid;
+    this.courseId = this.$route.params.courseid;
 
+    // 加载周和学时
     this.loading = true;
 
     let [data, err] = await this.$awaitWrap(this.$get('weekperiod/select', {

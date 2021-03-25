@@ -12,37 +12,37 @@
         class="el-menu-vertical-demo"
         @select="handleSelect"
       >
-        <el-menu-item index="ClassManage">
+        <el-menu-item index="class">
           <i class="el-icon-menu"></i>
           <span slot="title">班级管理</span>
         </el-menu-item>
 
-        <el-menu-item index="Period">
+        <el-menu-item index="period">
           <i class="el-icon-s-opportunity"></i>
           <span slot="title">课程学时</span>
         </el-menu-item>
 
-        <el-menu-item index="WeekMission">
+        <el-menu-item index="week-mission">
           <i class="el-icon-s-order"></i>
           <span slot="title">周任务</span>
         </el-menu-item>
 
-        <el-menu-item index="PeriodTest">
+        <el-menu-item index="period-test">
           <i class="el-icon-s-claim"></i>
           <span slot="title">随堂测试</span>
         </el-menu-item>
 
-        <el-menu-item index="Discuss">
+        <el-menu-item index="discuss">
           <i class="el-icon-s-comment"></i>
           <span slot="title">课堂讨论</span>
         </el-menu-item>
 
-        <el-menu-item index="Statistics">
+        <el-menu-item index="statistics">
           <i class="el-icon-s-marketing"></i>
           <span slot="title">统计</span>
         </el-menu-item>
 
-        <el-menu-item index="Setting">
+        <el-menu-item index="setting">
           <i class="el-icon-s-tools"></i>
           <span slot="title">管理</span>
         </el-menu-item>
@@ -69,14 +69,19 @@ export default {
 
   methods: {
     // 点击菜单切换 并携带参数
-    handleSelect(index) {
-      this.$router.replace({ name: index, query: { courseid: this.courseId } });
+    handleSelect(path) {
+      console.log(path);
+      // this.$router.replace({ name: index, query: { courseid: this.courseId } });
+      this.$router.replace({
+        path: `/course/${this.courseId}/${path}`
+      });
     }
   },
 
   async created() {
     // 获取传递的参数
-    this.courseId = this.$route.query.courseid;
+    // this.courseId = this.$route.query.courseid;
+    this.courseId = this.$route.params.courseid;
     // 根据id查询课程
     let [data, err] = await this.$awaitWrap(this.$get('course/findbyid', {
       id: this.courseId
