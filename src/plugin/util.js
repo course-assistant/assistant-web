@@ -9,6 +9,7 @@ Util.install = (Vue) => {
     console.log('$$$$');
   };
 
+
   // 封装确认框
   Vue.prototype.$cfm = (title, callback) => {
     if (confirm(title)) {
@@ -17,6 +18,13 @@ Util.install = (Vue) => {
       }
     }
   };
+
+
+  // 换行符替换为<br>
+  Vue.prototype.convertHtml = (str) => {
+    return str.replace(/\n/g, '<br>');
+  };
+
 
 
 };
