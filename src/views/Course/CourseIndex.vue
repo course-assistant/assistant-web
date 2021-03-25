@@ -8,7 +8,7 @@
       </div>
 
       <el-menu
-        default-active="Period"
+        default-active="period"
         class="el-menu-vertical-demo"
         @select="handleSelect"
       >
@@ -70,7 +70,12 @@ export default {
   methods: {
     // 点击菜单切换 并携带参数
     handleSelect(path) {
-      console.log(path);
+      // 避免重复跳转
+      let paths = this.$route.path.split('/');
+      if (paths.pop() === path) {
+        return;
+      }
+
       // this.$router.replace({ name: index, query: { courseid: this.courseId } });
       this.$router.replace({
         path: `/course/${this.courseId}/${path}`
@@ -96,9 +101,7 @@ export default {
 
   mounted() {
     // 默认打开学时菜单
-    if (this.$route.path !== '/course/period') {
-      this.$router.replace({ name: 'Period', query: { courseid: this.courseId } });
-    }
+    this.handleSelect('period');
   }
 }
 </script>

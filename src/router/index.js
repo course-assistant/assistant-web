@@ -23,6 +23,13 @@ import WeekMissionList from '@/views/Course/menu/WeekMissionList.vue';
 import WeekLessonMission from '@/views/Course/menu/WeekLessonMission.vue';
 import WeekMissionDetail from '@/views/Course/menu/WeekMissionDetail.vue';
 
+
+const originalPush = VueRouter.prototype.push;
+
+VueRouter.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+};
+
 Vue.use(VueRouter)
 
 const routes = [{

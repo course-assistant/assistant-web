@@ -2,11 +2,11 @@
   <div class="container">
     <div class="round-div">
       <div class="head" style="display: flex">
-        <p @click="to('WeekMissionList')">周任务</p>
+        <p @click="to('week-mission-list')">周任务</p>
         <p>/</p>
-        <p @click="to('WeekLessonMission')">第01周任务</p>
+        <p @click="to('week-lesson-mission')">第01周任务</p>
         <p>/</p>
-        <p @click="to('WeekMissionDetail')">任务01</p>
+        <p @click="to('week-mission-detail')">任务01</p>
       </div>
 
       <router-view class="week-mission-content" />
@@ -68,11 +68,15 @@ export default {
 
   methods: {
 
-    to(name) {
-      if (this.$route.name === name) {
-        return;
-      }
-      this.$router.push({ name: name });
+    to(path) {
+
+      this.$router.push({
+        path: `/course/21/week-mission/${path}`
+      });
+
+      // this.$router.push({
+      //   path: `/course/21/week-mission/week-lesson-mission/3`
+      // });
     },
 
 
@@ -171,7 +175,14 @@ export default {
 
   // 加载数据
   async beforeMount() {
-    this.courseId = this.$route.query.courseid;
+    // this.courseId = this.$route.query.courseid;
+    this.courseId = this.$route.params.courseid;
+    // 默认显示周任务列表
+    this.$router.push({
+      path: `/course/${this.courseId}/week-mission/week-mission-list`
+    });
+
+    /*
     // 刷新左边的周任务
     let [data, err] = await this.$awaitWrap(this.$get('weekmission/selectbycourseid', {
       id: this.courseId
@@ -184,6 +195,7 @@ export default {
 
     // 加载第一个周
     await this.changeWeekMission(this.weekMissions[0].week_id);
+    */
   }
 }
 </script>
