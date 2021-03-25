@@ -4,22 +4,26 @@
       <el-divider></el-divider>
       <!-- 主要内容 -->
       <div class="main-content">
-        <b>主要内容</b>
-        <div class="content">
-          <p v-html="convertHtml(main_content)"></p>
-        </div>
+        <div class="title"><b> 主要内容</b></div>
+        <p class="content" v-html="convertHtml(main_content)"></p>
       </div>
 
       <el-divider></el-divider>
 
       <!-- 主要目标 -->
       <div class="main-goal">
-        <b>主要目标</b>
+        <div class="title"><b> 主要目标</b></div>
+
         <div class="goal">
           <div class="goal-item" v-for="(goal, index) in goals" :key="index">
-            <span>{{ goal.goal_name }}</span>
-            ：
-            <p v-html="convertHtml(goal.goal_content)"></p>
+            <span class="content">{{ goal.goal_name }}：</span>
+            <p class="content" v-html="convertHtml(goal.goal_content)"></p>
+            <el-link
+              class="delete"
+              icon="el-icon-delete"
+              type="info"
+              :underline="false"
+            ></el-link>
           </div>
         </div>
       </div>
@@ -69,11 +73,39 @@ export default {
     border: solid 1px #ebebeb;
     // box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
 
+    .title {
+      // height: 40px;
+      // line-height: 40px;
+      margin-bottom: 10px;
+    }
+
+    .content {
+      line-height: 23px;
+    }
+
     .main-content {
     }
+
     .main-goal {
       .goal-item {
+        position: relative;
         display: flex;
+        margin-bottom: 10px;
+        cursor: pointer;
+
+        .delete {
+          display: none;
+          position: absolute;
+          top: 5px;
+          right: 15px;
+        }
+
+        &:hover {
+          background: #ebebeb7f;
+          .delete {
+            display: block;
+          }
+        }
       }
     }
   }
