@@ -20,7 +20,6 @@ import Statistics from '@/views/Course/menu/Statistics.vue';
 import Setting from '@/views/Course/menu/Setting.vue';
 import WeekMission from '@/views/Course/menu/WeekMission.vue';
 import WeekMissionList from '@/views/Course/menu/WeekMissionList.vue';
-import WeekLessonMission from '@/views/Course/menu/WeekLessonMission.vue';
 import WeekMissionDetail from '@/views/Course/menu/WeekMissionDetail.vue';
 
 
@@ -142,7 +141,7 @@ const routes = [{
             component: WeekMissionList,
           },
 
-          // 周任务 周的任务列表
+          // 周任务 详情
           {
             name: 'WeekMissionDetail',
             path: 'week-mission/week-mission-list/:week_id/week-mission-detail/:week_mission_id',

@@ -1,5 +1,5 @@
 <template>
-  <div class="lesson-mission-item">
+  <div class="lesson-mission-item" @click="toMissionDetail">
     <el-checkbox class="checked" v-model="lesson_mission.checked"></el-checkbox>
 
     <div class="head">
@@ -49,6 +49,15 @@
 <script>
 export default {
   props: ['lesson_mission'],
+
+  methods: {
+    toMissionDetail() {
+      // console.log('detail');
+      this.$router.push({
+        path: `/course/${this.$route.params.course_id}/week-mission/week-mission-list/${this.$route.params.week_id}/week-mission-detail/00`
+      });
+    }
+  },
 
   beforeMount() {
     console.log(this.lesson_mission);

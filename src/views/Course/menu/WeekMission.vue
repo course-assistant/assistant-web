@@ -3,6 +3,7 @@
     <div class="round-div">
       <!-- 导航 -->
       <div class="nav">
+        <!-- 一级 -->
         <router-link
           class="link"
           :to="'/course/' + course_id + '/week-mission/'"
@@ -12,23 +13,47 @@
       </div>
 
       <!-- 周的列表 -->
-      <div>
-        <router-link :to="'/course/' + course_id + '/week-mission/week-mission-list/' + 22">11</router-link><br>
-        <router-link to="/">22</router-link><br>
-        <router-link to="/">33</router-link>
+      <div class="week-mission-list">
+        <div class="weekmission-list" style="margin-right: 10px">
+          <WeekItem v-for="(week, index) in weeks" :key="index" :week="week" />
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import WeekItem from '@/components/WeekItem.vue';
+
 export default {
 
   data() {
     return {
       course_id: 0,
+
+      weeks: [
+        {
+          week_id: 0,
+          week_name: '第01周',
+          week_status: 1,
+        },
+        {
+          week_id: -1,
+          week_name: '第02周',
+          week_status: 2,
+        },
+        {
+          week_id: -2,
+          week_name: '第03周',
+          week_status: 2,
+        }
+      ],
+
+
+
     }
   },
+  components: { WeekItem },
 
 
 
@@ -66,20 +91,13 @@ export default {
       .link {
         text-decoration: none;
         color: #000;
-
-        // &:link {
-        //   text-decoration: none;
-        // }
-        // &:visited {
-        //   text-decoration: none;
-        // }
-        // &:hover {
-        //   text-decoration: none;
-        // }
-        // &:active {
-        //   text-decoration: none;
-        // }
+        font-weight: bold;
       }
+    }
+
+    .week-mission-list {
+      width: 100%;
+      overflow: auto;
     }
   }
 }
