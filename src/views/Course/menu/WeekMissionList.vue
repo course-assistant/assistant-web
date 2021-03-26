@@ -118,7 +118,6 @@ export default {
     deleteMission(id) {
       console.log('删除 ' + id);
       this.$cfm('确定删除', async () => {
-        console.log(id + id + id);
         this.loading = true;
         let [data, err] = await this.$awaitWrap(this.$post('weekmission/delete', { id }));
         if (err) {

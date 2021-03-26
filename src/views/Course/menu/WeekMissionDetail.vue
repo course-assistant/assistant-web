@@ -250,43 +250,71 @@ export default {
       this.mission = data.data;
     },
 
-    artC() {
-      console.log('artC');
+
+    // 点击确定添加主要内容
+    async add_main_content() {
+      this.isShow = true;
+      let [data, err] = await this.$awaitWrap(this.$post('weekmission/updatecontent', {
+        id: this.mission.week_mission_id,
+        content: this.mission.week_mission_content
+      }));
+      if (err) {
+        this.$message.warning(err);
+        setTimeout(() => {
+          this.$router.push({
+            path: `/course/${this.$route.params.course_id}/week-mission/week-mission-list/${this.$route.params.week_id}/week-mission-detail/${this.$route.params.week_mission_id}`
+          });
+        }, 1000);
+        return;
+      }
+      this.loading = true;
+      await this.refreshMission();
+      this.loading = false;
+      this.$message.success(data.msg)
     },
 
 
-    add_main_content() {
-      //  点击添加显示正常的内容,多一个编辑按钮
-      this.isShow = true
-      this.$message.success('添加成功')
-
-    },
-
-
+    // 点击编辑主要内容
     edit_main_content() {
       this.isShow = false
     },
 
 
+    // 点击添加主要目标
     add_goal() {
       this.dialogVisible = true
     },
 
 
-    onSubmit() {
+    // 点击确定添加目标
+    async onSubmit() {
       //添加内容
       console.log(this.form.name);
       console.log(this.form.content);
-
-      let goals = this.goals
-
-      goals.push({
-        goal_name: this.form.name,
-        goal_content: this.form.content
-      })
-
-
-      this.dialogVisible = false
+      if (this.form.name == '' || this.form.content == null) {
+        this.$message.warning('请输入');
+        return;
+      }
+      let [data, err] = await this.$awaitWrap(this.$post('weekgoal/insert', {
+        id: this.mission.week_mission_id,
+        title: this.form.name,
+        content: this.form.content
+      }));
+      if (err) {
+        this.dialogVisible = false;
+        this.$message.warning(err);
+        setTimeout(() => {
+          this.$router.push({
+            path: `/course/${this.$route.params.course_id}/week-mission/week-mission-list/${this.$route.params.week_id}/week-mission-detail/${this.$route.params.week_mission_id}`
+          });
+        }, 1000);
+        return;
+      }
+      this.dialogVisible = false;
+      this.loading = true;
+      await this.refreshMission();
+      this.loading = false;
+      this.$message.success(data.msg);
     },
 
     editClick(index, id) {
