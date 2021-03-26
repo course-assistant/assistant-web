@@ -35,11 +35,13 @@
 
         <!-- 列表 -->
         <div class="mission-list">
-          <LessonMessionItem
+          <MissionItem
             class="mission-item"
             v-for="(mission, index) in LessonMissions"
             :key="index"
             :mission="mission"
+            @edit="editMission"
+            @delete="deleteMission"
           />
         </div>
 
@@ -53,7 +55,7 @@
 </template>
 
 <script>
-import LessonMessionItem from '@/components/LessonMissionItem.vue';
+import MissionItem from '@/components/MissionItem.vue';
 
 export default {
 
@@ -82,7 +84,7 @@ export default {
 
   },
 
-  components: { LessonMessionItem },
+  components: { MissionItem },
 
   // 加载
   async beforeMount() {
@@ -106,6 +108,34 @@ export default {
       this.LessonMissions = data.data;
     },
 
+
+    // 点击编辑
+    editMission(id) {
+      console.log('编辑 ' + id);
+    },
+
+    // 点击删除
+    deleteMission(id) {
+      console.log('删除 ' + id);
+      this.$cfm('确定删除', async () => {
+        console.log(id + id + id);
+        this.loading = true;
+        let [data, err] = await this.$awaitWrap(this.$post('weekmission/delete', { id }));
+        if (err) {
+          this.$message.warning(err);
+          setTimeout(() => {
+            this.$router.push({
+              path: `/course/${this.$route.params.course_id}/week-mission/week-mission-list/${this.$route.params.week_id}`
+            });
+            this.loading = false;
+          }, 1000);
+          return
+        }
+        await this.refreshMissions();
+        this.loading = false;
+        this.$message.success(data.msg);
+      });
+    },
 
     changeAll() {
       if (this.selectedAll) {

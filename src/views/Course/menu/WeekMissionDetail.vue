@@ -210,26 +210,6 @@ export default {
         content: ''
       },
 
-      // mission: {
-      //   week_mission_id: 0,
-      //   week_mission_name: "任务01",
-      //   week_mission_content: "与现实生活一致：与现实生活的流程、逻辑保持一致\n遵循用户习惯的语言和概念；",
-      //   week_goals: [
-      //     {
-      //       week_goal_id: 0,
-      //       week_mission_id: 1,
-      //       week_goal_title: "理解目标",
-      //       week_goal_content: "JQuery等前端库"
-      //     },
-      //     {
-      //       week_goal_id: 0,
-      //       week_mission_id: 1,
-      //       week_goal_title: "理解目标",
-      //       week_goal_content: "与现实生活一致：与现实生活的流程、逻辑保持一致\n循用户习惯的语言和概念；\n在界面中一致"
-      //     },
-      //   ]
-      // },
-
       mission: {
         week_mission_id: 0,
         week_mission_name: "任务01",
@@ -244,20 +224,6 @@ export default {
         ]
       },
 
-      // // 主要内容
-      // main_content: '与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；\n在界面中一致：所有的元素和结构需保持一致，比如：设计样式、图标和文本、元素的位置等',
-
-      // // 主要目标
-      // goals: [
-      //   {
-      //     goal_name: '记忆目标',
-      //     goal_content: '与现实生活一致：与现实生活的流程、逻辑保持一致\n循用户习惯的语言和概念；\n在界面中一致',
-      //   },
-      //   {
-      //     goal_name: '学习目标',
-      //     goal_content: '与现实生活一致：与现实生活的流程、逻辑保持一致\n循用户习惯的语言和概念；\n在界面中一致',
-      //   },
-      // ],
       add_goal_name: '',
       add_goal_content: ''
     }

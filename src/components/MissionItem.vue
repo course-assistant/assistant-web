@@ -39,8 +39,15 @@
     </div>
 
     <div class="opts">
-      <el-link type="primary" :underline="false">编辑</el-link>
-      <el-link type="primary" :underline="false" style="margin-left: 20px">
+      <el-link type="primary" :underline="false" @click.stop="onEdit">
+        编辑
+      </el-link>
+      <el-link
+        type="primary"
+        :underline="false"
+        style="margin-left: 20px"
+        @click.stop="onDelete"
+      >
         删除
       </el-link>
     </div>
@@ -52,12 +59,21 @@ export default {
   props: ['mission'],
 
   methods: {
+    // 跳转到详情
     toMissionDetail() {
       // console.log('detail');
       this.$router.push({
         path: `/course/${this.$route.params.course_id}/week-mission/week-mission-list/${this.$route.params.week_id}/week-mission-detail/${this.mission.week_mission_id}`
       });
-    }
+    },
+
+    onEdit() {
+      this.$emit('edit', this.mission.week_mission_id);
+    },
+
+    onDelete() {
+      this.$emit('delete', this.mission.week_mission_id);
+    },
   },
 
   beforeMount() {
