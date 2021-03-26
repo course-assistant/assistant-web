@@ -1,6 +1,10 @@
 <template>
   <div class="container">
-    <div class="round-div">
+    <div
+      class="round-div"
+      v-loading="loading"
+      element-loading-text="拼命加载中"
+    >
       <!-- 导航 -->
       <div class="nav">
         <el-breadcrumb class="f-size" separator-class="el-icon-arrow-right">
@@ -25,14 +29,16 @@
         </el-breadcrumb>
       </div>
 
+      <!-- 内容 -->
       <div class="week-mission-detail">
         <div class="week-mission">
           <el-divider></el-divider>
-          <!-- 主要内容 -->
+
+          <!-- 周任务主要内容 -->
           <div class="main-content">
             <div class="title">
               <div style="margin-bottom: 30px">
-                <b> 主要内容</b>
+                <b>主要内容</b>
                 <div style="float: right">
                   <el-button
                     v-show="!isShow"
@@ -51,18 +57,18 @@
                 </div>
               </div>
             </div>
-
             <p
               class="content"
               v-show="isShow"
-              v-html="convertHtml(main_content)"
-            ></p>
+              v-html="convertHtml(mission.week_mission_content)"
+            />
+            <!-- 修改内容框 -->
             <el-input
               v-show="!isShow"
               type="textarea"
               :rows="5"
               placeholder="请输入内容"
-              v-model="main_content"
+              v-model="mission.week_mission_content"
             >
             </el-input>
 
@@ -71,7 +77,7 @@
 
           <el-divider></el-divider>
 
-          <!-- 主要目标 -->
+          <!-- 周任务主要目标 -->
           <div class="main-goal">
             <div class="title">
               <div>
@@ -87,21 +93,23 @@
             <div class="goal">
               <div
                 class="goal-item"
-                v-for="(goal, index) in goals"
+                v-for="(goal, index) in mission.week_goals"
                 :key="index"
               >
-                <span class="content">{{ goal.goal_name }}：</span>
-                <p class="content" v-html="convertHtml(goal.goal_content)"></p>
-
+                <span class="content">{{ goal.week_goal_title }}：</span>
+                <p
+                  class="content"
+                  v-html="convertHtml(goal.week_goal_content)"
+                />
                 <el-link
-                  @click="testClick(index)"
+                  @click="editClick(index, goal.week_mission_id)"
                   class="edit"
                   icon="el-icon-edit"
                   type="info"
                   :underline="false"
                 ></el-link>
                 <el-link
-                  @click="deleteClick(index)"
+                  @click="deleteClick(index, goal.week_mission_id)"
                   class="delete"
                   icon="el-icon-delete"
                   type="info"
@@ -110,7 +118,6 @@
               </div>
             </div>
           </div>
-
           <el-divider></el-divider>
         </div>
       </div>
@@ -181,6 +188,9 @@
 export default {
   data() {
     return {
+
+      loading: false,
+
       dialogVisible: false,
       editDialogVisible: false,
       selectId: -1,
@@ -194,40 +204,84 @@ export default {
         name: '',
         content: ''
       },
+
       edit: {
         name: '',
         content: ''
       },
 
-      // 主要内容
-      main_content: '与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；\n在界面中一致：所有的元素和结构需保持一致，比如：设计样式、图标和文本、元素的位置等',
+      // mission: {
+      //   week_mission_id: 0,
+      //   week_mission_name: "任务01",
+      //   week_mission_content: "与现实生活一致：与现实生活的流程、逻辑保持一致\n遵循用户习惯的语言和概念；",
+      //   week_goals: [
+      //     {
+      //       week_goal_id: 0,
+      //       week_mission_id: 1,
+      //       week_goal_title: "理解目标",
+      //       week_goal_content: "JQuery等前端库"
+      //     },
+      //     {
+      //       week_goal_id: 0,
+      //       week_mission_id: 1,
+      //       week_goal_title: "理解目标",
+      //       week_goal_content: "与现实生活一致：与现实生活的流程、逻辑保持一致\n循用户习惯的语言和概念；\n在界面中一致"
+      //     },
+      //   ]
+      // },
 
-      // 主要目标
-      goals: [
-        {
-          goal_name: '记忆目标',
-          goal_content: '与现实生活一致：与现实生活的流程、逻辑保持一致\n循用户习惯的语言和概念；\n在界面中一致',
-        },
-        {
-          goal_name: '学习目标',
-          goal_content: '与现实生活一致：与现实生活的流程、逻辑保持一致\n循用户习惯的语言和概念；\n在界面中一致',
-        },
-      ],
+      mission: {
+        week_mission_id: 0,
+        week_mission_name: "任务01",
+        week_mission_content: "待编辑",
+        week_goals: [
+          // {
+          //   week_goal_id: 0,
+          //   week_mission_id: 1,
+          //   week_goal_title: "xx目标",
+          //   week_goal_content: "待编辑"
+          // },
+        ]
+      },
+
+      // // 主要内容
+      // main_content: '与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；\n在界面中一致：所有的元素和结构需保持一致，比如：设计样式、图标和文本、元素的位置等',
+
+      // // 主要目标
+      // goals: [
+      //   {
+      //     goal_name: '记忆目标',
+      //     goal_content: '与现实生活一致：与现实生活的流程、逻辑保持一致\n循用户习惯的语言和概念；\n在界面中一致',
+      //   },
+      //   {
+      //     goal_name: '学习目标',
+      //     goal_content: '与现实生活一致：与现实生活的流程、逻辑保持一致\n循用户习惯的语言和概念；\n在界面中一致',
+      //   },
+      // ],
       add_goal_name: '',
       add_goal_content: ''
     }
   },
 
 
-
   async beforeMount() {
     console.log('week_mission_id ' + this.$route.params.week_mission_id);
+    this.loading = true;
+    await this.refreshMission();
+    this.loading = false;
   },
 
   methods: {
-
-    async refreshGoal() {
-
+    // 刷新任务
+    async refreshMission() {
+      let [data, err] = await this.$awaitWrap(this.$get('weekmission/selectbyid', {
+        id: this.$route.params.week_mission_id
+      }));
+      if (err) {
+        this.$message.warning(err);
+        return;
+      }
+      this.mission = data.data;
     },
 
     artC() {
@@ -269,17 +323,21 @@ export default {
       this.dialogVisible = false
     },
 
-    testClick(index) {
+    editClick(index, id) {
       this.selectId = index
       let goal = this.goals[index]
       this.edit.name = goal.goal_name
       this.edit.content = goal.goal_content
       this.editDialogVisible = true
+
+      console.log(id);
     },
 
-    deleteClick(index) {
+    deleteClick(index, id) {
       console.log('删除' + index);
       this.goals.splice(index, 1)
+
+      console.log(id);
     },
 
     editGoal() {
@@ -350,9 +408,6 @@ export default {
 
         .content {
           line-height: 23px;
-        }
-
-        .main-content {
         }
 
         .main-goal {

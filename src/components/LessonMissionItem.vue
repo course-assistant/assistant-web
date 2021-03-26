@@ -55,7 +55,7 @@ export default {
     toMissionDetail() {
       // console.log('detail');
       this.$router.push({
-        path: `/course/${this.$route.params.course_id}/week-mission/week-mission-list/${this.$route.params.week_id}/week-mission-detail/00`
+        path: `/course/${this.$route.params.course_id}/week-mission/week-mission-list/${this.$route.params.week_id}/week-mission-detail/${this.mission.week_mission_id}`
       });
     }
   },

@@ -1,6 +1,10 @@
 <template>
   <div class="container">
-    <div class="round-div">
+    <div
+      class="round-div"
+      v-loading="loading"
+      element-loading-text="拼命加载中"
+    >
       <!-- 导航 -->
       <div class="nav">
         <el-breadcrumb class="f-size" separator-class="el-icon-arrow-right">
@@ -55,6 +59,9 @@ export default {
 
   data() {
     return {
+
+      loading: false,
+
       selectedAll: false,
 
       LessonMissions: [
@@ -79,8 +86,10 @@ export default {
 
   // 加载
   async beforeMount() {
+    this.loading = true;
     console.log('week_id ' + this.$route.params.week_id);
     await this.refreshMissions();
+    this.loading = false;
   },
 
 
@@ -90,7 +99,10 @@ export default {
       let [data, err] = await this.$awaitWrap(this.$get('weekmission/selectbyweekid', {
         id: this.$route.params.week_id
       }));
-      console.log(data);
+      if (err) {
+        this.$message.warning(err);
+        return;
+      }
       this.LessonMissions = data.data;
     },
 
