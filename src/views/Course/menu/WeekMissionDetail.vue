@@ -102,14 +102,14 @@
                   v-html="convertHtml(goal.week_goal_content)"
                 />
                 <el-link
-                  @click="editClick(index, goal.week_mission_id)"
+                  @click="editClick(index, goal.week_goal_id)"
                   class="edit"
                   icon="el-icon-edit"
                   type="info"
                   :underline="false"
                 ></el-link>
                 <el-link
-                  @click="deleteClick(index, goal.week_mission_id)"
+                  @click="deleteClick(index, goal.week_goal_id)"
                   class="delete"
                   icon="el-icon-delete"
                   type="info"
@@ -206,6 +206,7 @@ export default {
       },
 
       edit: {
+        id: 0,
         name: '',
         content: ''
       },
@@ -317,30 +318,60 @@ export default {
       this.$message.success(data.msg);
     },
 
+
+    // 点击编辑目标
     editClick(index, id) {
-      this.selectId = index
-      let goal = this.goals[index]
-      this.edit.name = goal.goal_name
-      this.edit.content = goal.goal_content
+      let goal = this.mission.week_goals[index]
+      this.edit.id = id;
+      this.edit.name = goal.week_goal_title
+      this.edit.content = goal.week_goal_content
       this.editDialogVisible = true
-
-      console.log(id);
     },
 
+
+    // 点击删除目标
     deleteClick(index, id) {
-      console.log('删除' + index);
-      this.goals.splice(index, 1)
-
-      console.log(id);
+      console.log('删除 ' + id);
+      this.$cfm('确定删除', async () => {
+        this.$post('weekgoal/delete', { id }).then(async data => {
+          this.loading = true;
+          await this.refreshMission();
+          this.loading = false;
+          this.$message.success(data.msg);
+        }).catch(err => {
+          this.$message.warning(err);
+          setTimeout(() => {
+            this.$router.push({
+              path: `/course/${this.$route.params.course_id}/week-mission/week-mission-list/${this.$route.params.week_id}/week-mission-detail/${this.$route.params.week_mission_id}`
+            });
+          }, 1000);
+        });
+      });
     },
 
-    editGoal() {
-      let selectId = this.selectId
-      this.$message.success("修改成功")
-      let goal = this.goals[selectId]
-      goal.goal_name = this.edit.name
-      goal.goal_content = this.edit.content
-      this.editDialogVisible = false
+    // 点击确定修改目标
+    async editGoal() {
+      console.log('新目标 ');
+      let [data, err] = await this.$awaitWrap(this.$post('weekgoal/update', {
+        id: this.edit.id,
+        title: this.edit.name,
+        content: this.edit.content
+      }));
+      if (err) {
+        this.editDialogVisible = false;
+        this.$message.warning(err);
+        setTimeout(() => {
+          this.$router.push({
+            path: `/course/${this.$route.params.course_id}/week-mission/week-mission-list/${this.$route.params.week_id}/week-mission-detail/${this.$route.params.week_mission_id}`
+          });
+        }, 1000);
+        return;
+      }
+      this.editDialogVisible = false;
+      this.loading = true;
+      await this.refreshMission();
+      this.loading = false;
+      this.$message.success(data.msg);
     }
   }
 }
