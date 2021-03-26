@@ -3,37 +3,24 @@
     <div class="round-div">
       <!-- 导航 -->
       <div class="nav">
-        <!-- 一级 -->
-        <!-- <router-link
-          class="link"
-          :to="'/course/' + $route.params.course_id + '/week-mission/'"
-        >
-          周任务
-        </router-link> -->
-        <!-- 二级 -->
-        <!-- <router-link class="link" to=""> 第01周 </router-link> -->
-
-        <!-- <el-breadcrumb separator-class="el-icon-arrow-right">
-
-          <el-breadcrumb-item :to="'/course/' + course_id + '/week-mission/'">周任务</el-breadcrumb-item>
-          <el-breadcrumb-item to="">第01周</el-breadcrumb-item>
-        </el-breadcrumb> -->
 
         <el-breadcrumb class="f-size" separator-class="el-icon-arrow-right">
-          <el-breadcrumb-item
-            :to="'/course/' + $route.params.course_id + '/week-mission/'"
-          >
+
+          <el-breadcrumb-item :to="'/course/' + $route.params.course_id + '/week-mission/'">
+<!--          <el-breadcrumb-item >-->
             周任务
           </el-breadcrumb-item>
 
-          <el-breadcrumb-item> 第01周 </el-breadcrumb-item>
+          <el-breadcrumb-item>
+            第01周
+          </el-breadcrumb-item>
         </el-breadcrumb>
       </div>
 
       <div class="week-mission-list">
         <!-- 操作框 -->
         <div class="tools">
-          <el-checkbox v-model="selectedAll" style="margin-left: 30px">
+          <el-checkbox @change="changeAll"   v-model="selectedAll" style="margin-left: 30px">
             全选
           </el-checkbox>
           <div style="margin-right: 30px">
@@ -53,7 +40,7 @@
         </div>
 
         <!-- 操作框 -->
-        <div class="add">
+        <div class="add" @click="addMission">
           <i class="el-icon-plus"></i>
         </div>
       </div>
@@ -94,6 +81,29 @@ export default {
 
   components: { LessonMessionItem },
 
+  methods:{
+    changeAll(){
+
+      if (this.selectedAll){
+
+        for (let i = 0; i < this.LessonMissions.length; i++) {
+          this.LessonMissions[i].checked=true
+        }
+
+      }else{
+        for (let i = 0; i < this.LessonMissions.length; i++) {
+          this.LessonMissions[i].checked=false
+        }
+      }
+
+    },
+    addMission(){
+      console.log('点击了添加任务按钮');
+    }
+  },
+
+
+
   // 加载数据
   async beforeMount() {
 
@@ -102,6 +112,19 @@ export default {
 </script>
 
 <style lang="less" scoped>
+
+
+  .f-size{
+    font-size: 16px;
+    margin-left: 12px;
+
+
+  }
+
+  .el-breadcrumb__inner{
+    color: red;
+  }
+
 .container {
   width: 100%;
   height: 100%;
@@ -128,12 +151,7 @@ export default {
       .link {
         text-decoration: none;
         color: #000;
-        font-weight: bold;
-      }
-
-      .f-size {
-        font-size: 16px;
-        margin-left: 12px;
+         font-weight: bold;
       }
     }
 

@@ -1,21 +1,13 @@
 <template>
   <div class="container">
-    <div class="round-div">
+    <div
+      class="round-div"
+      v-loading="loading"
+      element-loading-text="拼命加载中"
+    >
       <!-- 导航 -->
       <div class="nav">
         <!-- 一级 -->
-        <!-- <router-link
-          class="link"
-          :to="'/course/' + course_id + '/week-mission/'"
-        >
-          周任务
-        </router-link> -->
-        <!-- <el-breadcrumb separator-class="el-icon-arrow-right">
-          <el-breadcrumb-item :to="'/course/' + course_id + '/week-mission/'"
-            >周任务</el-breadcrumb-item
-          >
-        </el-breadcrumb> -->
-
         <el-breadcrumb class="f-size" separator-class="el-icon-arrow-right">
           <el-breadcrumb-item :to="'/course/' + course_id + '/week-mission/'">
             周任务
@@ -40,6 +32,9 @@ export default {
 
   data() {
     return {
+
+      loading: true,
+
       course_id: 0,
 
       weeks: [
@@ -59,23 +54,40 @@ export default {
           week_status: 2,
         }
       ],
-
-
-
     }
   },
+
   components: { WeekItem },
 
-
+  methods: {
+    // 加载课程的所有周
+    async refreshWeeks() {
+      this.loading = true;
+      let [data, err] = await this.$awaitWrap(this.$get('week/select', {
+        id: this.course_id
+      }));
+      if (err) {
+        this.$message.warning(err);
+        return;
+      }
+      this.weeks = data.data;
+      this.loading = false;
+    },
+  },
 
   // 加载数据
   async beforeMount() {
     this.course_id = this.$route.params.course_id;
+    await this.refreshWeeks();
   }
 }
 </script>
 
 <style lang="less" scoped>
+.f-size {
+  font-size: 16px;
+  margin-left: 12px;
+}
 .container {
   width: 100%;
   height: 100%;
@@ -99,9 +111,10 @@ export default {
       display: flex;
       font-size: 26px;
 
-      .f-size {
-        font-size: 16px;
-        margin-left: 12px;
+      .link {
+        text-decoration: none;
+        color: #000;
+        font-weight: bold;
       }
     }
 
