@@ -3,24 +3,24 @@
     <div class="round-div">
       <!-- 导航 -->
       <div class="nav">
-
         <el-breadcrumb class="f-size" separator-class="el-icon-arrow-right">
-
-          <el-breadcrumb-item :to="'/course/' + $route.params.course_id + '/week-mission/'">
-<!--          <el-breadcrumb-item >-->
+          <el-breadcrumb-item
+            :to="'/course/' + $route.params.course_id + '/week-mission/'"
+          >
             周任务
           </el-breadcrumb-item>
-
-          <el-breadcrumb-item>
-            第01周
-          </el-breadcrumb-item>
+          <el-breadcrumb-item> 第01周 </el-breadcrumb-item>
         </el-breadcrumb>
       </div>
 
       <div class="week-mission-list">
         <!-- 操作框 -->
         <div class="tools">
-          <el-checkbox @change="changeAll"   v-model="selectedAll" style="margin-left: 30px">
+          <el-checkbox
+            @change="changeAll"
+            v-model="selectedAll"
+            style="margin-left: 30px"
+          >
             全选
           </el-checkbox>
           <div style="margin-right: 30px">
@@ -35,7 +35,7 @@
             class="mission-item"
             v-for="(mission, index) in LessonMissions"
             :key="index"
-            :lesson_mission="mission"
+            :mission="mission"
           />
         </div>
 
@@ -55,75 +55,74 @@ export default {
 
   data() {
     return {
-
       selectedAll: false,
 
       LessonMissions: [
-        {
-          name: '任务01',
-          date: '2021-1-1',
-          teacher: '张妍琰',
-          status: 1,
-          type: 1,
-          checked: true,
-        },
-        {
-          name: '任务01',
-          date: '2021-1-1',
-          teacher: '张妍琰',
-          status: 2,
-          type: 2,
-          checked: false,
-        },
+        // {
+        //   teacher_name: '教师名',
+        //   views: 5,
+        //   week_mission_id: 1,
+        //   week_mission_name: '任务001',
+        //   week_mission_status: 1,
+        //   week_mission_type: 1,
+        //   checked: true,
+        // }
       ],
     }
   },
 
+  computed: {
+
+  },
+
   components: { LessonMessionItem },
 
-  methods:{
-    changeAll(){
-
-      if (this.selectedAll){
-
-        for (let i = 0; i < this.LessonMissions.length; i++) {
-          this.LessonMissions[i].checked=true
-        }
-
-      }else{
-        for (let i = 0; i < this.LessonMissions.length; i++) {
-          this.LessonMissions[i].checked=false
-        }
-      }
-
-    },
-    addMission(){
-      console.log('点击了添加任务按钮');
-    }
+  // 加载
+  async beforeMount() {
+    console.log('week_id ' + this.$route.params.week_id);
+    await this.refreshMissions();
   },
 
 
+  methods: {
 
-  // 加载数据
-  async beforeMount() {
+    async refreshMissions() {
+      let [data, err] = await this.$awaitWrap(this.$get('weekmission/selectbyweekid', {
+        id: this.$route.params.week_id
+      }));
+      console.log(data);
+      this.LessonMissions = data.data;
+    },
 
-  }
+
+    changeAll() {
+      if (this.selectedAll) {
+        for (let i = 0; i < this.LessonMissions.length; i++) {
+          this.LessonMissions[i].checked = true
+        }
+      } else {
+        for (let i = 0; i < this.LessonMissions.length; i++) {
+          this.LessonMissions[i].checked = false
+        }
+      }
+    },
+
+    addMission() {
+      console.log('点击了添加任务按钮');
+    }
+  },
 }
 </script>
 
 <style lang="less" scoped>
+.f-size {
+  font-size: 16px;
+  margin-left: 12px;
+}
 
-
-  .f-size{
-    font-size: 16px;
-    margin-left: 12px;
-
-
-  }
-
-  .el-breadcrumb__inner{
-    color: red;
-  }
+.el-breadcrumb__inner {
+  color: red;
+}
 
 .container {
   width: 100%;
@@ -151,7 +150,7 @@ export default {
       .link {
         text-decoration: none;
         color: #000;
-         font-weight: bold;
+        font-weight: bold;
       }
     }
 

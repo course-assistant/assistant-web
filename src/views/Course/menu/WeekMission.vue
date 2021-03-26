@@ -77,6 +77,8 @@ export default {
 
   // 加载数据
   async beforeMount() {
+
+    console.log('课程id ' + this.$route.params.course_id);
     this.course_id = this.$route.params.course_id;
     await this.refreshWeeks();
   }

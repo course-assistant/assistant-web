@@ -1,13 +1,13 @@
 <template>
   <div class="lesson-mission-item" @click="toMissionDetail">
-    <el-checkbox class="checked" v-model="lesson_mission.checked"></el-checkbox>
+    <el-checkbox class="checked" v-model="mission.checked"></el-checkbox>
 
     <div class="head">
-      <b style="margin-right: 20px">任务01</b>
+      <b style="margin-right: 20px">{{ mission.week_mission_name }}</b>
 
       <div style="margin-right: 20px">
         <el-tag
-          v-if="lesson_mission.type == 1"
+          v-if="mission.week_mission_type == 1"
           class="tag"
           size="medium"
           type="primary"
@@ -19,7 +19,7 @@
 
       <div>
         <el-tag
-          v-if="lesson_mission.status == 1"
+          v-if="mission.week_mission_status == 1"
           class="tag"
           size="medium"
           type="primary"
@@ -28,13 +28,14 @@
         </el-tag>
         <el-tag v-else class="tag" size="medium" type="info">未发布</el-tag>
       </div>
-
-      <span style="margin-left: 20px; color: #999">10人已查看</span>
+      <span style="margin-left: 20px; color: #999">
+        {{ mission.views }}人已查看
+      </span>
     </div>
 
     <div class="info">
-      <b style="margin-right: 10px">张妍琰</b>
-      <span>创建于2021-3-25</span>
+      <b style="margin-right: 10px">{{ mission.teacher_name }}</b>
+      <span>创建</span>
     </div>
 
     <div class="opts">
@@ -48,7 +49,7 @@
 
 <script>
 export default {
-  props: ['lesson_mission'],
+  props: ['mission'],
 
   methods: {
     toMissionDetail() {
@@ -60,7 +61,7 @@ export default {
   },
 
   beforeMount() {
-    console.log(this.lesson_mission);
+    console.log(this.mission);
   },
 }
 </script>
