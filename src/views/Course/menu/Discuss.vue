@@ -231,7 +231,7 @@ export default {
   // 加载数据
   async beforeMount() {
     // this.courseId = this.$route.query.courseid;
-    this.courseId = this.$route.params.courseid;
+    this.courseId = this.$route.params.course_id;
 
     // 加载周和学时
     this.loading = true;

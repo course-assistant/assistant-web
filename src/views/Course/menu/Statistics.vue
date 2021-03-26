@@ -24,7 +24,7 @@ export default {
 
   // 加载数据
   async beforeMount() {
-    this.courseId = this.$route.query.courseid;
+    // this.courseId = this.$route.query.course_id;
   }
 }
 </script>

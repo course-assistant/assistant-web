@@ -105,7 +105,7 @@ const routes = [{
       {
         name: 'CourseIndex',
         // path: 'course',
-        path: 'course/:courseid',
+        path: 'course/:course_id',
         component: CourseIndex,
         meta: {
           title: '课程详情'
@@ -129,43 +129,27 @@ const routes = [{
               title: '课程详情 - 课程学时'
             }
           },
-          // 周任务
+          // 周任务 周列表
           {
             name: 'WeekMission',
             path: 'week-mission',
             component: WeekMission,
-            children: [
-              // 任务列表
-              {
-                name: 'WeekMissionList',
-                path: 'week-mission-list',
-                component: WeekMissionList,
-                meta: {
-                  title: '课程 - 周任务'
-                }
-              },
-              // 周 节任务
-              {
-                name: 'WeekLessonMission',
-                path: 'week-lesson-mission',
-                component: WeekLessonMission,
-                meta: {
-                  title: '课程 - 周任务'
-                }
-              },
-              // 任务详情
-              {
-                name: 'WeekMissionDetail',
-                path: 'week-mission-detail',
-                component: WeekMissionDetail,
-                meta: {
-                  title: '课程 - 周任务'
-                }
-              },
-            ],
-
-
           },
+          // 周任务 周的任务列表
+          {
+            name: 'WeekMissionList',
+            path: 'week-mission/week-mission-list/:week_id',
+            component: WeekMissionList,
+          },
+
+          // 周任务 周的任务列表
+          {
+            name: 'WeekMissionDetail',
+            path: 'week-mission/week-mission-list/:week_id/week-mission-detail/:week_mission_id',
+            component: WeekMissionDetail,
+          },
+
+
           // 随堂测试
           {
             name: 'PeriodTest',

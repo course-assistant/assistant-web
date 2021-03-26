@@ -8,6 +8,15 @@
         @changeWeekMission="changeWeekMission(week_mission.week_id)"
       />
     </div>
+
+    <div>
+      <router-link
+        :to="'/course/' + $route.params.course_id + '/week-mission/week-mission-list/' + $route.params.week_id + '/week-mission-detail/' + 222"
+      >
+        11
+      </router-link>
+      <br />
+    </div>
   </div>
 </template>
 
@@ -17,6 +26,9 @@ import WeekMissionItem from '@/components/WeekMissionItem.vue';
 export default {
   data() {
     return {
+
+      week_id: 0,
+
       weekMissions: [
         {
           week_mission_name: '第01周',
@@ -34,6 +46,10 @@ export default {
     }
   },
   components: { WeekMissionItem },
+
+  beforeMount() {
+    this.week_id = this.$route.params.week_id;
+  }
 
 }
 </script>

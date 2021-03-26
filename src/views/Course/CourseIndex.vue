@@ -17,14 +17,14 @@
           <span slot="title">班级管理</span>
         </el-menu-item>
 
-        <el-menu-item index="period">
+        <!-- <el-menu-item index="period">
           <i class="el-icon-s-opportunity"></i>
           <span slot="title">课程学时</span>
-        </el-menu-item>
+        </el-menu-item> -->
 
         <el-menu-item index="week-mission">
           <i class="el-icon-s-order"></i>
-          <span slot="title">周任务</span>
+          <span slot="title">任务</span>
         </el-menu-item>
 
         <el-menu-item index="period-test">
@@ -86,7 +86,7 @@ export default {
   async created() {
     // 获取传递的参数
     // this.courseId = this.$route.query.courseid;
-    this.courseId = this.$route.params.courseid;
+    this.courseId = this.$route.params.course_id;
     // 根据id查询课程
     let [data, err] = await this.$awaitWrap(this.$get('course/findbyid', {
       id: this.courseId
