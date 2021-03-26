@@ -8,7 +8,7 @@
       </div>
 
       <el-menu
-        default-active="period"
+        default-active="week-mission"
         class="el-menu-vertical-demo"
         @select="handleSelect"
       >
@@ -101,7 +101,7 @@ export default {
 
   mounted() {
     // 默认打开学时菜单
-    this.handleSelect('period');
+    this.handleSelect('week-mission');
   }
 }
 </script>
