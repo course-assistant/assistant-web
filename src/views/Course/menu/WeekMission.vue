@@ -4,12 +4,23 @@
       <!-- 导航 -->
       <div class="nav">
         <!-- 一级 -->
-        <router-link
+        <!-- <router-link
           class="link"
           :to="'/course/' + course_id + '/week-mission/'"
         >
           周任务
-        </router-link>
+        </router-link> -->
+        <!-- <el-breadcrumb separator-class="el-icon-arrow-right">
+          <el-breadcrumb-item :to="'/course/' + course_id + '/week-mission/'"
+            >周任务</el-breadcrumb-item
+          >
+        </el-breadcrumb> -->
+
+        <el-breadcrumb class="f-size" separator-class="el-icon-arrow-right">
+          <el-breadcrumb-item :to="'/course/' + course_id + '/week-mission/'">
+            周任务
+          </el-breadcrumb-item>
+        </el-breadcrumb>
       </div>
 
       <!-- 周的列表 -->
@@ -88,10 +99,9 @@ export default {
       display: flex;
       font-size: 26px;
 
-      .link {
-        text-decoration: none;
-        color: #000;
-        font-weight: bold;
+      .f-size {
+        font-size: 16px;
+        margin-left: 12px;
       }
     }
 

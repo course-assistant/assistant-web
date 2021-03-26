@@ -4,17 +4,30 @@
       <!-- 导航 -->
       <div class="nav">
         <!-- 一级 -->
-        <router-link
+        <!-- <router-link
           class="link"
           :to="'/course/' + $route.params.course_id + '/week-mission/'"
         >
           周任务
-        </router-link>
-
-        /
-
+        </router-link> -->
         <!-- 二级 -->
-        <router-link class="link" to=""> 第01周 </router-link>
+        <!-- <router-link class="link" to=""> 第01周 </router-link> -->
+
+        <!-- <el-breadcrumb separator-class="el-icon-arrow-right">
+
+          <el-breadcrumb-item :to="'/course/' + course_id + '/week-mission/'">周任务</el-breadcrumb-item>
+          <el-breadcrumb-item to="">第01周</el-breadcrumb-item>
+        </el-breadcrumb> -->
+
+        <el-breadcrumb class="f-size" separator-class="el-icon-arrow-right">
+          <el-breadcrumb-item
+            :to="'/course/' + $route.params.course_id + '/week-mission/'"
+          >
+            周任务
+          </el-breadcrumb-item>
+
+          <el-breadcrumb-item> 第01周 </el-breadcrumb-item>
+        </el-breadcrumb>
       </div>
 
       <div class="week-mission-list">
@@ -115,7 +128,12 @@ export default {
       .link {
         text-decoration: none;
         color: #000;
-         font-weight: bold;
+        font-weight: bold;
+      }
+
+      .f-size {
+        font-size: 16px;
+        margin-left: 12px;
       }
     }
 
