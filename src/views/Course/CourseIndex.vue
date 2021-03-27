@@ -22,6 +22,11 @@
           <span slot="title">课程学时</span>
         </el-menu-item> -->
 
+        <el-menu-item index="lesson">
+          <i class="el-icon-s-opportunity"></i>
+          <span slot="title">课程大纲</span>
+        </el-menu-item>
+
         <el-menu-item index="week-mission">
           <i class="el-icon-s-order"></i>
           <span slot="title">任务</span>
@@ -87,12 +92,17 @@ export default {
     // 获取传递的参数
     // this.courseId = this.$route.query.courseid;
     this.courseId = this.$route.params.course_id;
+
     // 根据id查询课程
     let [data, err] = await this.$awaitWrap(this.$get('course/findbyid', {
       id: this.courseId
     }));
+
     if (err) {
       this.$message.warning(err);
+      setTimeout(() => {
+        this.$router.push({ path: '/' });
+      }, 500);
       return;
     }
     this.courseName = data.data.course_name;

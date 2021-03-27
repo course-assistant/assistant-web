@@ -6,7 +6,7 @@
       element-loading-text="正在加载中，请稍等..."
     >
       <div class="head">
-        <span class="class-name">{{ className }}</span>
+        <span class="class-name">{{ class_name }}</span>
       </div>
 
       <div class="options">
@@ -58,10 +58,10 @@ export default {
   data() {
     return {
 
-      loading: true,
+      loading: false,
 
-      classId: 0,
-      className: '',
+      class_id: 0,
+      class_name: '',
       students: [
         {
           student_id: '',
@@ -74,8 +74,33 @@ export default {
   },
 
   methods: {
+    async refreshStudents() {
+      // 加载班级名
+      let [clsData, e] = await this.$awaitWrap(this.$get('class/findbyclassid', {
+        class_id: this.class_id
+      }));
+      if (e) {
+        this.loading = false;
+        this.$router.push('/404');
+        return;
+      }
+      this.class_name = clsData.data.class_name;
+
+      // 加载学生
+      let [data, err] = await this.$awaitWrap(this.$get('student/selectbyclassid', {
+        class_id: this.class_id
+      }));
+      if (err) {
+        this.$message.warning(err);
+        return;
+      }
+      this.students = data.data.students;
+    },
+
+    // 添加
     handleAddStudent() { },
 
+    // 处理多选
     handleSelectionChange(val) {
       this.multipleSelection = val;
     }
@@ -83,34 +108,10 @@ export default {
 
   // 加载数据
   async beforeMount() {
-    this.classId = this.$route.query.classid;
-    // 加载班级名
-    let [clsData, e] = await this.$awaitWrap(this.$get('class/findbyclassid', {
-      class_id: this.classId
-    }));
-    if (e) {
-      this.$message.warning(err);
-      return;
-    }
-    this.className = clsData.data.class_name;
-
-    // 加载学生
-    let [data, err] = await this.$awaitWrap(this.$get('student/selectbyclassid', {
-      class_id: this.classId
-    }));
-    if (err) {
-      this.$message.warning(err);
-      return;
-    }
-    this.students = data.data.students;
+    this.class_id = this.$route.params.class_id;
+    this.loading = true;
+    await this.refreshStudents();
     this.loading = false;
-  },
-
-  // 检有没有携带参数
-  beforeCreate() {
-    if (!this.$route.query.classid) {
-      this.$router.replace('/');
-    }
   },
 
 }

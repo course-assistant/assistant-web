@@ -25,14 +25,10 @@ export default {
   methods: {
     // 跳转至学生管理
     toStudentManage() {
-      //   console.log('jump');
-
       let routeUrl = this.$router.resolve({
-        name: 'StudentManage',
-        query: { classid: this.classData.classId }
+        path: `/class-student/${this.classData.classId}`
       });
       window.open(routeUrl.href, '_blank');
-
     },
 
     // 显示邀请码

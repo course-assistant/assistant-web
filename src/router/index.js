@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 
 import Login from '@/views/Login';
 import Index from '@/views/Index';
+import NotFound from '@/views/404';
 
 import CourseList from '@/views/Course/CourseList.vue';
 import CourseIndex from '@/views/Course/CourseIndex.vue';
@@ -13,6 +14,7 @@ import PeriodDetail from '@/views/Course/PeriodDetail.vue';
 import TestDetail from '@/views/Course/TestDetail.vue';
 
 import ClassManage from '@/views/Course/menu/ClassManage.vue';
+import Lesson from '@/views/Course/menu/Lesson.vue';
 import Period from '@/views/Course/menu/Period.vue';
 import PeriodTest from '@/views/Course/menu/PeriodTest.vue';
 import Discuss from '@/views/Course/menu/Discuss.vue';
@@ -37,6 +39,14 @@ const routes = [{
     component: Login,
     meta: {
       title: '教师登录'
+    }
+  },
+  {
+    path: '/404',
+    name: '404',
+    component: NotFound,
+    meta: {
+      title: '404 Not Found'
     }
   },
   {
@@ -76,13 +86,14 @@ const routes = [{
       // 班级学生管理页面
       {
         name: 'StudentManage',
-        path: 'student',
+        path: 'class-student/:class_id',
         component: StudentManage,
         meta: {
           title: '学生管理'
         }
       },
-      // 班级学生管理页面
+
+      // 学时详情
       {
         name: 'PeriodDetail',
         path: 'period-detail',
@@ -126,6 +137,15 @@ const routes = [{
             component: Period,
             meta: {
               title: '课程详情 - 课程学时'
+            }
+          },
+          // 课程大纲
+          {
+            name: 'Lesson',
+            path: 'lesson',
+            component: Lesson,
+            meta: {
+              title: '课程详情 - 课程大纲'
             }
           },
           // 周任务 周列表
