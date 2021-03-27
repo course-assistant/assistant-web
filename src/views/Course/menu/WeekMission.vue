@@ -16,10 +16,8 @@
       </div>
 
       <!-- 周的列表 -->
-      <div class="week-mission-list">
-        <div class="weekmission-list" style="margin-right: 10px">
-          <WeekItem v-for="(week, index) in weeks" :key="index" :week="week" />
-        </div>
+      <div class="week-mission-list" style="margin-right: 10px">
+        <WeekItem v-for="(week, index) in weeks" :key="index" :week="week" />
       </div>
     </div>
   </div>
@@ -121,7 +119,7 @@ export default {
     }
 
     .week-mission-list {
-      width: 100%;
+      height: calc(100% - 60px);
       overflow: auto;
     }
   }
