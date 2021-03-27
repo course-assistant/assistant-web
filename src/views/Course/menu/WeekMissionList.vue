@@ -13,7 +13,7 @@
           >
             周任务
           </el-breadcrumb-item>
-          <el-breadcrumb-item> 第01周 </el-breadcrumb-item>
+          <el-breadcrumb-item> {{ week.week_name }} </el-breadcrumb-item>
         </el-breadcrumb>
       </div>
 
@@ -66,6 +66,11 @@ export default {
 
       selectedAll: false,
 
+      week: {
+        week_id: 0,
+        week_name: '第xx周'
+      },
+
       LessonMissions: [
         // {
         //   teacher_name: '教师名',
@@ -90,13 +95,14 @@ export default {
   async beforeMount() {
     this.loading = true;
     console.log('week_id ' + this.$route.params.week_id);
+    await this.refreshWeek();
     await this.refreshMissions();
     this.loading = false;
   },
 
 
   methods: {
-
+    // 刷新本周的任务
     async refreshMissions() {
       let [data, err] = await this.$awaitWrap(this.$get('weekmission/selectbyweekid', {
         id: this.$route.params.week_id
@@ -108,6 +114,17 @@ export default {
       this.LessonMissions = data.data;
     },
 
+    // 刷新周
+    async refreshWeek() {
+      let [data, err] = await this.$awaitWrap(this.$get('week/selectbyid', {
+        id: this.$route.params.week_id
+      }));
+      if (err) {
+        this.$message.warning(err);
+        return;
+      }
+      this.week = data.data;
+    },
 
     // 点击编辑
     editMission(id) {

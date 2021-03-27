@@ -68,7 +68,12 @@ export default {
     },
 
     onEdit() {
-      this.$emit('edit', this.mission.week_mission_id);
+      // this.$emit('edit', this.mission.week_mission_id);
+
+      this.$router.push({
+        path: `/course/${this.$route.params.course_id}/week-mission/week-mission-list/${this.$route.params.week_id}/week-mission-detail/${this.mission.week_mission_id}`
+      });
+
     },
 
     onDelete() {

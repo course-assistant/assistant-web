@@ -23,9 +23,11 @@
               '/'
             "
           >
-            第01周
+            {{ mission.week_name }}
           </el-breadcrumb-item>
-          <el-breadcrumb-item> 任务01 </el-breadcrumb-item>
+          <el-breadcrumb-item>
+            {{ mission.week_mission_name }}
+          </el-breadcrumb-item>
         </el-breadcrumb>
       </div>
 
@@ -213,6 +215,8 @@ export default {
 
       mission: {
         week_mission_id: 0,
+        week_id: 0,
+        week_name: '第xx周',
         week_mission_name: "任务01",
         week_mission_content: "待编辑",
         week_goals: [
