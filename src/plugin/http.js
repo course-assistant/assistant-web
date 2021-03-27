@@ -71,7 +71,7 @@ MyAxiosHttp.install = (Vue) => {
                 }
             }).catch(err => {
                 console.log(err);
-                // reject('服务器异常');
+                reject('服务器异常');
             });
         });
     }

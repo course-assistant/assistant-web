@@ -51,6 +51,41 @@
         </div>
       </div>
     </div>
+
+    <!-- 对话框 -->
+    <!-- 添加 -->
+    <el-dialog
+      title="添加任务"
+      :visible.sync="addMissionDialogVisible"
+      width="40%"
+      center
+    >
+      <el-form ref="form" :model="addMissionForm" label-width="80px">
+        <el-form-item label="任务名称">
+          <el-input
+            placeholder="请输入任务名称"
+            v-model="addMissionForm.name"
+          ></el-input>
+        </el-form-item>
+
+        <el-form-item label="任务类型">
+          <el-select v-model="addMissionForm.type" placeholder="请选择">
+            <el-option
+              v-for="item in types"
+              :key="item.type"
+              :label="item.label"
+              :value="item.type"
+            >
+            </el-option>
+          </el-select>
+        </el-form-item>
+
+        <el-form-item>
+          <el-button type="primary" @click="onAddMission">添加</el-button>
+          <el-button @click="addMissionDialogVisible = false">取消</el-button>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
   </div>
 </template>
 
@@ -71,6 +106,19 @@ export default {
         week_name: '第xx周'
       },
 
+      types: [{
+        label: '理论',
+        type: 1
+      }, {
+        label: '实验',
+        type: 2
+      }],
+      addMissionDialogVisible: false,
+      addMissionForm: {
+        name: '',
+        type: 1
+      },
+
       missions: [
         // {
         //   teacher_name: '教师名',
@@ -82,12 +130,6 @@ export default {
         //   checked: true,
         // }
       ],
-    }
-  },
-
-  computed: {
-    Missions() {
-
     }
   },
 
@@ -121,6 +163,7 @@ export default {
       this.missions = missions;
     },
 
+
     // 刷新周
     async refreshWeek() {
       let [data, err] = await this.$awaitWrap(this.$get('week/selectbyid', {
@@ -133,17 +176,21 @@ export default {
       this.week = data.data;
     },
 
+
     // 点击编辑
     editMission(id) {
       console.log('编辑 ' + id);
     },
+
 
     // 点击删除
     deleteMission(id) {
       console.log('删除 ' + id);
       this.$cfm('确定删除', async () => {
         this.loading = true;
-        let [data, err] = await this.$awaitWrap(this.$post('weekmission/delete', { id }));
+        let [data, err] = await this.$awaitWrap(this.$post('weekmission/delete', {
+          ids: id
+        }));
         if (err) {
           this.$message.warning(err);
           setTimeout(() => {
@@ -160,6 +207,7 @@ export default {
       });
     },
 
+
     // 点击全选/取消全选
     changeAll() {
       console.log('all');
@@ -175,20 +223,46 @@ export default {
       }
     },
 
+
     // 点击了添加任务按钮
     addMission() {
-      console.log('点击了添加任务按钮');
+      this.addMissionDialogVisible = true;
     },
+
+
+    // 点击确定添加任务
+    async onAddMission() {
+      console.log(this.$route.params.week_id);
+      console.log(this.addMissionForm);
+      let [data, err] = await this.$awaitWrap(this.$post('weekmission/insert', {
+        week_id: this.$route.params.week_id,
+        name: this.addMissionForm.name,
+        type: this.addMissionForm.type
+      }));
+      if (err) {
+        this.$message.warning(err);
+        return;
+      }
+      this.addMissionDialogVisible = false;
+      this.loading = true;
+      await this.refreshMissions();
+      this.loading = false;
+      this.$message.success(data.msg);
+    },
+
 
     // 点击发布所有任务
     async issueAll() {
-      console.log('issueAll');
       let missions = [];
       this.missions.forEach(mission => {
         if (mission.checked) {
           missions.push(mission.week_mission_id)
         }
       })
+      if (missions.length < 1) {
+        this.$message.info('请选择');
+        return;
+      }
       let [data, err] = await this.$awaitWrap(this.$post('weekmission/issue', {
         ids: missions.join(',')
       }));
@@ -202,15 +276,19 @@ export default {
       this.$message.success(data.msg);
     },
 
+
     // 点击删除所有任务
     async deleteAll() {
-      console.log('deleteAll');
       let missions = [];
       this.missions.forEach(mission => {
         if (mission.checked) {
           missions.push(mission.week_mission_id)
         }
       })
+      if (missions.length < 1) {
+        this.$message.info('请选择');
+        return;
+      }
       let [data, err] = await this.$awaitWrap(this.$post('weekmission/delete', {
         ids: missions.join(',')
       }));

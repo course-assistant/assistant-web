@@ -15,9 +15,9 @@
           size="medium"
           type="primary"
         >
-          理论课
+          理论
         </el-tag>
-        <el-tag v-else class="tag" size="medium" type="info">实验课</el-tag>
+        <el-tag v-else class="tag" size="medium" type="info">实验</el-tag>
       </div>
 
       <div>
