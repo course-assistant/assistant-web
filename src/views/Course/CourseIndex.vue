@@ -22,14 +22,14 @@
           <span slot="title">课程学时</span>
         </el-menu-item> -->
 
-        <el-menu-item index="lesson">
-          <i class="el-icon-s-opportunity"></i>
-          <span slot="title">课程大纲</span>
-        </el-menu-item>
-
         <el-menu-item index="week-mission">
           <i class="el-icon-s-order"></i>
           <span slot="title">任务</span>
+        </el-menu-item>
+        
+        <el-menu-item index="lesson">
+          <i class="el-icon-s-opportunity"></i>
+          <span slot="title">课程大纲</span>
         </el-menu-item>
 
         <el-menu-item index="period-test">

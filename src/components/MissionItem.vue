@@ -1,9 +1,6 @@
 <template>
   <div class="lesson-mission-item">
-    <el-checkbox
-      class="checked"
-      v-model="mission.checked"
-    ></el-checkbox>
+    <el-checkbox class="checked" v-model="mission.checked"></el-checkbox>
 
     <div class="head">
       <b style="margin-right: 20px">{{ mission.week_mission_name }}</b>
@@ -37,10 +34,39 @@
     </div>
 
     <div class="info">
-      <b style="margin-right: 10px">{{ mission.teacher_name }}</b>
-      <span>创建</span>
-    </div>
+      <div class="main-content">
+        <div class="title">
+          <div style="margin-bottom: 5px">
+            <b>主要内容</b>
+          </div>
+        </div>
+        <p
+          style="margin-bottom: 5px"
+          class="content"
+          v-html="convertHtml(mission.week_mission_content)"
+        />
+      </div>
 
+      <!-- 周任务主要目标 -->
+      <div class="main-goal">
+        <div class="title">
+          <div style="margin-bottom: 3px">
+            <b> 主要目标 </b>
+          </div>
+        </div>
+
+        <div class="goal" v-for="(g, index) in mission.week_goals" :key="index">
+          <p style="margin-bottom: 3px" class="goal-title">
+            {{ g.week_goal_title }}：
+          </p>
+          <p
+            style="margin-bottom: 3px"
+            class="content"
+            v-html="convertHtml(g.week_goal_content)"
+          />
+        </div>
+      </div>
+    </div>
     <div class="opts">
       <el-link type="primary" :underline="false" @click.stop="onEdit">
         编辑
@@ -59,31 +85,35 @@
 
 <script>
 export default {
+
+  data() {
+    return {
+
+
+    }
+  },
+
   props: ['mission'],
 
   methods: {
     // 跳转到详情
     toMissionDetail() {
-      // console.log('detail');
       this.$router.push({
         path: `/course/${this.$route.params.course_id}/week-mission/week-mission-list/${this.$route.params.week_id}/week-mission-detail/${this.mission.week_mission_id}`
       });
     },
 
+    // 点击自己的编辑按钮
     onEdit() {
-      // this.$emit('edit', this.mission.week_mission_id);
-
-      this.$router.push({
-        path: `/course/${this.$route.params.course_id}/week-mission/week-mission-list/${this.$route.params.week_id}/week-mission-detail/${this.mission.week_mission_id}`
-      });
-
+      this.toMissionDetail();
     },
 
+    // 点击删除
     onDelete() {
       this.$emit('delete', this.mission.week_mission_id);
     },
 
-
+    // 状态切换
     onChange() {
       console.log('切换');
     }
@@ -100,7 +130,7 @@ export default {
   position: relative;
   //   width: 910px;
   width: 100%;
-  height: 130px;
+  /*height: 200px;*/
   background: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12), 0 0 6px rgba(0, 0, 0, 0.04);
 
@@ -110,26 +140,41 @@ export default {
 
   .checked {
     position: absolute;
-    top: 30px;
+    top: 20px;
     left: 30px;
   }
 
   .head {
-    position: absolute;
+    /*position: absolute;*/
     display: flex;
     align-items: center;
-    top: 22px;
-    left: 60px;
+    padding-top: 12px;
+    margin-left: 60px;
+    /*top: 12px;*/
+    /*left: 60px;*/
     color: #333333;
     font-size: 16px;
   }
 
   .info {
-    position: absolute;
-    top: 78px;
-    left: 60px;
-    color: #999999;
-    font-size: 14px;
+    /*position: absolute;*/
+    /*top: 50px;*/
+    /*left: 60px;*/
+    margin-top: 15px;
+    margin-left: 60px;
+    font-size: 10px;
+    color: #333;
+    padding-bottom: 20px;
+  }
+
+  .main-goal {
+    .goal {
+      display: flex;
+
+      .goal-title {
+        min-width: 60px;
+      }
+    }
   }
 
   .opts {

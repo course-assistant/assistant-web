@@ -120,15 +120,22 @@ export default {
       },
 
       missions: [
-        // {
-        //   teacher_name: '教师名',
-        //   views: 5,
-        //   week_mission_id: 1,
-        //   week_mission_name: '任务001',
-        //   week_mission_status: 1,
-        //   week_mission_type: 1,
-        //   checked: true,
-        // }
+        {
+          teacher_name: '教师名',
+          views: 5,
+          week_mission_id: 1,
+          week_mission_name: '任务001',
+          week_mission_status: 1,
+          week_mission_type: 1,
+          checked: true,
+          week_mission_content: '与现实生活一致：与现实生活的流程、\n逻辑保持一致，遵循用户习惯的语言和概念；',
+          week_goals: [
+            {
+              week_goal_title: '记忆目标',
+              week_goal_content: 'HTML、CSS、JavaScript\n'
+            },
+          ]
+        }
       ],
     }
   },
@@ -326,12 +333,15 @@ export default {
   .round-div {
     width: 100%;
     min-width: 1000px;
-    height: calc(100% - 60px);
+    height: calc(100% - 90px);
     margin: 30px;
     margin-top: 30px;
     border-radius: 16px;
     background: #fff;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+    overflow: auto;
+    padding-bottom: 30px;
+    // padding-right: 10px;
 
     .nav {
       margin: 20px 30px;
@@ -348,7 +358,6 @@ export default {
     .week-mission-list {
       background: #fff;
       width: calc(100% - 80px);
-      // width: 500px;
       margin: 0 auto;
 
       .tools {
@@ -365,6 +374,8 @@ export default {
 
       .mission-list {
         width: 100%;
+        height: 100%;
+
         .mission-item {
           margin-top: 20px;
         }
