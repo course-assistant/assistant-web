@@ -1,6 +1,9 @@
 <template>
-  <div class="lesson-mission-item" @click="toMissionDetail">
-    <el-checkbox class="checked" v-model="mission.checked"></el-checkbox>
+  <div class="lesson-mission-item">
+    <el-checkbox
+      class="checked"
+      v-model="mission.checked"
+    ></el-checkbox>
 
     <div class="head">
       <b style="margin-right: 20px">{{ mission.week_mission_name }}</b>
@@ -79,6 +82,11 @@ export default {
     onDelete() {
       this.$emit('delete', this.mission.week_mission_id);
     },
+
+
+    onChange() {
+      console.log('切换');
+    }
   },
 
   beforeMount() {

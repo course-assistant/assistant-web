@@ -28,8 +28,8 @@
             全选
           </el-checkbox>
           <div style="margin-right: 30px">
-            <el-button type="text">发布选中任务</el-button>
-            <el-button type="text">删除选中任务</el-button>
+            <el-button type="text" @click="issueAll">发布选中任务</el-button>
+            <el-button type="text" @click="deleteAll">删除选中任务</el-button>
           </div>
         </div>
 
@@ -37,7 +37,7 @@
         <div class="mission-list">
           <MissionItem
             class="mission-item"
-            v-for="(mission, index) in LessonMissions"
+            v-for="(mission, index) in missions"
             :key="index"
             :mission="mission"
             @edit="editMission"
@@ -71,7 +71,7 @@ export default {
         week_name: '第xx周'
       },
 
-      LessonMissions: [
+      missions: [
         // {
         //   teacher_name: '教师名',
         //   views: 5,
@@ -86,7 +86,9 @@ export default {
   },
 
   computed: {
+    Missions() {
 
+    }
   },
 
   components: { MissionItem },
@@ -111,7 +113,12 @@ export default {
         this.$message.warning(err);
         return;
       }
-      this.LessonMissions = data.data;
+      // 给missions全部添加checked
+      let missions = data.data;
+      missions.forEach((mission, index) => {
+        mission['checked'] = false;
+      });
+      this.missions = missions;
     },
 
     // 刷新周
@@ -153,21 +160,69 @@ export default {
       });
     },
 
+    // 点击全选/取消全选
     changeAll() {
+      console.log('all');
+      console.log(this.missions);
       if (this.selectedAll) {
-        for (let i = 0; i < this.LessonMissions.length; i++) {
-          this.LessonMissions[i].checked = true
+        for (let i = 0; i < this.missions.length; i++) {
+          this.missions[i].checked = true
         }
       } else {
-        for (let i = 0; i < this.LessonMissions.length; i++) {
-          this.LessonMissions[i].checked = false
+        for (let i = 0; i < this.missions.length; i++) {
+          this.missions[i].checked = false
         }
       }
     },
 
+    // 点击了添加任务按钮
     addMission() {
       console.log('点击了添加任务按钮');
-    }
+    },
+
+    // 点击发布所有任务
+    async issueAll() {
+      console.log('issueAll');
+      let missions = [];
+      this.missions.forEach(mission => {
+        if (mission.checked) {
+          missions.push(mission.week_mission_id)
+        }
+      })
+      let [data, err] = await this.$awaitWrap(this.$post('weekmission/issue', {
+        ids: missions.join(',')
+      }));
+      if (err) {
+        this.$message.warning(err);
+        return;
+      }
+      this.loading = true;
+      await this.refreshMissions();
+      this.loading = false;
+      this.$message.success(data.msg);
+    },
+
+    // 点击删除所有任务
+    async deleteAll() {
+      console.log('deleteAll');
+      let missions = [];
+      this.missions.forEach(mission => {
+        if (mission.checked) {
+          missions.push(mission.week_mission_id)
+        }
+      })
+      let [data, err] = await this.$awaitWrap(this.$post('weekmission/delete', {
+        ids: missions.join(',')
+      }));
+      if (err) {
+        this.$message.warning(err);
+        return;
+      }
+      this.loading = true;
+      await this.refreshMissions();
+      this.loading = false;
+      this.$message.success(data.msg);
+    },
   },
 }
 </script>

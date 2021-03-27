@@ -53,11 +53,13 @@ MyAxiosHttp.install = (Vue) => {
      */
     Vue.prototype.$post = (path, params) => {
         return new Promise((resolve, reject) => {
-            axios_instance.post(path, qs.stringify(params), {
-                headers: {
-                    token: localStorage.getItem('hncj_management_teacher_token')
-                }
-            }).then(res => {
+            axios_instance.post(
+                path,
+                qs.stringify(params), {
+                    headers: {
+                        token: localStorage.getItem('hncj_management_teacher_token')
+                    }
+                }).then(res => {
                 if (res.data) {
                     if (res.data.code === 200) {
                         resolve(res.data);
@@ -68,7 +70,8 @@ MyAxiosHttp.install = (Vue) => {
                     }
                 }
             }).catch(err => {
-                reject('服务器异常');
+                console.log(err);
+                // reject('服务器异常');
             });
         });
     }
