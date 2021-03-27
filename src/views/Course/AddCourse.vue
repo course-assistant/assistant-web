@@ -67,22 +67,22 @@
           <el-input v-model="addCourseFormData.courseWeekNum"></el-input>
         </el-form-item>
 
-        <el-form-item label="周学时数">
+        <el-form-item label="周课程数">
           <el-col class="line" :span="2" style="margin-left: 10px">
-            单周学时
+            单周节数
           </el-col>
           <el-col :span="4">
-            <el-input v-model="addCourseFormData.oddPeriod"></el-input>
+            <el-input v-model="addCourseFormData.oddLesson"></el-input>
           </el-col>
 
           <el-col class="line" :span="2" style="margin-left: 10px">
-            双周学时
+            双周节数
           </el-col>
           <el-col :span="4">
-            <el-input v-model="addCourseFormData.evenPeriod"></el-input>
+            <el-input v-model="addCourseFormData.evenLesson"></el-input>
           </el-col>
           <el-col class="line" :span="10" style="margin-left: 20px">
-            注：45分钟的一节课为一学时
+            注：指课程表上的一节课
           </el-col>
         </el-form-item>
 
@@ -123,8 +123,8 @@ export default {
         teacherName: '',
         courseCover: 'https://p.ananas.chaoxing.com/star3/origin/b7b9a80175b2d80938d72fcbfdabce24.jpg',
         courseWeekNum: 17,
-        oddPeriod: 2,
-        evenPeriod: 1
+        oddLesson: 2,
+        evenLesson: 1
       },
 
       // 封面url
@@ -201,11 +201,16 @@ export default {
         name: this.addCourseFormData.courseName,
         cover: this.addCourseFormData.courseCover,
         week: this.addCourseFormData.courseWeekNum,
-        odd_period: this.addCourseFormData.oddPeriod,
-        even_period: this.addCourseFormData.evenPeriod
+        odd_lesson: this.addCourseFormData.oddLesson,
+        even_lesson: this.addCourseFormData.evenLesson
       }));
+
       if (err) {
-        this.$message.warning(err);
+        this.fullscreenLoading = false;
+        this.$message.warning('创建失败：' + err);
+        this.$router.push({
+          path: '/addcourse'
+        });
         return;
       }
       this.fullscreenLoading = false;
@@ -216,8 +221,8 @@ export default {
     checkForm() {
       if (this.addCourseFormData.courseName.trim() === ''
         || this.addCourseFormData.courseWeekNum === ''
-        || this.addCourseFormData.oddPeriod === ''
-        || this.addCourseFormData.evenPeriod === '') {
+        || this.addCourseFormData.oddLesson === ''
+        || this.addCourseFormData.evenLesson === '') {
         return false;
       }
       return true;
@@ -235,6 +240,9 @@ export default {
     }));
     if (err) {
       this.$message.warning(err);
+      this.$router.push({
+        path: '/'
+      });
       return;
     }
     this.addCourseFormData.teacherName = data.data.teacher_name;
