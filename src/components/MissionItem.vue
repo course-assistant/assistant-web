@@ -55,6 +55,14 @@
           </div>
         </div>
 
+        <!-- 空状态 -->
+        <p
+          v-if="mission.week_goals == null || mission.week_goals.length == 0"
+          style="margin-bottom: 3px"
+        >
+          暂无
+        </p>
+
         <div class="goal" v-for="(g, index) in mission.week_goals" :key="index">
           <p style="margin-bottom: 3px" class="goal-title">
             {{ g.week_goal_title }}：
