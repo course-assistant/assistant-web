@@ -44,8 +44,18 @@
         {{ period.period_name }}
       </span>
 
+      <div class="rate">
+        <el-rate v-model="rate" disabled show-score text-color="#ff9900" />
+        <el-rate v-model="rate" disabled show-score text-color="#ff9900" />
+      </div>
+
       <span v-show="period.period_type === 1" class="tag">理论课</span>
-      <span v-show="period.period_type === 2" class="tag">实验课</span>
+      <span
+        v-show="period.period_type === 2"
+        class="tag"
+        style="background: #f4f4f5"
+        >实验课</span
+      >
 
       <code v-show="period.period_status === 1" class="status">开放中</code>
       <code v-show="period.period_status === 2" class="status">已结束</code>
@@ -76,7 +86,8 @@
 export default {
   data() {
     return {
-      value: true
+      value: true,
+      rate: 4.3
     }
   },
 
@@ -107,12 +118,12 @@ export default {
 
     // 跳转到学时详情
     toPeriodDetail(period_id) {
-      console.log(period_id);
-      let routeUrl = this.$router.resolve({
-        name: 'PeriodDetail',
-        query: { periodid: period_id }
-      });
-      window.open(routeUrl.href, '_blank');
+      // console.log(period_id);
+      // let routeUrl = this.$router.resolve({
+      //   name: 'PeriodDetail',
+      //   query: { periodid: period_id }
+      // });
+      // window.open(routeUrl.href, '_blank');
     },
   },
 }
@@ -189,13 +200,21 @@ export default {
 
   .period-item {
     position: relative;
+    height: 50px;
     margin: 6px 0;
     margin-left: 30px;
     color: #181e33;
+    display: flex;
+    align-items: center;
 
     .period-name {
       width: 200px;
       max-width: 200px;
+    }
+
+    .rate {
+      position: absolute;
+      left: 650px;
     }
 
     .tag {

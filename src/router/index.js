@@ -13,11 +13,14 @@ import StudentManage from '@/views/Course/StudentManage.vue';
 import PeriodDetail from '@/views/Course/PeriodDetail.vue';
 import TestDetail from '@/views/Course/TestDetail.vue';
 
+// 课程详情 左边的菜单
 import ClassManage from '@/views/Course/menu/ClassManage.vue';
 import Lesson from '@/views/Course/menu/Lesson.vue';
 import Period from '@/views/Course/menu/Period.vue';
-import PeriodTest from '@/views/Course/menu/PeriodTest.vue';
-import Discuss from '@/views/Course/menu/Discuss.vue';
+// import PeriodTest from '@/views/Course/menu/PeriodTest.vue';
+import Test from '@/views/Course/menu/Test.vue';
+// import Discuss from '@/views/Course/menu/Discuss.vue';
+import Discussion from '@/views/Course/menu/Discussion.vue';
 import Statistics from '@/views/Course/menu/Statistics.vue';
 import Setting from '@/views/Course/menu/Setting.vue';
 import WeekMission from '@/views/Course/menu/WeekMission.vue';
@@ -33,7 +36,9 @@ VueRouter.prototype.push = function push(location) {
 
 Vue.use(VueRouter)
 
-const routes = [{
+const routes = [
+  // 登录页面
+  {
     path: '/login',
     name: 'Login',
     component: Login,
@@ -41,6 +46,8 @@ const routes = [{
       title: '教师登录'
     }
   },
+
+  // 404页面
   {
     path: '/404',
     name: '404',
@@ -49,14 +56,17 @@ const routes = [{
       title: '404 Not Found'
     }
   },
+
+  // 教师首页
   {
     path: '/',
     component: Index,
     meta: {
       title: '教师首页'
     },
+
     children: [
-      // 课程列表
+      // 课程列表页面
       {
         name: 'CourseList',
         path: '',
@@ -65,6 +75,7 @@ const routes = [{
           title: '教师首页'
         }
       },
+
       // 添加课程页面
       {
         name: 'AddCourse',
@@ -74,6 +85,7 @@ const routes = [{
           title: '添加课程'
         }
       },
+
       // 教师个人页面
       {
         name: 'TeacherHome',
@@ -83,6 +95,7 @@ const routes = [{
           title: '教师个人空间'
         }
       },
+
       // 班级学生管理页面
       {
         name: 'StudentManage',
@@ -93,33 +106,15 @@ const routes = [{
         }
       },
 
-      // 学时详情
-      {
-        name: 'PeriodDetail',
-        path: 'period-detail',
-        component: PeriodDetail,
-        meta: {
-          title: '学时详情'
-        }
-      },
-      // 随堂测试编辑页面
-      {
-        name: 'TestDetail',
-        path: 'test-detail',
-        component: TestDetail,
-        meta: {
-          title: '测试详情'
-        }
-      },
       // 课程首页
       {
         name: 'CourseIndex',
-        // path: 'course',
         path: 'course/:course_id',
         component: CourseIndex,
         meta: {
           title: '课程详情'
         },
+        ////// 课程首页左边的菜单
         children: [
           // 班级管理
           {
@@ -130,63 +125,58 @@ const routes = [{
               title: '课程详情 - 班级管理'
             }
           },
-          // 课程学时
-          {
-            name: 'Period',
-            path: 'period',
-            component: Period,
-            meta: {
-              title: '课程详情 - 课程学时'
-            }
-          },
-          // 课程大纲
+
+          // 教学内容
           {
             name: 'Lesson',
             path: 'lesson',
             component: Lesson,
             meta: {
-              title: '课程详情 - 课程大纲'
+              title: '课程详情 - 教学内容'
             }
           },
-          // 周任务 周列表
+
+          // 周任务 -- 周列表
           {
             name: 'WeekMission',
             path: 'week-mission',
             component: WeekMission,
           },
-          // 周任务 周的任务列表
+          
+          // 周任务 -- 周的任务列表
           {
             name: 'WeekMissionList',
             path: 'week-mission/week-mission-list/:week_id',
             component: WeekMissionList,
           },
 
-          // 周任务 详情
+          // 周任务 -- 编辑的详情
           {
             name: 'WeekMissionDetail',
             path: 'week-mission/week-mission-list/:week_id/week-mission-detail/:week_mission_id',
             component: WeekMissionDetail,
           },
 
-
           // 随堂测试
           {
-            name: 'PeriodTest',
-            path: 'period-test',
-            component: PeriodTest,
+            name: 'Test',
+            path: 'test',
+            component: Test,
             meta: {
               title: '课程详情 - 随堂测试'
             }
           },
+
           // 课堂讨论
           {
-            name: 'Discuss',
-            path: 'discuss',
-            component: Discuss,
+            name: 'Discussion',
+            path: 'discussion',
+            component: Discussion,
             meta: {
               title: '课程详情 - 课堂讨论'
             }
           },
+
           // 统计
           {
             name: 'Statistics',
@@ -196,6 +186,7 @@ const routes = [{
               title: '课程详情 - 统计'
             }
           },
+
           // 管理
           {
             name: 'Setting',

@@ -20,7 +20,7 @@
         <WeekItem v-for="(week, index) in weeks" :key="index" :week="week" />
 
         <!-- 空状态 -->
-        <Empty v-if="weeks == null || weeks.length == 0" text="暂无周次，请在课程大纲里添加周次" />
+        <Empty v-if="weeks == null || weeks.length == 0" text="暂无周次" />
       </div>
     </div>
   </div>

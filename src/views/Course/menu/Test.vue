@@ -5,7 +5,7 @@
       v-loading="loading"
       element-loading-text="正在加载中，请稍等..."
     >
-      <h1>教学内容</h1>
+      <h1>随堂测试</h1>
     </div>
   </div>
 </template>

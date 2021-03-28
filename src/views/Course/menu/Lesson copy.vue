@@ -5,30 +5,36 @@
       v-loading="loading"
       element-loading-text="正在加载中，请稍等..."
     >
-      <h1>教学内容</h1>
+      课程大纲
     </div>
   </div>
 </template>
 
 <script>
+
 export default {
 
   data() {
     return {
-      course_id: 0,
-      loading: false,
     }
   },
 
+  components: {
 
-  // 加载数据
-  beforeMount() {
-    this.course_id = this.$route.params.course_id;
   },
 
   methods: {
 
   },
+
+  beforeCreate() {
+
+  },
+
+  // 加载数据
+  beforeMount() {
+
+  }
 
 }
 </script>
@@ -52,6 +58,7 @@ export default {
     background: #fff;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
     overflow: auto;
+
   }
 }
 </style>

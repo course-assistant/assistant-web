@@ -24,7 +24,7 @@
         
         <el-menu-item index="lesson">
           <i class="el-icon-s-opportunity"></i>
-          <span slot="title">课程大纲</span>
+          <span slot="title">教学内容</span>
         </el-menu-item>
 
         <el-menu-item index="week-mission">
@@ -32,12 +32,12 @@
           <span slot="title">任务</span>
         </el-menu-item>
 
-        <el-menu-item index="period-test">
+        <el-menu-item index="test">
           <i class="el-icon-s-claim"></i>
           <span slot="title">随堂测试</span>
         </el-menu-item>
 
-        <el-menu-item index="discuss">
+        <el-menu-item index="discussion">
           <i class="el-icon-s-comment"></i>
           <span slot="title">课堂讨论</span>
         </el-menu-item>
