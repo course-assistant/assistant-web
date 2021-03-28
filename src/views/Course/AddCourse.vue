@@ -122,8 +122,8 @@ export default {
         courseName: '',
         teacherName: '',
         courseCover: 'https://p.ananas.chaoxing.com/star3/origin/b7b9a80175b2d80938d72fcbfdabce24.jpg',
-        courseWeekNum: 17,
-        oddLesson: 2,
+        courseWeekNum: 1,
+        oddLesson: 1,
         evenLesson: 1
       },
 

@@ -101,7 +101,7 @@ export default {
 
     // 检测token是否为空
     if (token === null || token.trim() === '') {
-      this.$message.warning('请先登录');
+      this.$message.info('请先登录');
       this.$router.push('/login');
       return;
     }
@@ -121,6 +121,7 @@ export default {
     // console.log('身份验证成功');
   },
 
+
   // 获取一些数据
   async beforeMount() {
     // 获取教师id
@@ -128,7 +129,7 @@ export default {
     let obj = jwtDecode(jwt);
     let id = obj.id;
     // 获取教师信息
-    let [data, err] = await this.$awaitWrap(this.$get('teacher/selectbyid', { id: id }));
+    let [data, err] = await this.$awaitWrap(this.$get('teacher/selectbyid', { id }));
     if (err) {
       this.$message.warning(err);
       return;

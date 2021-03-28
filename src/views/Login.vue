@@ -19,8 +19,9 @@
           <el-checkbox
             v-model="rememberMe"
             style="float: left; margin: 10px 0 0 30px"
-            >7天内记住我</el-checkbox
           >
+            下次直接登录
+          </el-checkbox>
           <el-button
             @click="handleLogin"
             class="btn-login"

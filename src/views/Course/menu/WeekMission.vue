@@ -18,6 +18,9 @@
       <!-- 周的列表 -->
       <div class="week-mission-list" style="margin-right: 10px">
         <WeekItem v-for="(week, index) in weeks" :key="index" :week="week" />
+
+        <!-- 空状态 -->
+        <Empty v-if="weeks == null || weeks.length == 0" text="暂无周次，请在课程大纲里添加周次" />
       </div>
     </div>
   </div>
@@ -36,21 +39,21 @@ export default {
       course_id: 0,
 
       weeks: [
-        {
-          week_id: 0,
-          week_name: '第01周',
-          week_status: 1,
-        },
-        {
-          week_id: -1,
-          week_name: '第02周',
-          week_status: 2,
-        },
-        {
-          week_id: -2,
-          week_name: '第03周',
-          week_status: 2,
-        }
+        // {
+        //   week_id: 0,
+        //   week_name: '第01周',
+        //   week_status: 1,
+        // },
+        // {
+        //   week_id: -1,
+        //   week_name: '第02周',
+        //   week_status: 2,
+        // },
+        // {
+        //   week_id: -2,
+        //   week_name: '第03周',
+        //   week_status: 2,
+        // }
       ],
     }
   },

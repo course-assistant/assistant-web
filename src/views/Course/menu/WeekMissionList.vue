@@ -120,22 +120,22 @@ export default {
       },
 
       missions: [
-        {
-          teacher_name: '教师名',
-          views: 5,
-          week_mission_id: 1,
-          week_mission_name: '任务001',
-          week_mission_status: 1,
-          week_mission_type: 1,
-          checked: true,
-          week_mission_content: '与现实生活一致：与现实生活的流程、\n逻辑保持一致，遵循用户习惯的语言和概念；',
-          week_goals: [
-            {
-              week_goal_title: '记忆目标',
-              week_goal_content: 'HTML、CSS、JavaScript\n'
-            },
-          ]
-        }
+        // {
+        //   teacher_name: '教师名',
+        //   views: 5,
+        //   week_mission_id: 1,
+        //   week_mission_name: '任务001',
+        //   week_mission_status: 1,
+        //   week_mission_type: 1,
+        //   checked: true,
+        //   week_mission_content: '与现实生活一致：与现实生活的流程、\n逻辑保持一致，遵循用户习惯的语言和概念；',
+        //   week_goals: [
+        //     {
+        //       week_goal_title: '记忆目标',
+        //       week_goal_content: 'HTML、CSS、JavaScript\n'
+        //     },
+        //   ]
+        // }
       ],
     }
   },
