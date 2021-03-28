@@ -17,11 +17,6 @@
           <span slot="title">班级管理</span>
         </el-menu-item>
 
-        <!-- <el-menu-item index="period">
-          <i class="el-icon-s-opportunity"></i>
-          <span slot="title">课程学时</span>
-        </el-menu-item> -->
-        
         <el-menu-item index="lesson">
           <i class="el-icon-s-opportunity"></i>
           <span slot="title">教学内容</span>

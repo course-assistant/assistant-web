@@ -10,22 +10,17 @@ import CourseIndex from '@/views/Course/CourseIndex.vue';
 import TeacherHome from '@/views/Teacher/TeacherHome.vue';
 import AddCourse from '@/views/Course/AddCourse.vue';
 import StudentManage from '@/views/Course/StudentManage.vue';
-import PeriodDetail from '@/views/Course/PeriodDetail.vue';
-import TestDetail from '@/views/Course/TestDetail.vue';
 
 // 课程详情 左边的菜单
 import ClassManage from '@/views/Course/menu/ClassManage.vue';
 import Lesson from '@/views/Course/menu/Lesson.vue';
-import Period from '@/views/Course/menu/Period.vue';
-// import PeriodTest from '@/views/Course/menu/PeriodTest.vue';
-import Test from '@/views/Course/menu/Test.vue';
-// import Discuss from '@/views/Course/menu/Discuss.vue';
-import Discussion from '@/views/Course/menu/Discussion.vue';
-import Statistics from '@/views/Course/menu/Statistics.vue';
-import Setting from '@/views/Course/menu/Setting.vue';
 import WeekMission from '@/views/Course/menu/WeekMission.vue';
 import WeekMissionList from '@/views/Course/menu/WeekMissionList.vue';
 import WeekMissionDetail from '@/views/Course/menu/WeekMissionDetail.vue';
+import Test from '@/views/Course/menu/Test.vue';
+import Discussion from '@/views/Course/menu/Discussion.vue';
+import Statistics from '@/views/Course/menu/Statistics.vue';
+import Setting from '@/views/Course/menu/Setting.vue';
 
 
 const originalPush = VueRouter.prototype.push;
@@ -142,14 +137,12 @@ const routes = [
             path: 'week-mission',
             component: WeekMission,
           },
-          
           // 周任务 -- 周的任务列表
           {
             name: 'WeekMissionList',
             path: 'week-mission/week-mission-list/:week_id',
             component: WeekMissionList,
           },
-
           // 周任务 -- 编辑的详情
           {
             name: 'WeekMissionDetail',
