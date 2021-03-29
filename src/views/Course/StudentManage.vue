@@ -17,6 +17,19 @@
           @click="handleAddStudent"
           >添加学生
         </el-button>
+
+        <el-button
+          type="primary"
+          icon="el-icon-plus"
+          round
+          @click="handleAddStudent"
+          >批量导入
+        </el-button>
+
+        <!-- https://tanyiqu.oss-cn-hangzhou.aliyuncs.com/assistant/template/student_template.xlsx -->
+        <el-link type="primary" :underline="false" @click="downloadTemplate"
+          >下载导入模板</el-link
+        >
       </div>
 
       <p style="margin: 20px 0 10px 30px; font-size: 12px; color: #a8a8b3">
@@ -97,13 +110,33 @@ export default {
       this.students = data.data.students;
     },
 
+    // 下载模板
+    downloadTemplate() {
+      console.log(1);
+      this.download('https://tanyiqu.oss-cn-hangzhou.aliyuncs.com/assistant/template/student_template.xlsx','ttt');
+    },
+
+    download (src, fileName) {
+      let x = new XMLHttpRequest();
+      x.open("GET", src, true);
+      x.responseType = 'blob';
+      x.onload = function(e) {
+        let url = window.URL.createObjectURL(x.response)
+        let a = document.createElement('a');
+        a.href = url
+        a.download = fileName
+        a.click()
+      }
+      x.send();
+    },
+
     // 添加
     handleAddStudent() { },
 
     // 处理多选
     handleSelectionChange(val) {
       this.multipleSelection = val;
-    }
+    },
   },
 
   // 加载数据
