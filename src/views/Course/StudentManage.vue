@@ -14,15 +14,11 @@
           type="primary"
           icon="el-icon-plus"
           round
-          @click="handleAddStudent"
+          @click="addStduentDialogVisible = true"
           >添加学生
         </el-button>
 
-        <el-button
-          type="primary"
-          icon="el-icon-plus"
-          round
-          @click="handleAddStudent"
+        <el-button type="primary" icon="el-icon-plus" round @click=""
           >批量导入
         </el-button>
 
@@ -65,6 +61,24 @@
         </el-table>
       </div>
     </div>
+
+    <!-- 对话框 -->
+    <el-dialog
+      title="添加学生"
+      :visible.sync="addStduentDialogVisible"
+      width="45%"
+    >
+      <el-form :model="addStudentDialogForm" label-position="left">
+        <el-form-item label="学 号" label-width="50px">
+          <el-input v-model="addStudentDialogForm.student_id"></el-input>
+        </el-form-item>
+      </el-form>
+
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="addStduentDialogVisible = false"> 取 消 </el-button>
+        <el-button type="primary" @click="onAddStudent"> 确 定 </el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -85,7 +99,13 @@ export default {
           student_phone: ''
         }
       ],
-      multipleSelection: []
+      multipleSelection: [],
+
+
+      addStduentDialogVisible: false,
+      addStudentDialogForm: {
+        student_id: ''
+      }
     }
   },
 
@@ -113,8 +133,26 @@ export default {
       this.students = data.data.students;
     },
 
-    // 添加
-    handleAddStudent() { },
+    // 确定点击添加学生
+    async onAddStudent() {
+
+
+      let [data, err] = await this.$awaitWrap(this.$post('class/selectionbyteacher', {
+        student_id: this.addStudentDialogForm.student_id,
+        class_id: this.$route.params.class_id
+      }));
+
+      if (err) {
+        this.addStduentDialogVisible = false;
+        this.$message.warning(err);
+        return;
+      }
+      this.addStduentDialogVisible = false;
+      this.loading = true;
+      await this.refreshStudents();
+      this.loading = false;
+      this.$message.success(data.msg);
+    },
 
     // 处理多选
     handleSelectionChange(val) {
