@@ -27,9 +27,12 @@
         </el-button>
 
         <!-- https://tanyiqu.oss-cn-hangzhou.aliyuncs.com/assistant/template/student_template.xlsx -->
-        <el-link type="primary" :underline="false" @click="downloadTemplate"
-          >下载导入模板</el-link
-        >
+        <a
+          class="link"
+          href="https://tanyiqu.oss-cn-hangzhou.aliyuncs.com/assistant/template/student_template.xlsx"
+          download="student_template.xlsx"
+          >下载导入模板
+        </a>
       </div>
 
       <p style="margin: 20px 0 10px 30px; font-size: 12px; color: #a8a8b3">
@@ -110,26 +113,6 @@ export default {
       this.students = data.data.students;
     },
 
-    // 下载模板
-    downloadTemplate() {
-      console.log(1);
-      this.download('https://tanyiqu.oss-cn-hangzhou.aliyuncs.com/assistant/template/student_template.xlsx','ttt');
-    },
-
-    download (src, fileName) {
-      let x = new XMLHttpRequest();
-      x.open("GET", src, true);
-      x.responseType = 'blob';
-      x.onload = function(e) {
-        let url = window.URL.createObjectURL(x.response)
-        let a = document.createElement('a');
-        a.href = url
-        a.download = fileName
-        a.click()
-      }
-      x.send();
-    },
-
     // 添加
     handleAddStudent() { },
 
@@ -181,6 +164,12 @@ export default {
     .options {
       padding-top: 20px;
       padding-left: 30px;
+
+      .link {
+        color: #409eff;
+        text-decoration: none;
+        margin-left: 12px;
+      }
     }
 
     .student-list {
