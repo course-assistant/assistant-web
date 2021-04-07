@@ -129,20 +129,20 @@ export default {
 
       // 封面url
       coverUrls: [
-        'https://p.ananas.chaoxing.com/star3/origin/b7b9a80175b2d80938d72fcbfdabce24.jpg',
-        'https://p.ananas.chaoxing.com/star3/origin/ebe4b550f689a518631aa3f61a36c10e.jpg',
-        'https://p.ananas.chaoxing.com/star3/origin/8f3d6d1e7b9d26d34ae28a8e3b253265.jpg',
-        'https://p.ananas.chaoxing.com/star3/origin/d86d681b1596f9cebb6b5b0de08a323d.jpg',
-        'https://p.ananas.chaoxing.com/star3/origin/f23a4b313e1aa0a7a840ab81aabc918f.jpg',
-        'https://p.ananas.chaoxing.com/star3/origin/aefed707926791941a844fb718b43955.jpg',
-        'https://p.ananas.chaoxing.com/star3/origin/669ca80d6a0c5f74835bb936a41aabca.jpg',
-        'https://p.ananas.chaoxing.com/star3/origin/b96809be433f26b4e9a9966be56aa31c.jpg',
-        'https://p.ananas.chaoxing.com/star3/origin/8a0d7e35ecbb20ec4b19f185eed0bc2b.jpg',
-        'https://p.ananas.chaoxing.com/star3/origin/a83f7a04a1ebec7b608e52bdb96b4f5b.jpg',
-        'https://p.ananas.chaoxing.com/star3/origin/a597b7c95a3e72dbbdb21f17011ce85f.jpg',
-        'https://p.ananas.chaoxing.com/star3/origin/f531b4fc974f76501cb5779964b2ff6f.jpg',
-        'https://p.ananas.chaoxing.com/star3/origin/987728a81491be987fa29edd08519ba5.jpg',
-        'https://p.ananas.chaoxing.com/star3/origin/8c9ec6b14aa72c81c375091ce79cf7cb.jpg'
+        'https://tanyiqu.oss-cn-hangzhou.aliyuncs.com/assistant/img/course-cover/01.jpg',
+        'https://tanyiqu.oss-cn-hangzhou.aliyuncs.com/assistant/img/course-cover/02.jpg',
+        'https://tanyiqu.oss-cn-hangzhou.aliyuncs.com/assistant/img/course-cover/03.jpg',
+        'https://tanyiqu.oss-cn-hangzhou.aliyuncs.com/assistant/img/course-cover/04.jpg',
+        'https://tanyiqu.oss-cn-hangzhou.aliyuncs.com/assistant/img/course-cover/05.jpg',
+        'https://tanyiqu.oss-cn-hangzhou.aliyuncs.com/assistant/img/course-cover/06.jpg',
+        'https://tanyiqu.oss-cn-hangzhou.aliyuncs.com/assistant/img/course-cover/07.jpg',
+        'https://tanyiqu.oss-cn-hangzhou.aliyuncs.com/assistant/img/course-cover/08.jpg',
+        'https://tanyiqu.oss-cn-hangzhou.aliyuncs.com/assistant/img/course-cover/09.jpg',
+        'https://tanyiqu.oss-cn-hangzhou.aliyuncs.com/assistant/img/course-cover/10.jpg',
+        'https://tanyiqu.oss-cn-hangzhou.aliyuncs.com/assistant/img/course-cover/11.jpg',
+        'https://tanyiqu.oss-cn-hangzhou.aliyuncs.com/assistant/img/course-cover/12.jpg',
+        'https://tanyiqu.oss-cn-hangzhou.aliyuncs.com/assistant/img/course-cover/13.jpg',
+        'https://tanyiqu.oss-cn-hangzhou.aliyuncs.com/assistant/img/course-cover/14.jpg',
       ],
 
       // 检验规则
