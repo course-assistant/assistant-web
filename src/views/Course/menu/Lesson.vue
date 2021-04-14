@@ -5,7 +5,140 @@
       v-loading="loading"
       element-loading-text="正在加载中，请稍等..."
     >
-      <h1>教学内容</h1>
+
+
+
+      <div class="main-container">
+        <div style="margin-left: 20px;margin-top:20px;width: 400px">
+
+          <el-card class="box-card">
+            <template #header>
+              <div class="card-header">
+                <span>主要内容</span>
+                <el-button class="button" type="text">操作按钮</el-button>
+              </div>
+            </template>
+
+            <p>
+              （1）Android简介（了解）<br>
+              （2）Android Studio的安装与调试（掌握）<br>
+              （3）创建HelloAndroid项目（掌握）<br>
+              （4）Android Studio中的SDK设置<br>
+              思政部分：安卓技术的发展史，技术的突破对提高项目开发效率的影响。鸿蒙系统的崛起，自有技术的重要性等。
+            </p>
+
+          </el-card>
+
+
+        </div>
+
+        <div style="margin-left: 20px;margin-top:20px;width: 400px">
+          <el-card class="box-card">
+            <template #header>
+              <div class="card-header">
+                <span>主要内容</span>
+                <el-button class="button" type="text">操作按钮</el-button>
+              </div>
+            </template>
+
+            <p>
+              （1）Android简介（了解）<br>
+              （2）Android Studio的安装与调试（掌握）<br>
+              （3）创建HelloAndroid项目（掌握）<br>
+              （4）Android Studio中的SDK设置<br>
+              思政部分：安卓技术的发展史，技术的突破对提高项目开发效率的影响。鸿蒙系统的崛起，自有技术的重要性等。
+            </p>
+
+          </el-card>
+        </div>
+
+        <div style="margin-left: 20px;margin-top:20px;width: 400px">
+          <el-card class="box-card">
+            <template #header>
+              <div class="card-header">
+                <span>主要内容</span>
+                <el-button class="button" type="text">操作按钮</el-button>
+              </div>
+            </template>
+
+            <p>
+              （1）Android简介（了解）<br>
+              （2）Android Studio的安装与调试（掌握）<br>
+              （3）创建HelloAndroid项目（掌握）<br>
+              （4）Android Studio中的SDK设置<br>
+              思政部分：安卓技术的发展史，技术的突破对提高项目开发效率的影响。鸿蒙系统的崛起，自有技术的重要性等。
+            </p>
+
+          </el-card>
+        </div>
+
+        <div style="margin-left: 20px;margin-top:20px;width: 400px">
+          <el-card class="box-card">
+            <template #header>
+              <div class="card-header">
+                <span>主要内容</span>
+                <el-button class="button" type="text">操作按钮</el-button>
+              </div>
+            </template>
+
+            <p>
+              （1）Android简介（了解）<br>
+              （2）Android Studio的安装与调试（掌握）<br>
+              （3）创建HelloAndroid项目（掌握）<br>
+              （4）Android Studio中的SDK设置<br>
+              思政部分：安卓技术的发展史，技术的突破对提高项目开发效率的影响。鸿蒙系统的崛起，自有技术的重要性等。
+            </p>
+
+          </el-card>
+        </div>
+        <div style="margin-left: 20px;margin-top:20px;width: 400px">
+          <el-card class="box-card">
+            <template #header>
+              <div class="card-header">
+                <span>主要内容</span>
+                <el-button class="button" type="text">操作按钮</el-button>
+              </div>
+            </template>
+
+            <p>
+              （1）Android简介（了解）<br>
+              （2）Android Studio的安装与调试（掌握）<br>
+              （3）创建HelloAndroid项目（掌握）<br>
+              （4）Android Studio中的SDK设置<br>
+              思政部分：安卓技术的发展史，技术的突破对提高项目开发效率的影响。鸿蒙系统的崛起，自有技术的重要性等。
+            </p>
+
+          </el-card>
+        </div>
+
+        <div style="margin-left: 20px;margin-top:20px;width: 400px">
+          <el-card class="box-card">
+            <template #header>
+              <div class="card-header">
+                <span>主要内容</span>
+                <el-button class="button" type="text">操作按钮</el-button>
+              </div>
+            </template>
+
+            <p>
+              （1）Android简介（了解）<br>
+              （2）Android Studio的安装与调试（掌握）<br>
+              （3）创建HelloAndroid项目（掌握）<br>
+              （4）Android Studio中的SDK设置<br>
+              思政部分：安卓技术的发展史，技术的突破对提高项目开发效率的影响。鸿蒙系统的崛起，自有技术的重要性等。
+            </p>
+
+          </el-card>
+        </div>
+
+      </div>
+
+
+
+
+
+
+
     </div>
   </div>
 </template>
@@ -41,6 +174,18 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+
+  .main-container{
+    display: flex;
+    flex-direction:row;
+    flex-wrap: wrap;
+  }
+
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 
   .round-div {
     width: 100%;

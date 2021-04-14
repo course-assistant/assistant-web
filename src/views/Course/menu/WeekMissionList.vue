@@ -323,6 +323,8 @@ export default {
 }
 
 .container {
+
+
   width: 100%;
   height: 100%;
   background: #f2f4f7;
@@ -335,7 +337,7 @@ export default {
     min-width: 1000px;
     height: calc(100% - 90px);
     margin: 30px;
-    margin-top: 30px;
+    /*margin-top: 30px;*/
     border-radius: 16px;
     background: #fff;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);

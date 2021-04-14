@@ -14,21 +14,9 @@
           type="primary"
           icon="el-icon-plus"
           round
-          @click="addStduentDialogVisible = true"
+          @click="handleAddStudent"
           >添加学生
         </el-button>
-
-        <el-button type="primary" icon="el-icon-plus" round @click=""
-          >批量导入
-        </el-button>
-
-        <!-- https://tanyiqu.oss-cn-hangzhou.aliyuncs.com/assistant/template/student_template.xlsx -->
-        <a
-          class="link"
-          href="https://tanyiqu.oss-cn-hangzhou.aliyuncs.com/assistant/template/student_template.xlsx"
-          download="student_template.xlsx"
-          >下载导入模板
-        </a>
       </div>
 
       <p style="margin: 20px 0 10px 30px; font-size: 12px; color: #a8a8b3">
@@ -61,24 +49,6 @@
         </el-table>
       </div>
     </div>
-
-    <!-- 对话框 -->
-    <el-dialog
-      title="添加学生"
-      :visible.sync="addStduentDialogVisible"
-      width="45%"
-    >
-      <el-form :model="addStudentDialogForm" label-position="left">
-        <el-form-item label="学 号" label-width="50px">
-          <el-input v-model="addStudentDialogForm.student_id"></el-input>
-        </el-form-item>
-      </el-form>
-
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="addStduentDialogVisible = false"> 取 消 </el-button>
-        <el-button type="primary" @click="onAddStudent"> 确 定 </el-button>
-      </div>
-    </el-dialog>
   </div>
 </template>
 
@@ -99,13 +69,7 @@ export default {
           student_phone: ''
         }
       ],
-      multipleSelection: [],
-
-
-      addStduentDialogVisible: false,
-      addStudentDialogForm: {
-        student_id: ''
-      }
+      multipleSelection: []
     }
   },
 
@@ -133,31 +97,13 @@ export default {
       this.students = data.data.students;
     },
 
-    // 确定点击添加学生
-    async onAddStudent() {
-
-
-      let [data, err] = await this.$awaitWrap(this.$post('class/selectionbyteacher', {
-        student_id: this.addStudentDialogForm.student_id,
-        class_id: this.$route.params.class_id
-      }));
-
-      if (err) {
-        this.addStduentDialogVisible = false;
-        this.$message.warning(err);
-        return;
-      }
-      this.addStduentDialogVisible = false;
-      this.loading = true;
-      await this.refreshStudents();
-      this.loading = false;
-      this.$message.success(data.msg);
-    },
+    // 添加
+    handleAddStudent() { },
 
     // 处理多选
     handleSelectionChange(val) {
       this.multipleSelection = val;
-    },
+    }
   },
 
   // 加载数据
@@ -202,12 +148,6 @@ export default {
     .options {
       padding-top: 20px;
       padding-left: 30px;
-
-      .link {
-        color: #409eff;
-        text-decoration: none;
-        margin-left: 12px;
-      }
     }
 
     .student-list {
