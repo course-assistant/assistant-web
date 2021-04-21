@@ -1,30 +1,48 @@
 <template>
   <div>
-    <ul id="accordion" class="accordion" >
-      <li v-for="(t1,index) in week">
-        <div :class="isShow[index]===1?'link_c':'link'" @click="liChange(index)">
-          {{t1.week_name}}
-          <span style="font-size: 12px;color: #8a8b99;margin-left: 10px">
+    <ul id="accordion" class="accordion">
+      <li v-for="(t1, index) in week">
+        <div
+          :class="isShow[index] === 1 ? 'link_c' : 'link'"
+          @click="liChange(index)"
+        >
+          {{ t1.week_name }}
+          <span style="font-size: 12px; color: #8a8b99; margin-left: 10px">
             已完成
-<!--            {{t1.week_f.ok_num}}/{{t1.week_f.total_num}}-->
+            <!--            {{t1.week_f.ok_num}}/{{t1.week_f.total_num}}-->
           </span>
-          <i class="fr" :class="isShow[index]===0?'el-icon-caret-right':'el-icon-caret-bottom'"></i>
+          <i
+            class="fr"
+            :class="
+              isShow[index] === 0
+                ? 'el-icon-caret-right'
+                : 'el-icon-caret-bottom'
+            "
+          ></i>
           <el-tag
             class="fr"
             style="margin-right: 10px"
             size="mini"
             key="未开放"
             type=""
-            effect="plain">
-             已开放 1/2
+            effect="plain"
+          >
+            已开放 1/2
           </el-tag>
         </div>
 
         <el-collapse-transition>
-          <ul class="submenu" v-if="isShow[index]===1">
+          <ul class="submenu" v-if="isShow[index] === 1">
             <li v-for="mission in t1.missions">
-              <a href="#" style="height: 30px;line-height: 30px;border-bottom:1px dashed #8a8b99">
-                {{mission.week_mission_name}}
+              <a
+                href="#"
+                style="
+                  height: 30px;
+                  line-height: 30px;
+                  border-bottom: 1px dashed #8a8b99;
+                "
+              >
+                {{ mission.week_mission_name }}
 
                 <el-tag
                   class=""
@@ -32,251 +50,308 @@
                   size="small "
                   key="未开放"
                   type=""
-                  effect="plain">
+                  effect="plain"
+                >
                   未开放
                 </el-tag>
 
                 <span class="cz1">
-                  <el-button type="text">
-                  删除
-                  </el-button>
+                  <el-button type="text"> 删除 </el-button>
                 </span>
 
                 <span class="cz2">
-                  <el-button type="text">
-                  开放
-                  </el-button>
-
+                  <el-button type="text"> 开放 </el-button>
                 </span>
-
-
-
-
               </a>
               <week-mission-detail class="wmd" :week_mission="mission" />
             </li>
-<!--            no-mission-->
-            <div class="no-mission" v-show="t1.missions.length===0">
+            <!--            no-mission-->
+            <div class="no-mission" v-show="t1.missions.length === 0">
               <span>暂无任务</span>
 
-              <span style="font-size: 14px;color: #409eff;cursor: pointer;padding-left: 40px;">添加</span>
+              <span
+                style="
+                  font-size: 14px;
+                  color: #409eff;
+                  cursor: pointer;
+                  padding-left: 40px;
+                "
+                @click="addMission(index)"
+                >添加</span
+              >
             </div>
 
-            <div class="no-mission" v-show="t1.missions.length!==0">
-<!--              <span>点击添加</span>-->
+            <div class="no-mission" v-show="t1.missions.length !== 0">
+              <!--              <span>点击添加</span>-->
 
-              <span style="font-size: 14px;color: #409eff;cursor: pointer;">添加任务</span>
+              <span style="font-size: 14px; color: #409eff; cursor: pointer"   @click="addMission(index)"
+                >添加任务</span
+              >
             </div>
-
           </ul>
         </el-collapse-transition>
-
       </li>
     </ul>
+
+
+ <el-dialog
+
+      title="编辑内容"
+      :visible.sync="addMissionDialogVisible"
+      width="50%"
+      center
+    >
+      <el-form ref="form" :model="addMissionDialogForm" label-width="80px">
+
+        <el-form-item label="任务名称">
+          <el-input placeholder="请输入名称" v-model="addMissionDialogForm.name"></el-input>
+        </el-form-item>
+
+        <!-- <el-form-item label="主要内容">
+          <el-input
+            type="textarea"
+            :rows="7"
+            placeholder="请输入内容"
+            v-model="addMissionDialogForm.content"
+          >
+          </el-input>
+        </el-form-item> -->
+
+        <el-form-item>
+          <el-button type="primary" @click="onSubmitAdd">添加</el-button>
+          <el-button @click="addMissionDialogVisible = false">取消</el-button>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
+
   </div>
 </template>
 
 <script>
-  import Vue from 'vue'
+import Vue from 'vue'
 
-  import WeekMissionDetail from "../views/Course/menu/WeekMissionDetail";
+import WeekMissionDetail from "../views/Course/menu/WeekMissionDetail";
 
-  export default {
-    props: ['week'],
-    data() {
-      return {
-        isShow: [],
-        list:[1,2,3],
-        mission:[]
-      }
-    },
-    components: {
-      WeekMissionDetail
+export default {
+  props: ['week'],
+  data() {
+    return {
+      isShow: [],
+      list: [1, 2, 3],
+      mission: [],
 
-    },
-    created(){
-      // this.refreshWeeks(i)
-
-    },
-    methods: {
-
-      refreshWeeks(missionid) {
-        this.loading = true;
-        let [data, err] = this.$awaitWrap(this.$get('weekmission/selectbymissionid', {
-          id: missionid
-        }));
-        if (err) {
-          this.$message.warning(err);
-          return;
-        }
-        this.mission.add(data.data)
-
-        console.log(this.weeks);
-        this.loading = false;
-      },
-
-
-      liChange(index){
-        console.log('点击了' + index);
-
-        if (this.isShow[index]===1){
-          for (let i = 0; i <this.isShow.length ; i++) {
-            Vue.set(this.isShow,i,0)
-          }
-        }else{
-          for (let i = 0; i <this.isShow.length ; i++) {
-            Vue.set(this.isShow,i,0)
-          }
-          Vue.set(this.isShow,index,1)
-        }
-
-      },
-      toWeekMissionList(index) {
-        this.$router.push({
-
-          path: `/course/${this.$route.params.course_id}/week-mission/week-mission-list/${this.week[index].week_id}/week-mission-detail/1`
-        });
+      addMissionDialogVisible:false,
+      addMissionDialogForm:{
+        name:'',
+        content:''
       }
     }
+  },
+  components: {
+    WeekMissionDetail
+
+  },
+  created() {
+    // this.refreshWeeks(i)
+
+  },
+  methods: {
+
+    refreshWeeks(missionid) {
+      this.loading = true;
+      let [data, err] = this.$awaitWrap(this.$get('weekmission/selectbymissionid', {
+        id: missionid
+      }));
+      if (err) {
+        this.$message.warning(err);
+        return;
+      }
+      this.mission.add(data.data)
+
+      console.log(this.weeks);
+      this.loading = false;
+    },
+
+
+    liChange(index) {
+      console.log('点击了' + index);
+
+      if (this.isShow[index] === 1) {
+        for (let i = 0; i < this.isShow.length; i++) {
+          Vue.set(this.isShow, i, 0)
+        }
+      } else {
+        for (let i = 0; i < this.isShow.length; i++) {
+          Vue.set(this.isShow, i, 0)
+        }
+        Vue.set(this.isShow, index, 1)
+      }
+
+    },
+    toWeekMissionList(index) {
+      this.$router.push({
+
+        path: `/course/${this.$route.params.course_id}/week-mission/week-mission-list/${this.week[index].week_id}/week-mission-detail/1`
+      });
+    },
+
+
+    addMission(index) {
+
+      let week_id = this.week[index]['week_id']
+      console.log('week: ' + week_id);
+
+      console.log(this.week[index]);
+
+      this.addMissionDialogForm.week_id = week_id;
+      this.addMissionDialogVisible = true;
+    },
+
+    async onSubmitAdd(){
+      console.log(this.addMissionDialogForm);
+      let [data, err] = await this.$awaitWrap(this.$post('weekmission/insert', {
+        week_id:this.addMissionDialogForm.week_id,
+        name: this.addMissionDialogForm.name,
+        type:1
+      }));
+      this.addMissionDialogVisible = false;
+
+      if(err){
+        this.$message.warning(err);
+        return;
+      }
+      this.$message.success(data.msg);
+
+      // 刷新
+      
+    }
+
   }
+}
 </script>
 <style scoped>
+.accordion {
+  width: 100%;
+  /*max-width: 700px;*/
+  margin: 30px auto 20px;
+  background: #fff;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+}
 
-  .accordion {
-    width: 100%;
-    /*max-width: 700px;*/
-    margin: 30px auto 20px;
-    background: #FFF;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    border-radius: 4px;
-  }
+.accordion .link {
+  cursor: pointer;
+  display: block;
+  padding: 15px 15px 15px 42px;
+  color: #4d4d4d;
+  font-size: 14px;
+  font-weight: 700;
+  border-bottom: 1px solid #ccc;
+  position: relative;
+}
 
-  .accordion .link {
-    cursor: pointer;
-    display: block;
-    padding: 15px 15px 15px 42px;
-    color: #4D4D4D;
-    font-size: 14px;
-    font-weight: 700;
-    border-bottom: 1px solid #CCC;
-    position: relative;
-  }
+.link_c {
+  cursor: pointer;
+  display: block;
+  padding: 15px 15px 15px 42px;
+  color: #b63b4d;
+  font-size: 14px;
+  font-weight: 700;
+  border-bottom: 1px solid #ccc;
+  position: relative;
+}
 
+.no-mission {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 40px;
+  /*text-align: center;*/
+  position: relative;
+  color: #8a8b99;
+  font-size: 12px;
+  min-width: 1000px;
+  background: #fff;
+  box-shadow: 1px 7px 5px -5px rgba(0, 0, 0, 0.3);
+}
 
-  .link_c{
-    cursor: pointer;
-    display: block;
-    padding: 15px 15px 15px 42px;
-    color: #b63b4d;
-    font-size: 14px;
-    font-weight: 700;
-    border-bottom: 1px solid #CCC;
-    position: relative;
-  }
+ul {
+  list-style-type: none;
+}
 
-  .no-mission{
-    padding-top:  10px;
-    padding-bottom: 10px;
-    padding-left: 40px;
-    /*text-align: center;*/
-    position: relative;
-    color: #8a8b99;
-    font-size: 12px;
-    min-width: 1000px;
-    background: #fff;
-    box-shadow: 1px 7px 5px -5px rgba(0, 0, 0, 0.3);
-  }
+.submenu {
+  display: block;
+  background: #ffffff;
+  font-size: 14px;
+}
 
+.submenu li {
+  /*border-bottom: 1px dashed #4b4a5e ;*/
+}
 
+.submenu a {
+  display: block;
+  text-decoration: none;
+  color: #5557b6;
+  padding-top: 12px;
+  margin-left: 42px;
+  margin-right: 42px;
+  font-weight: 700;
 
+  -webkit-transition: all 0.25s ease;
+  -o-transition: all 0.25s ease;
+  transition: all 0.25s ease;
+}
 
+h1 {
+  color: #fff;
+  font-size: 24px;
+  font-weight: 400;
+  text-align: center;
+  margin-top: 80px;
+}
 
-  ul {
-    list-style-type: none;
-  }
+h1 a {
+  /*color: #c12c42;*/
+  font-size: 16px;
+}
 
-  .submenu {
-    display: block;
-    background: #ffffff;
-    font-size: 14px;
-  }
+/*a:hover {*/
+/*  !*background: #b63b4d;*!*/
+/*  color: #409eff;*/
+/*}*/
 
-  .submenu li {
-    /*border-bottom: 1px dashed #4b4a5e ;*/
-  }
+.fade-enter-active,
+.fade-leave-active {
+  transition: height 0.3s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active, 2.1.8 版本以下 */ {
+  height: 0;
+}
 
-  .submenu a {
-    display: block;
-    text-decoration: none;
-    color: #5557b6;
-    padding-top: 12px;
-    margin-left:  42px;
-    margin-right: 42px;
-    font-weight: 700;
-
-    -webkit-transition: all 0.25s ease;
-    -o-transition: all 0.25s ease;
-    transition: all 0.25s ease;
-  }
-
-  h1 {
-    color: #FFF;
-    font-size: 24px;
-    font-weight: 400;
-    text-align: center;
-    margin-top: 80px;
-  }
-
-
-
-  h1 a {
-    /*color: #c12c42;*/
-    font-size: 16px;
-  }
-
-  /*a:hover {*/
-  /*  !*background: #b63b4d;*!*/
-  /*  color: #409eff;*/
-  /*}*/
-
-  .fade-enter-active, .fade-leave-active {
-    transition: height 0.3s
-  }
-  .fade-enter, .fade-leave-to /* .fade-leave-active, 2.1.8 版本以下 */ {
-    height: 0;
-
-  }
-
-  .wmd{
-    /*margin-left: 42px;*/
-  }
-
+.wmd {
+  /*margin-left: 42px;*/
+}
 
 /*  图片*/
 
-  .fr{
-    float: right;
-  }
+.fr {
+  float: right;
+}
 
-  .cz1{
+.cz1 {
+  /*line-height: 24px;*/
 
-    /*line-height: 24px;*/
+  float: right;
 
-    float: right;
+  /*padding-right: 20px;*/
+}
 
-    /*padding-right: 20px;*/
+.cz2 {
+  /*line-height: 24px;*/
 
-  }
+  float: right;
 
-  .cz2{
-
-    /*line-height: 24px;*/
-
-    float: right;
-
-    padding-right: 20px;
-
-  }
-
+  padding-right: 20px;
+}
 </style>
