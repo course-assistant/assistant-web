@@ -1,7 +1,22 @@
 <template>
   <div class="container">
     <div class="round-div">
-      <p>设置</p>
+      <div style="margin: 20px 30px">
+        <div class="section">
+          <p class="title">课程封面</p>
+          <img class="cover" :src="course.cover" alt="" />
+        </div>
+
+        <div class="section">
+          <p class="title">课程名称</p>
+          <p>{{ course.name }}</p>
+        </div>
+
+        <div class="section">
+          <p class="title">课程教师</p>
+          <p>{{ course.teacher }}</p>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -11,7 +26,13 @@ export default {
 
   data() {
     return {
-      courseId: 0
+      courseId: 0,
+
+      course: {
+        cover: 'https://tanyiqu.oss-cn-hangzhou.aliyuncs.com/assistant/img/course-cover/01.jpg',
+        name: '移动终端开发',
+        teacher: '张妍琰'
+      }
     }
   },
 
@@ -24,7 +45,7 @@ export default {
 
   // 加载数据
   async beforeMount() {
-    // this.courseId = this.$route.query.course_id;
+
   }
 }
 </script>
@@ -47,6 +68,21 @@ export default {
     border-radius: 16px;
     background: #fff;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+
+    .section {
+      margin-bottom: 20px;
+      .title {
+        font-size: 16px;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+
+      .cover {
+        width: 280px;
+        height: 168px;
+        border-radius: 6px;
+      }
+    }
   }
 }
 </style>
