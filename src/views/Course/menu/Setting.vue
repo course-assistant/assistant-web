@@ -4,18 +4,31 @@
       <div style="margin: 20px 30px">
         <div class="section">
           <p class="title">课程封面</p>
-          <img class="cover" :src="course.cover" alt="" />
+          <img class="cover" :src="course.course_cover" alt="" />
         </div>
 
         <div class="section">
           <p class="title">课程名称</p>
-          <p>{{ course.name }}</p>
+
+          <el-input
+            v-if="editing"
+            v-model="course.course_name"
+            placeholder="请输入课程名称"
+            style="width: 300px"
+          ></el-input>
+
+          <p v-else>{{ course.course_name }}</p>
         </div>
 
         <div class="section">
           <p class="title">课程教师</p>
-          <p>{{ course.teacher }}</p>
+          <p>{{ course.teacher_name }}</p>
         </div>
+
+        <el-button v-if="editing" type="primary" round @click="save"
+          >保存</el-button
+        >
+        <el-button v-else type="primary" round @click="edit">编辑</el-button>
       </div>
     </div>
   </div>
@@ -28,12 +41,55 @@ export default {
     return {
       courseId: 0,
 
+      editing: false,
+
       course: {
-        cover: 'https://tanyiqu.oss-cn-hangzhou.aliyuncs.com/assistant/img/course-cover/01.jpg',
-        name: '移动终端开发',
-        teacher: '张妍琰'
+        course_cover: '',
+        course_name: '',
+        teacher_name: ''
       }
     }
+  },
+
+  // 加载数据
+  async beforeMount() {
+    await this.refresh();
+  },
+
+  methods: {
+    // 加载数据
+    async refresh() {
+      let [data, err] = await this.$awaitWrap(this.$get('course/findbyid', {
+        id: this.$route.params.course_id
+      }));
+      if (err) {
+        this.$message.warning(err);
+        return;
+      }
+      this.course = data.data;
+    },
+
+    // 点击编辑
+    edit() {
+      this.editing = true;
+    },
+
+    // 保存修改
+    async save() {
+      let [data, err] = await this.$awaitWrap(this.$post('course/update', {
+        course_id: this.$route.params.course_id,
+        teacher_id: localStorage.getItem('hncj_management_teacher_id'),
+        name: this.course.course_name
+      }));
+      if (err) {
+        this.$message.warning(err);
+        this.editing = false;
+        return;
+      }
+      await this.refresh();
+      this.$message.success(data.msg);
+      this.editing = false;
+    },
   },
 
   beforeCreate() {
@@ -43,10 +99,7 @@ export default {
     }
   },
 
-  // 加载数据
-  async beforeMount() {
 
-  }
 }
 </script>
 
