@@ -86,11 +86,13 @@ export default {
     .discussion-title {
       margin: 4px 0;
       font-size: 18px;
+      color: #59657d;
     }
 
     .discussion-content {
       margin: 3px 0;
       font-size: 16px;
+      color: #666666;
     }
   }
 
