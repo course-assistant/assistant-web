@@ -22,6 +22,8 @@ import Discussion from '@/views/Course/menu/Discussion.vue';
 import Statistics from '@/views/Course/menu/Statistics.vue';
 import Setting from '@/views/Course/menu/Setting.vue';
 
+import AddTest from "../components/test/AddTest";
+import MainTest from "../components/test/MainTest";
 
 const originalPush = VueRouter.prototype.push;
 
@@ -154,10 +156,25 @@ const routes = [
           {
             name: 'Test',
             path: 'test',
-            component: Test,
+            component: MainTest,
             meta: {
               title: '课程详情 - 随堂测试'
-            }
+            },
+            children:[
+              {
+                path: '/',
+                component: Test,
+              },
+              {
+                name:'AddTest',
+                path: 'addTest',
+                component: AddTest,
+                meta:{
+                  title:'添加测试'
+                }
+              }
+
+            ]
           },
 
           // 课堂讨论
@@ -188,7 +205,9 @@ const routes = [
             meta: {
               title: '课程详情 - 管理'
             }
-          }
+          },
+
+
         ],
       },
     ],
