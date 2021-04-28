@@ -51,8 +51,10 @@ export default {
 <style lang="less" scoped>
 .discussion-item {
   position: relative;
+  padding-top: 10px;
   width: 100%;
-  height: 146px;
+  min-height: 120px;
+  max-height: 146px;
   background: #fff;
   border-bottom: solid 1px #f2f2f2;
   cursor: pointer;

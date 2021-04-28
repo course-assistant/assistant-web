@@ -86,12 +86,12 @@ export default {
       courseId: 0,
 
       discussions: [
-        {
-          discussion_id: 1,
-          discussion_title: '关于小程序的看法',
-          discussion_content: '对于小程序开发，哪些服务是可以接入，哪些又是不可以接入的呢？分享几款令你印象深刻的小程序吧，说说自己的使用体验。',
-          discussion_date: '2021-4-4 12:34:56'
-        }
+        // {
+        //   discussion_id: 1,
+        //   discussion_title: '关于小程序的看法',
+        //   discussion_content: '对于小程序开发，哪些服务是可以接入，哪些又是不可以接入的呢？分享几款令你印象深刻的小程序吧，说说自己的使用体验。',
+        //   discussion_date: '2021-4-4 12:34:56'
+        // },
       ],
 
       addDiscussionDialogVisible: false,
@@ -115,22 +115,51 @@ export default {
     // 加载数据
     async refresh() {
       this.loading = true;
-
       console.log('加载讨论 ' + this.courseId);
-
+      let [data, err] = await this.$awaitWrap(this.$get('discussioncomment/selectbycourse', {
+        id: this.courseId
+      }));
       this.loading = false;
+      if (err) {
+        this.$message.warning(err);
+        return;
+      }
+      this.discussions = data.data;
     },
+
 
     // 点击确定添加讨论
     async onAddDiscussion() {
+      console.log(this.addDiscussionForm);
 
+      let [data, err] = await this.$awaitWrap(this.$post('discussioncomment/issuediscussion', {
+        id: this.courseId,
+        title: this.addDiscussionForm.title,
+        content: this.addDiscussionForm.content
+      }));
+      if (err) {
+        this.$$message.warning(err);
+        return;
+      }
+      this.addDiscussionDialogVisible = false;
+      await this.refresh();
+      this.$message.success(data.msg);
     },
 
 
     // 点击删除讨论
     deleteDiscussion(id) {
       this.$cfm('确定删除？', async () => {
-
+        console.log(id);
+        let [data, err] = await this.$awaitWrap(this.$post('discussioncomment/deletediscussion', {
+          id
+        }));
+        if (err) {
+          this.$$message.warning(err);
+          return;
+        }
+        await this.refresh();
+        this.$message.success(data.msg);
       });
     },
   },
