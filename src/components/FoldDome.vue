@@ -223,7 +223,8 @@ export default {
       this.$message.success(data.msg);
 
       // 刷新
-      
+      // this.$router.go(0);
+      location.reload()
     }
 
   }
@@ -285,9 +286,9 @@ ul {
   font-size: 14px;
 }
 
-.submenu li {
+/* .submenu li { */
   /*border-bottom: 1px dashed #4b4a5e ;*/
-}
+/* } */
 
 .submenu a {
   display: block;
@@ -329,9 +330,9 @@ h1 a {
   height: 0;
 }
 
-.wmd {
+/* .wmd { */
   /*margin-left: 42px;*/
-}
+/* } */
 
 /*  图片*/
 
