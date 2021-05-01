@@ -63,7 +63,7 @@ export default {
       // 这个0可以记录有没有传递课程id，没有传递的默认就是0
       courseId: 0,
       courseName: '测试课程',
-      courseCover: 'http://p.ananas.chaoxing.com/star3/240_130c/b7b9a80175b2d80938d72fcbfdabce24.jpg',
+      courseCover: 'https://tanyiqu.oss-cn-hangzhou.aliyuncs.com/assistant/img/course-cover/01.jpg',
     }
   },
 

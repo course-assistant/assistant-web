@@ -26,7 +26,7 @@ export default {
         course_id: 1,
         course_name: '课程名',
         teacher_name: '教师名',
-        course_cover: 'http://p.ananas.chaoxing.com/star3/240_130c/b7b9a80175b2d80938d72fcbfdabce24.jpg'
+        course_cover: 'https://tanyiqu.oss-cn-hangzhou.aliyuncs.com/assistant/img/course-cover/01.jpg'
       },
 
       showOpts: false,

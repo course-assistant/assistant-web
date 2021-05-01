@@ -4,7 +4,7 @@
     <div id="header">
       <img
         class="logo"
-        src="https://i.loli.net/2021/02/18/yrSGnMYqtmhHjbU.png"
+        src="https://tanyiqu.oss-cn-hangzhou.aliyuncs.com/assistant/img/logo.png"
         alt="logo"
         @click="toIndex"
       />
