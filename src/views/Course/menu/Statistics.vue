@@ -18,37 +18,58 @@
         <!-- 统计情况 -->
         <div class="statistics">
           <div class="column column-2">
-            <StatisticsItem text="学生人数" num="15" q="人" />
-            <StatisticsItem text="ss" />
+            <SItem text="任务" num="195" q="个" backcolor="#67dac1" />
+            <SItem text="讨论话题" num="195" q="个" backcolor="#65a4fc" />
           </div>
 
           <div class="column column-1">
-            <StatisticsItem text="ss" />
+            <SItem text="学生人数" num="195" q="人" backcolor="#46c8e8" />
           </div>
 
           <div class="column column-1">
-            <StatisticsItem text="ss" />
-            <StatisticsItem text="ss" />
-            <StatisticsItem text="ss" />
+            <SItem text="题库总数" num="195" q="题" backcolor="#fb7293" />
+            <SItem text="随堂测试" num="195" q="次" backcolor="#9d91f2" />
           </div>
         </div>
 
         <!-- 学生数据 -->
         <div class="student-info">
-          <p>ssss</p>
-          <p>ssss</p>
-          <p>ssss</p>
-          <p>ssss</p>
-          <p>ssss</p>
-          <p>ssss</p>
-          <p>ssss</p>
-          <p>ssss</p>
-          <p>ssss</p>
-          <p>ssss</p>
-          <p>ssss</p>
-          <p>ssss</p>
-          <p>ssss</p>
-          <p>ssss</p>
+          <!-- 表格 -->
+          <div class="teble">
+            <el-table :data="student_info" border style="width: 100%">
+              <el-table-column prop="num" label="序号" width="70" />
+
+              <el-table-column prop="name" label="姓名" width="100" />
+
+              <el-table-column prop="id" label="学号" width="140" />
+
+              <el-table-column
+                prop="mission_num"
+                label="任务查看数"
+                width="180"
+              />
+
+              <el-table-column
+                prop="discussion_num"
+                label="参与话题次数"
+                width="180"
+              />
+
+              <el-table-column
+                prop="test_num"
+                label="参与测验次数"
+                width="180"
+              />
+
+              <el-table-column
+                prop="evaluation_num"
+                label="课堂评价次数"
+                width="180"
+              />
+
+              <el-table-column prop="overview" label="综合" />
+            </el-table>
+          </div>
         </div>
       </div>
     </div>
@@ -56,17 +77,28 @@
 </template>
 
 <script>
-import StatisticsItem from '@/components/StatisticsItem.vue';
+import SItem from '@/components/StatisticsItem.vue';
 
 export default {
 
   data() {
     return {
-      courseId: 0
+      courseId: 0,
+
+      student_info: [{
+        num: 1,
+        name: '吴硕',
+        id: '081417137',
+        mission_num: '5 / 10',
+        discussion_num: '5 / 10',
+        test_num: '5 / 10',
+        evaluation_num: '5 / 10',
+        overview: '88',
+      }]
     }
   },
 
-  components: { StatisticsItem },
+  components: { SItem },
 
   beforeCreate() {
     // 检有没有携带参数
@@ -159,7 +191,7 @@ export default {
       // 统计情况
       .statistics {
         width: @width;
-        height: 260px;
+        height: 280px;
         margin: 10px auto;
         display: flex;
         // background: saddlebrown;

@@ -1,26 +1,22 @@
 <template>
-  <div class="statistics-item" :style="{}">
-    <p>{{text}}</p>
-    <p>{{num}} {{ q }}</p>
+  <div class="statistics-item" :style="{ background: backcolor }">
+    <p class="text">{{ text }}</p>
+    <div class="num">
+      <span class="num">{{ num }} </span>
+      <span class="q">{{ q }}</span>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  props: ['text', 'num', 'q', 'height', 'backcolor'],
-
-
-  beforeMount() {
-    console.log('q ' + this.q);
-  },
+  props: ['text', 'num', 'q', 'backcolor'],
 }
 
 </script>
 
 <style lang="less" scoped>
 .statistics-item {
-  display: flex;
-  flex-direction: column;
   flex: 1;
   padding: 20px 0;
   padding-left: 20px;
@@ -28,5 +24,29 @@ export default {
   background: olive;
   color: #fff;
   margin-bottom: 10px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+
+  .text {
+    font-size: 20px;
+  }
+
+  .num {
+    width: 100px;
+    margin-top: 10px;
+    display: flex;
+    align-items: flex-end;
+
+    .num {
+      font-size: 32px;
+      // font-weight: bold;
+    }
+
+    .q {
+      font-size: 18px;
+    }
+  }
 }
 </style>
