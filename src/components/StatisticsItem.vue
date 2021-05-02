@@ -1,4 +1,5 @@
 <template>
+  <!-- 统计页面 彩色方块组件 -->
   <div class="statistics-item" :style="{ background: backcolor }">
     <p class="text">{{ text }}</p>
     <div class="num">

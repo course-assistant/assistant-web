@@ -17,16 +17,16 @@
 
         <!-- 统计情况 -->
         <div class="statistics">
-          <div class="column column-2">
+          <div class="column">
             <SItem text="任务" num="195" q="个" backcolor="#67dac1" />
             <SItem text="讨论话题" num="195" q="个" backcolor="#65a4fc" />
           </div>
 
-          <div class="column column-1">
+          <div class="column">
             <SItem text="学生人数" num="195" q="人" backcolor="#46c8e8" />
           </div>
 
-          <div class="column column-1">
+          <div class="column">
             <SItem text="题库总数" num="195" q="题" backcolor="#fb7293" />
             <SItem text="随堂测试" num="195" q="次" backcolor="#9d91f2" />
           </div>
@@ -192,7 +192,7 @@ export default {
       .statistics {
         width: @width;
         height: 280px;
-        margin: 10px auto;
+        margin: 20px auto;
         display: flex;
         // background: saddlebrown;
 
@@ -202,14 +202,9 @@ export default {
           height: 100%;
           display: flex;
           flex-direction: column;
-          // background: salmon;
-
           display: flex;
           flex-direction: column;
           justify-content: space-between;
-        }
-
-        .column-1 {
         }
       }
 
