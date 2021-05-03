@@ -46,6 +46,18 @@
             show-overflow-tooltip
           >
           </el-table-column>
+
+          <el-table-column fixed="right" label="操作" width="100">
+            <template slot-scope="scope">
+              <el-button
+                type="text"
+                size="small"
+                @click="removeStudent(scope.row.student_id)"
+              >
+                移出
+              </el-button>
+            </template>
+          </el-table-column>
         </el-table>
       </div>
     </div>
@@ -96,6 +108,25 @@ export default {
       }
       this.students = data.data.students;
     },
+
+
+    removeStudent(id) {
+      console.log('删除学生 ' + id);
+      console.log('班级id ' + this.$route.params.class_id);
+      this.$cfm('确定删除？', async () => {
+        let [data, err] = await this.$awaitWrap(this.$post('class/removestudent', {
+          student_id: id,
+          class_id: this.$route.params.class_id
+        }));
+        if (err) {
+          this.$message.warning(err);
+          return;
+        }
+        await this.refreshStudents();
+        this.$message.success(data.msg);
+      });
+    },
+
 
     // 添加
     handleAddStudent() { },
