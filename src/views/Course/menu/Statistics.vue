@@ -18,17 +18,42 @@
         <!-- 统计情况 -->
         <div class="statistics">
           <div class="column">
-            <SItem text="任务" num="195" q="个" backcolor="#67dac1" />
-            <SItem text="讨论话题" num="195" q="个" backcolor="#65a4fc" />
+            <SItem
+              text="任务"
+              :num="course_info.discussion_num"
+              q="个"
+              backcolor="#67dac1"
+            />
+            <SItem
+              text="讨论话题"
+              :num="course_info.mission_num"
+              q="个"
+              backcolor="#65a4fc"
+            />
           </div>
 
           <div class="column">
-            <SItem text="学生人数" num="195" q="人" backcolor="#46c8e8" />
+            <SItem
+              text="学生人数"
+              :num="course_info.question_num"
+              q="人"
+              backcolor="#46c8e8"
+            />
           </div>
 
           <div class="column">
-            <SItem text="题库总数" num="195" q="题" backcolor="#fb7293" />
-            <SItem text="随堂测试" num="195" q="次" backcolor="#9d91f2" />
+            <SItem
+              text="题库总数"
+              :num="course_info.student_num"
+              q="题"
+              backcolor="#fb7293"
+            />
+            <SItem
+              text="随堂测试"
+              :num="course_info.test_num"
+              q="次"
+              backcolor="#9d91f2"
+            />
           </div>
         </div>
 
@@ -86,6 +111,14 @@ export default {
     return {
       courseId: 0,
 
+      course_info: {
+        discussion_num: 0,
+        mission_num: 0,
+        question_num: 0,
+        student_num: 0,
+        test_num: 0
+      },
+
       student_info: [{
         num: 1,
         name: '吴硕',
@@ -98,6 +131,9 @@ export default {
       }],
 
       chart: null,
+
+      // 近期访问数
+      recent: [5, 41, 192, 116, 36, 43, 13]
     }
   },
 
@@ -105,7 +141,8 @@ export default {
 
   // 加载数据
   async beforeMount() {
-    this.courseId = this.$route.query.course_id;
+    this.courseId = this.$route.params.course_id;
+    await this.refresh();
   },
 
   // 绘制图表
@@ -114,6 +151,20 @@ export default {
   },
 
   methods: {
+
+    // 刷新数据
+    async refresh() {
+      let [data, err] = await this.$awaitWrap(this.$get('statistics/profile', {
+        id: this.courseId
+      }));
+      if (err) {
+        this.$message.warning(err);
+        return;
+      }
+      this.course_info = data.data;
+    },
+
+    // 画图表
     drawLineChart() {
       this.chart = echarts.init(document.getElementById('line'));
       let option = {
@@ -150,7 +201,7 @@ export default {
             name: '课程活动数',
             type: 'line',
             stack: '总量',
-            data: [5, 41, 192, 116, 36, 43, 13]
+            data: this.recent
           }
         ]
       };
