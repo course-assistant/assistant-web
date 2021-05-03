@@ -77,17 +77,7 @@ export default {
           思政部分：安卓技术的发展史，技术的突破对提高项目开发效率的影响。鸿蒙系统的崛起，自有技术的重要性等。`,
           degree: 1,
           quality: 4.6
-        },
-        {
-          lesson_id: 0,
-          lesson_name: '第02课时',
-          lesson_content: `（1）Android简介（了解）
-          （2）Android Studio的安装与调试（掌握）
-          （3）创建HelloAndroid项目（掌握）
-          （4）Android Studio中的SDK设置`,
-          degree: 3,
-          quality: 4.6
-        },
+        }
       ],
 
       addDialogVisible: false,
@@ -101,11 +91,24 @@ export default {
   components: { LessonItem },
 
   // 加载数据
-  beforeMount() {
+  async beforeMount() {
     this.course_id = this.$route.params.course_id;
+    await this.refresh();
   },
 
   methods: {
+
+    async refresh() {
+      let [data, err] = await this.$awaitWrap(this.$get('lesson/selectbycourseid', {
+        id: this.course_id
+      }));
+      if (err) {
+        this.$message.warning(err);
+        return;
+      }
+      this.lessons = data.data;
+      console.log(data);
+    },
 
     // 确定添加
     onAdd() {
