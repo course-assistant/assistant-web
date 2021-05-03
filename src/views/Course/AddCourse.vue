@@ -67,7 +67,7 @@
           <el-input v-model="addCourseFormData.courseWeekNum"></el-input>
         </el-form-item>
 
-        <el-form-item label="周课程数">
+        <!-- <el-form-item label="周课程数">
           <el-col class="line" :span="2" style="margin-left: 10px">
             单周节数
           </el-col>
@@ -84,7 +84,7 @@
           <el-col class="line" :span="10" style="margin-left: 20px">
             注：指课程表上的一节课
           </el-col>
-        </el-form-item>
+        </el-form-item> -->
 
         <div class="btns">
           <el-button
@@ -121,7 +121,7 @@ export default {
         teacherId: '0',
         courseName: '',
         teacherName: '',
-        courseCover: 'https://p.ananas.chaoxing.com/star3/origin/b7b9a80175b2d80938d72fcbfdabce24.jpg',
+        courseCover: 'https://tanyiqu.oss-cn-hangzhou.aliyuncs.com/assistant/img/course-cover/01.jpg',
         courseWeekNum: 1,
         oddLesson: 1,
         evenLesson: 1
@@ -262,7 +262,7 @@ export default {
   align-items: center;
 
   .round-div {
-    height: 560px;
+    height: 520px;
     width: 980px;
     border-radius: 16px;
     background: #fff;
