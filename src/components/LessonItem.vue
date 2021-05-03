@@ -26,7 +26,8 @@
             <el-link
               :underline="false"
               type="primary"
-              style="margin-left: 12px"
+              style="margin-left: 16px"
+              @click="showDetail"
             >
               查看详情
             </el-link>
@@ -48,7 +49,13 @@ export default {
       rate_colors: ['#99A9BF', '#F7BA2A', '#FF9900']
     }
   },
-  props: ['lesson']
+  props: ['lesson'],
+
+  methods: {
+    showDetail() {
+      console.log(this.lesson.lesson_id);
+    }
+  },
 }
 </script>
 

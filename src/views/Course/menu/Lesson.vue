@@ -6,7 +6,14 @@
       element-loading-text="正在加载中，请稍等..."
     >
       <div class="main-container">
-        <el-button type="primary" icon="el-icon-plus" round>添加内容</el-button>
+        <el-button
+          type="primary"
+          icon="el-icon-plus"
+          @click="addDialogVisible = true"
+          round
+        >
+          添加内容
+        </el-button>
 
         <el-row>
           <el-col :span="24" v-for="(lesson, index) in lessons" :key="index">
@@ -15,6 +22,36 @@
         </el-row>
       </div>
     </div>
+
+    <!-- 对话框 -->
+    <el-dialog title="添加内容" :visible.sync="addDialogVisible" width="50%">
+      <el-form :model="addForm" label-position="left">
+        <el-form-item>
+          <el-input
+            v-model="addForm.name"
+            placeholder="请输入课时名"
+          ></el-input>
+        </el-form-item>
+
+        <el-form-item>
+          <el-input
+            type="textarea"
+            :rows="7"
+            placeholder="请输入内容"
+            v-model="addForm.content"
+            clearable
+          >
+          </el-input>
+        </el-form-item>
+      </el-form>
+
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="addDialogVisible = false" clearable>
+          取 消
+        </el-button>
+        <el-button type="primary" @click="onAdd"> 确 定 </el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -29,6 +66,7 @@ export default {
 
       lessons: [
         {
+          lesson_id: 0,
           lesson_name: '第01课时',
           lesson_content: `（1）Android简介（了解）
           （2）Android Studio的安装与调试（掌握）
@@ -41,6 +79,7 @@ export default {
           quality: 4.6
         },
         {
+          lesson_id: 0,
           lesson_name: '第02课时',
           lesson_content: `（1）Android简介（了解）
           （2）Android Studio的安装与调试（掌握）
@@ -49,17 +88,13 @@ export default {
           degree: 3,
           quality: 4.6
         },
-        {
-          lesson_name: '第02课时',
-          lesson_content: `（1）Android简介（了解）
-          （2）Android Studio的安装与调试（掌握）
-          （3）创建HelloAndroid项目（掌握）
-          （4）Android Studio中的SDK设置
-          思政部分：安卓技术的发展史，技术的突破对提高项目开发效率的影响。鸿蒙系统的崛起，自有技术的重要性等。`,
-          degree: 5,
-          quality: 4.6
-        },
-      ]
+      ],
+
+      addDialogVisible: false,
+      addForm: {
+        name: '',
+        content: ''
+      }
     }
   },
 
@@ -72,6 +107,10 @@ export default {
 
   methods: {
 
+    // 确定添加
+    onAdd() {
+      console.log(this.addForm);
+    }
   },
 
 }
