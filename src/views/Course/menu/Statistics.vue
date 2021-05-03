@@ -12,7 +12,7 @@
             <p class="teacher">课程教师 张妍琰</p>
             <p class="count">学生人数 <span>124</span></p>
           </div>
-          <div class="chart"></div>
+          <div id="line" class="chart"></div>
         </div>
 
         <!-- 统计情况 -->
@@ -78,6 +78,7 @@
 
 <script>
 import SItem from '@/components/StatisticsItem.vue';
+import * as echarts from 'echarts';
 
 export default {
 
@@ -94,11 +95,69 @@ export default {
         test_num: '5 / 10',
         evaluation_num: '5 / 10',
         overview: '88',
-      }]
+      }],
+
+      chart: null,
     }
   },
 
   components: { SItem },
+
+  // 加载数据
+  async beforeMount() {
+    this.courseId = this.$route.query.course_id;
+  },
+
+  // 绘制图表
+  mounted() {
+    this.drawLineChart();
+  },
+
+  methods: {
+    drawLineChart() {
+      this.chart = echarts.init(document.getElementById('line'));
+      let option = {
+        title: {
+          text: '近七天访问'
+        },
+        tooltip: {
+          trigger: 'axis'
+        },
+        legend: {
+          data: ['课程活动数']
+        },
+        grid: {
+          left: '3%',
+          right: '4%',
+          bottom: '3%',
+          containLabel: true
+        },
+        toolbox: {
+          feature: {
+            saveAsImage: {}
+          }
+        },
+        xAxis: {
+          type: 'category',
+          boundaryGap: false,
+          data: ['', '', '', '', '', '', '']
+        },
+        yAxis: {
+          type: 'value'
+        },
+        series: [
+          {
+            name: '课程活动数',
+            type: 'line',
+            stack: '总量',
+            data: [5, 41, 192, 116, 36, 43, 13]
+          }
+        ]
+      };
+      this.chart.setOption(option);
+    }
+
+  },
 
   beforeCreate() {
     // 检有没有携带参数
@@ -107,10 +166,7 @@ export default {
     }
   },
 
-  // 加载数据
-  async beforeMount() {
-    this.courseId = this.$route.query.course_id;
-  }
+
 }
 </script>
 
@@ -184,7 +240,7 @@ export default {
           height: 150px;
           width: 340px;
           margin: 0 auto;
-          background: #fb7293;
+          // background: #fb7293;
         }
       }
 
