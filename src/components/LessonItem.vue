@@ -37,6 +37,15 @@
 
       <h3 style="margin-bottom: 10px">主讲内容</h3>
       <p v-html="convertHtml(lesson.lesson_content)"></p>
+      <div class="delete">
+        <el-link
+          type="primary"
+          icon="el-icon-delete"
+          :underline="false"
+          style="font-size: 18px"
+          @click="onDelete"
+        ></el-link>
+      </div>
     </el-card>
   </div>
 </template>
@@ -54,7 +63,11 @@ export default {
   methods: {
     showDetail() {
       console.log(this.lesson.lesson_id);
-    }
+    },
+
+    onDelete() {
+      this.$emit('delete', this.lesson.lesson_id);
+    },
   },
 }
 </script>
@@ -62,15 +75,31 @@ export default {
 <style lang="less" scoped>
 .lesson-item {
   margin: 20px 10px 0;
-  .card-header {
+  .box-card {
     position: relative;
-    display: flex;
-    align-items: center;
-
-    .rate {
-      position: absolute;
-      right: 0;
+    .card-header {
+      position: relative;
       display: flex;
+      align-items: center;
+
+      .rate {
+        position: absolute;
+        right: 0;
+        display: flex;
+      }
+    }
+
+    .delete {
+      display: none;
+      position: absolute;
+      right: 20px;
+      bottom: 10px;
+    }
+
+    &:hover {
+      .delete {
+        display: block;
+      }
     }
   }
 }

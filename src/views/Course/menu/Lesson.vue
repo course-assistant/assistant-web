@@ -17,7 +17,7 @@
 
         <el-row>
           <el-col :span="24" v-for="(lesson, index) in lessons" :key="index">
-            <LessonItem :lesson="lesson" />
+            <LessonItem :lesson="lesson" @delete="deleteLesson" />
           </el-col>
         </el-row>
       </div>
@@ -111,8 +111,36 @@ export default {
     },
 
     // 确定添加
-    onAdd() {
-      console.log(this.addForm);
+    async onAdd() {
+      if ('' === this.addForm.name || '' === this.addForm.content) {
+        this.$message.warning('请输入');
+        return;
+      }
+      let [data, err] = await this.$awaitWrap(this.$post('lesson/insert', {
+        id: this.course_id,
+        name: this.addForm.name,
+        content: this.addForm.content
+      }));
+      if (err) {
+        this.$message.warning(err);
+        return;
+      }
+      this.addDialogVisible = false;
+      await this.refresh();
+      this.$message.success(data.msg);
+    },
+
+    // 确定删除
+    async deleteLesson(id) {
+      this.$cfm('确定删除？', async () => {
+        let [data, err] = await this.$awaitWrap(this.$post('lesson/delete', { id }));
+        if (err) {
+          this.$message.warning(err);
+          return;
+        }
+        this.refresh();
+        this.$message.success(data.msg);
+      });
     }
   },
 
