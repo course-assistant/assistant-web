@@ -5,154 +5,65 @@
       v-loading="loading"
       element-loading-text="正在加载中，请稍等..."
     >
-
-
-
       <div class="main-container">
-        <div style="margin-left: 20px;margin-top:20px;width: 400px">
+        <el-button type="primary" icon="el-icon-plus" round>添加内容</el-button>
 
-          <el-card class="box-card">
-            <template #header>
-              <div class="card-header">
-                <span>主要内容</span>
-                <el-button class="button" type="text">操作按钮</el-button>
-              </div>
-            </template>
-
-            <p>
-              （1）Android简介（了解）<br>
-              （2）Android Studio的安装与调试（掌握）<br>
-              （3）创建HelloAndroid项目（掌握）<br>
-              （4）Android Studio中的SDK设置<br>
-              思政部分：安卓技术的发展史，技术的突破对提高项目开发效率的影响。鸿蒙系统的崛起，自有技术的重要性等。
-            </p>
-
-          </el-card>
-
-
-        </div>
-
-        <div style="margin-left: 20px;margin-top:20px;width: 400px">
-          <el-card class="box-card">
-            <template #header>
-              <div class="card-header">
-                <span>主要内容</span>
-                <el-button class="button" type="text">操作按钮</el-button>
-              </div>
-            </template>
-
-            <p>
-              （1）Android简介（了解）<br>
-              （2）Android Studio的安装与调试（掌握）<br>
-              （3）创建HelloAndroid项目（掌握）<br>
-              （4）Android Studio中的SDK设置<br>
-              思政部分：安卓技术的发展史，技术的突破对提高项目开发效率的影响。鸿蒙系统的崛起，自有技术的重要性等。
-            </p>
-
-          </el-card>
-        </div>
-
-        <div style="margin-left: 20px;margin-top:20px;width: 400px">
-          <el-card class="box-card">
-            <template #header>
-              <div class="card-header">
-                <span>主要内容</span>
-                <el-button class="button" type="text">操作按钮</el-button>
-              </div>
-            </template>
-
-            <p>
-              （1）Android简介（了解）<br>
-              （2）Android Studio的安装与调试（掌握）<br>
-              （3）创建HelloAndroid项目（掌握）<br>
-              （4）Android Studio中的SDK设置<br>
-              思政部分：安卓技术的发展史，技术的突破对提高项目开发效率的影响。鸿蒙系统的崛起，自有技术的重要性等。
-            </p>
-
-          </el-card>
-        </div>
-
-        <div style="margin-left: 20px;margin-top:20px;width: 400px">
-          <el-card class="box-card">
-            <template #header>
-              <div class="card-header">
-                <span>主要内容</span>
-                <el-button class="button" type="text">操作按钮</el-button>
-              </div>
-            </template>
-
-            <p>
-              （1）Android简介（了解）<br>
-              （2）Android Studio的安装与调试（掌握）<br>
-              （3）创建HelloAndroid项目（掌握）<br>
-              （4）Android Studio中的SDK设置<br>
-              思政部分：安卓技术的发展史，技术的突破对提高项目开发效率的影响。鸿蒙系统的崛起，自有技术的重要性等。
-            </p>
-
-          </el-card>
-        </div>
-        <div style="margin-left: 20px;margin-top:20px;width: 400px">
-          <el-card class="box-card">
-            <template #header>
-              <div class="card-header">
-                <span>主要内容</span>
-                <el-button class="button" type="text">操作按钮</el-button>
-              </div>
-            </template>
-
-            <p>
-              （1）Android简介（了解）<br>
-              （2）Android Studio的安装与调试（掌握）<br>
-              （3）创建HelloAndroid项目（掌握）<br>
-              （4）Android Studio中的SDK设置<br>
-              思政部分：安卓技术的发展史，技术的突破对提高项目开发效率的影响。鸿蒙系统的崛起，自有技术的重要性等。
-            </p>
-
-          </el-card>
-        </div>
-
-        <div style="margin-left: 20px;margin-top:20px;width: 400px">
-          <el-card class="box-card">
-            <template #header>
-              <div class="card-header">
-                <span>主要内容</span>
-                <el-button class="button" type="text">操作按钮</el-button>
-              </div>
-            </template>
-
-            <p>
-              （1）Android简介（了解）<br>
-              （2）Android Studio的安装与调试（掌握）<br>
-              （3）创建HelloAndroid项目（掌握）<br>
-              （4）Android Studio中的SDK设置<br>
-              思政部分：安卓技术的发展史，技术的突破对提高项目开发效率的影响。鸿蒙系统的崛起，自有技术的重要性等。
-            </p>
-
-          </el-card>
-        </div>
-
+        <el-row>
+          <el-col :span="24" v-for="(lesson, index) in lessons" :key="index">
+            <LessonItem :lesson="lesson" />
+          </el-col>
+        </el-row>
       </div>
-
-
-
-
-
-
-
     </div>
   </div>
 </template>
 
 <script>
+import LessonItem from '@/components/LessonItem.vue';
 export default {
 
   data() {
     return {
       course_id: 0,
       loading: false,
+
+      lessons: [
+        {
+          lesson_name: '第01课时',
+          lesson_content: `（1）Android简介（了解）
+          （2）Android Studio的安装与调试（掌握）
+          （3）创建HelloAndroid项目（掌握）
+          （4）Android Studio中的SDK设置
+          （4）Android Studio中的SDK设置
+          （4）Android Studio中的SDK设置
+          思政部分：安卓技术的发展史，技术的突破对提高项目开发效率的影响。鸿蒙系统的崛起，自有技术的重要性等。`,
+          degree: 1,
+          quality: 4.6
+        },
+        {
+          lesson_name: '第02课时',
+          lesson_content: `（1）Android简介（了解）
+          （2）Android Studio的安装与调试（掌握）
+          （3）创建HelloAndroid项目（掌握）
+          （4）Android Studio中的SDK设置`,
+          degree: 3,
+          quality: 4.6
+        },
+        {
+          lesson_name: '第02课时',
+          lesson_content: `（1）Android简介（了解）
+          （2）Android Studio的安装与调试（掌握）
+          （3）创建HelloAndroid项目（掌握）
+          （4）Android Studio中的SDK设置
+          思政部分：安卓技术的发展史，技术的突破对提高项目开发效率的影响。鸿蒙系统的崛起，自有技术的重要性等。`,
+          degree: 5,
+          quality: 4.6
+        },
+      ]
     }
   },
 
+  components: { LessonItem },
 
   // 加载数据
   beforeMount() {
@@ -175,12 +86,6 @@ export default {
   justify-content: center;
   align-items: center;
 
-  .main-container{
-    display: flex;
-    flex-direction:row;
-    flex-wrap: wrap;
-  }
-
   .card-header {
     display: flex;
     justify-content: space-between;
@@ -196,7 +101,15 @@ export default {
     border-radius: 16px;
     background: #fff;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-    overflow: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .main-container {
+      width: calc(100% - 60px);
+      height: calc(100% - 40px);
+      overflow: auto;
+    }
   }
 }
 </style>

@@ -1,0 +1,70 @@
+<template>
+  <div class="lesson-item">
+    <el-card class="box-card">
+      <template #header>
+        <div class="card-header">
+          <span>{{ lesson.lesson_name }}</span>
+
+          <!-- 评分部分 -->
+          <div class="rate">
+            <div :title="title">
+              <el-rate
+                v-model="lesson.quality"
+                disabled
+                show-score
+                text-color="#ff9900"
+                :colors="rate_colors"
+              />
+              <el-rate
+                v-model="lesson.degree"
+                disabled
+                show-score
+                text-color="#ff9900"
+                :colors="rate_colors"
+              />
+            </div>
+            <el-link
+              :underline="false"
+              type="primary"
+              style="margin-left: 12px"
+            >
+              查看详情
+            </el-link>
+          </div>
+        </div>
+      </template>
+
+      <h3 style="margin-bottom: 10px">主讲内容</h3>
+      <p v-html="convertHtml(lesson.lesson_content)"></p>
+    </el-card>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      title: '教学质量\n掌握程度',
+      rate_colors: ['#99A9BF', '#F7BA2A', '#FF9900']
+    }
+  },
+  props: ['lesson']
+}
+</script>
+
+<style lang="less" scoped>
+.lesson-item {
+  margin: 20px 10px 0;
+  .card-header {
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    .rate {
+      position: absolute;
+      right: 0;
+      display: flex;
+    }
+  }
+}
+</style>
