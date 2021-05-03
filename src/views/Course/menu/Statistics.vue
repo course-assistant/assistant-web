@@ -10,7 +10,9 @@
           <div class="info">
             <p class="name">网站建设</p>
             <p class="teacher">课程教师 张妍琰</p>
-            <p class="count">学生人数 <span>124</span></p>
+            <p class="count">
+              学生人数 <span>{{ course_info.student_num }}</span>
+            </p>
           </div>
           <div id="line" class="chart"></div>
         </div>
@@ -20,13 +22,13 @@
           <div class="column">
             <SItem
               text="任务"
-              :num="course_info.discussion_num"
+              :num="course_info.mission_num"
               q="个"
               backcolor="#67dac1"
             />
             <SItem
               text="讨论话题"
-              :num="course_info.mission_num"
+              :num="course_info.discussion_num"
               q="个"
               backcolor="#65a4fc"
             />
@@ -35,7 +37,7 @@
           <div class="column">
             <SItem
               text="学生人数"
-              :num="course_info.question_num"
+              :num="course_info.student_num"
               q="人"
               backcolor="#46c8e8"
             />
@@ -44,7 +46,7 @@
           <div class="column">
             <SItem
               text="题库总数"
-              :num="course_info.student_num"
+              :num="course_info.question_num"
               q="题"
               backcolor="#fb7293"
             />
@@ -154,13 +156,14 @@ export default {
 
     // 刷新数据
     async refresh() {
-      let [data, err] = await this.$awaitWrap(this.$get('statistics/profile', {
+      let [data, err] = await this.$awaitWrap(this.$get('statistics/courseinfo', {
         id: this.courseId
       }));
       if (err) {
         this.$message.warning(err);
         return;
       }
+      console.log(data);
       this.course_info = data.data;
     },
 
