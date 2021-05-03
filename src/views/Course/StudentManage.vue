@@ -14,8 +14,9 @@
           type="primary"
           icon="el-icon-plus"
           round
-          @click="handleAddStudent"
-          >添加学生
+          @click="addStudentVisible = true"
+        >
+          添加学生
         </el-button>
       </div>
 
@@ -61,6 +62,25 @@
         </el-table>
       </div>
     </div>
+
+    <!-- 对话框 -->
+    <el-dialog title="添加学生" :visible.sync="addStudentVisible" width="50%">
+      <el-form :model="addStudentForm" label-position="left">
+        <el-form-item>
+          <el-input
+            v-model="addStudentForm.student_id"
+            placeholder="请输入学号"
+          ></el-input>
+        </el-form-item>
+      </el-form>
+
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="addStudentVisible = false" clearable>
+          取 消
+        </el-button>
+        <el-button type="primary" @click="onAddStudent"> 确 定 </el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -69,7 +89,6 @@ export default {
 
   data() {
     return {
-
       loading: false,
 
       class_id: 0,
@@ -81,7 +100,12 @@ export default {
           student_phone: ''
         }
       ],
-      multipleSelection: []
+      multipleSelection: [],
+
+      addStudentVisible: false,
+      addStudentForm: {
+        student_id: ''
+      }
     }
   },
 
@@ -111,8 +135,6 @@ export default {
 
 
     removeStudent(id) {
-      console.log('删除学生 ' + id);
-      console.log('班级id ' + this.$route.params.class_id);
       this.$cfm('确定删除？', async () => {
         let [data, err] = await this.$awaitWrap(this.$post('class/removestudent', {
           student_id: id,
@@ -128,8 +150,22 @@ export default {
     },
 
 
-    // 添加
-    handleAddStudent() { },
+    // 添加学生
+    async onAddStudent() {
+      console.log(this.addStudentForm.student_id);
+      let [data, err] = await this.$awaitWrap(this.$post('class/selectionbyteacher', {
+        student_id: this.addStudentForm.student_id,
+        class_id: this.$route.params.class_id
+      }));
+      if (err) {
+        this.$message.warning(err);
+        return;
+      }
+      await this.refreshStudents();
+      this.addStudentVisible = false;
+      this.$message.success(data.msg);
+    },
+    
 
     // 处理多选
     handleSelectionChange(val) {
