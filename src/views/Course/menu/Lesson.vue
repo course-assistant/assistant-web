@@ -17,7 +17,11 @@
 
         <el-row>
           <el-col :span="24" v-for="(lesson, index) in lessons" :key="index">
-            <LessonItem :lesson="lesson" @delete="deleteLesson" />
+            <LessonItem
+              :lesson="lesson"
+              @edit="editLesson"
+              @delete="deleteLesson"
+            />
           </el-col>
         </el-row>
 
@@ -59,6 +63,29 @@
         <el-button type="primary" @click="onAdd"> 确 定 </el-button>
       </div>
     </el-dialog>
+
+    <!-- 编辑内容 -->
+    <el-dialog title="编辑内容" :visible.sync="editDialogVisible" width="50%">
+      <el-form :model="addForm" label-position="left">
+        <el-form-item>
+          <el-input
+            type="textarea"
+            :rows="7"
+            placeholder="请输入内容"
+            v-model="editForm.content"
+            clearable
+          >
+          </el-input>
+        </el-form-item>
+      </el-form>
+
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="editDialogVisible = false" clearable>
+          取 消
+        </el-button>
+        <el-button type="primary" @click="onEdit"> 确 定 </el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -90,6 +117,12 @@ export default {
       addDialogVisible: false,
       addForm: {
         name: '',
+        content: ''
+      },
+
+      editDialogVisible: false,
+      editForm: {
+        id: '',
         content: ''
       }
     }
@@ -133,6 +166,28 @@ export default {
         return;
       }
       this.addDialogVisible = false;
+      await this.refresh();
+      this.$message.success(data.msg);
+    },
+
+    // 点击编辑
+    editLesson(lesson) {
+      this.editDialogVisible = true;
+      this.editForm.id = lesson.lesson_id;
+      this.editForm.content = lesson.lesson_content;
+    },
+
+    // 确定编辑
+    async onEdit() {
+      let [data, err] = await this.$awaitWrap(this.$post('lesson/update', {
+        id: this.editForm.id,
+        content: this.editForm.content
+      }));
+      this.editDialogVisible = false;
+      if (err) {
+        this.$message.warning(err);
+        return;
+      }
       await this.refresh();
       this.$message.success(data.msg);
     },

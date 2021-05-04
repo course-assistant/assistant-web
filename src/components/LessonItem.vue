@@ -40,6 +40,14 @@
       <div class="delete">
         <el-link
           type="primary"
+          icon="el-icon-edit"
+          :underline="false"
+          style="font-size: 18px; margin-right: 20px"
+          @click="onEdit"
+        ></el-link>
+
+        <el-link
+          type="primary"
           icon="el-icon-delete"
           :underline="false"
           style="font-size: 18px"
@@ -63,6 +71,10 @@ export default {
   methods: {
     showDetail() {
       console.log(this.lesson.lesson_id);
+    },
+
+    onEdit() {
+      this.$emit('edit', this.lesson);
     },
 
     onDelete() {
