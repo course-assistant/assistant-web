@@ -20,6 +20,13 @@
             <LessonItem :lesson="lesson" @delete="deleteLesson" />
           </el-col>
         </el-row>
+
+        <!-- 为空时显示 -->
+        <Empty
+          v-if="lessons == null || lessons.length == 0"
+          style="margin-top: 60px"
+          text="暂无课时内容"
+        />
       </div>
     </div>
 
@@ -65,19 +72,19 @@ export default {
       loading: false,
 
       lessons: [
-        {
-          lesson_id: 0,
-          lesson_name: '第01课时',
-          lesson_content: `（1）Android简介（了解）
-          （2）Android Studio的安装与调试（掌握）
-          （3）创建HelloAndroid项目（掌握）
-          （4）Android Studio中的SDK设置
-          （4）Android Studio中的SDK设置
-          （4）Android Studio中的SDK设置
-          思政部分：安卓技术的发展史，技术的突破对提高项目开发效率的影响。鸿蒙系统的崛起，自有技术的重要性等。`,
-          degree: 1,
-          quality: 4.6
-        }
+        // {
+        //   lesson_id: 0,
+        //   lesson_name: '第01课时',
+        //   lesson_content: `（1）Android简介（了解）
+        //   （2）Android Studio的安装与调试（掌握）
+        //   （3）创建HelloAndroid项目（掌握）
+        //   （4）Android Studio中的SDK设置
+        //   （4）Android Studio中的SDK设置
+        //   （4）Android Studio中的SDK设置
+        //   思政部分：安卓技术的发展史，技术的突破对提高项目开发效率的影响。鸿蒙系统的崛起，自有技术的重要性等。`,
+        //   degree: 1,
+        //   quality: 4.6
+        // }
       ],
 
       addDialogVisible: false,

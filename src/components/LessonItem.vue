@@ -9,14 +9,14 @@
           <div class="rate">
             <div :title="title">
               <el-rate
-                v-model="lesson.quality"
+                v-model="lesson.quality - 0"
                 disabled
                 show-score
                 text-color="#ff9900"
                 :colors="rate_colors"
               />
               <el-rate
-                v-model="lesson.degree"
+                v-model="lesson.degree - 0"
                 disabled
                 show-score
                 text-color="#ff9900"
