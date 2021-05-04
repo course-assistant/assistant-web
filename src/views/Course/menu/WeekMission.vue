@@ -10,11 +10,11 @@
         <!-- 一级 -->
         <div style="font-size: 26px;line-height: 45px">周任务</div>
 
-        <p style="color:#444;margin-left: 50px;">
+        <!-- <p style="color:#444;margin-left: 50px;">
           共有 {{weekInfo.student_total_num}} 个周任务 已发布:
           {{weekInfo.student_ok_num}} 个 未发布
           {{weekInfo.student_total_num-weekInfo.student_ok_num}} 个
-        </p>
+        </p> -->
 
         <!--        <p style="margin-left:auto;">-->
         <!--          0个学生完成  60个学生未完成-->

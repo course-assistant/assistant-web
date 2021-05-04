@@ -7,10 +7,22 @@
           @click="liChange(index)"
         >
           {{ t1.week_name }}
-          <span style="font-size: 12px; color: #8a8b99; margin-left: 10px">
-            已完成
-            <!--            {{t1.week_f.ok_num}}/{{t1.week_f.total_num}}-->
+
+          <!-- 状态 -->
+          <span
+            v-if="t1.week_status == 1"
+            style="font-size: 12px; color: #8a8b99; margin-left: 10px"
+          >
+            已开放
           </span>
+
+          <span
+            v-else
+            style="font-size: 12px; color: #8a8b99; margin-left: 10px"
+          >
+            未开放
+          </span>
+
           <i
             class="fr"
             :class="
@@ -27,7 +39,7 @@
             type=""
             effect="plain"
           >
-            已开放 1/2
+            已开放 {{ calcIssued(t1) }} / {{ t1.missions.length }}
           </el-tag>
         </div>
 
@@ -44,7 +56,21 @@
               >
                 {{ mission.week_mission_name }}
 
+                <!-- 任务的状态 -->
                 <el-tag
+                  v-if="mission.week_mission_status == 1"
+                  class=""
+                  style="margin-left: 10px"
+                  size="small "
+                  key="已开放"
+                  type=""
+                  effect="plain"
+                >
+                  已开放
+                </el-tag>
+
+                <el-tag
+                  v-else
                   class=""
                   style="margin-left: 10px"
                   size="small "
@@ -77,14 +103,17 @@
                   padding-left: 40px;
                 "
                 @click="addMission(index)"
-                >添加</span
               >
+                添加
+              </span>
             </div>
 
             <div class="no-mission" v-show="t1.missions.length !== 0">
               <!--              <span>点击添加</span>-->
 
-              <span style="font-size: 14px; color: #409eff; cursor: pointer"   @click="addMission(index)"
+              <span
+                style="font-size: 14px; color: #409eff; cursor: pointer"
+                @click="addMission(index)"
                 >添加任务</span
               >
             </div>
@@ -93,18 +122,18 @@
       </li>
     </ul>
 
-
- <el-dialog
-
+    <el-dialog
       title="编辑内容"
       :visible.sync="addMissionDialogVisible"
       width="50%"
       center
     >
       <el-form ref="form" :model="addMissionDialogForm" label-width="80px">
-
         <el-form-item label="任务名称">
-          <el-input placeholder="请输入名称" v-model="addMissionDialogForm.name"></el-input>
+          <el-input
+            placeholder="请输入名称"
+            v-model="addMissionDialogForm.name"
+          ></el-input>
         </el-form-item>
 
         <!-- <el-form-item label="主要内容">
@@ -123,7 +152,6 @@
         </el-form-item>
       </el-form>
     </el-dialog>
-
   </div>
 </template>
 
@@ -140,10 +168,10 @@ export default {
       list: [1, 2, 3],
       mission: [],
 
-      addMissionDialogVisible:false,
-      addMissionDialogForm:{
-        name:'',
-        content:''
+      addMissionDialogVisible: false,
+      addMissionDialogForm: {
+        name: '',
+        content: ''
       }
     }
   },
@@ -153,6 +181,8 @@ export default {
   },
   created() {
     // this.refreshWeeks(i)
+
+    console.log(this.week);
 
   },
   methods: {
@@ -207,16 +237,16 @@ export default {
       this.addMissionDialogVisible = true;
     },
 
-    async onSubmitAdd(){
+    async onSubmitAdd() {
       console.log(this.addMissionDialogForm);
       let [data, err] = await this.$awaitWrap(this.$post('weekmission/insert', {
-        week_id:this.addMissionDialogForm.week_id,
+        week_id: this.addMissionDialogForm.week_id,
         name: this.addMissionDialogForm.name,
-        type:1
+        type: 1
       }));
       this.addMissionDialogVisible = false;
 
-      if(err){
+      if (err) {
         this.$message.warning(err);
         return;
       }
@@ -225,7 +255,21 @@ export default {
       // 刷新
       // this.$router.go(0);
       location.reload()
+    },
+
+
+    // 计算已发布的任务数
+    calcIssued(week) {
+      let n = 0;
+      week.missions.forEach(m => {
+        if (m.week_mission_status === 1) {
+          n++;
+        }
+      });
+      return n;
     }
+
+    // 计算全部的任务数
 
   }
 }
@@ -287,7 +331,7 @@ ul {
 }
 
 /* .submenu li { */
-  /*border-bottom: 1px dashed #4b4a5e ;*/
+/*border-bottom: 1px dashed #4b4a5e ;*/
 /* } */
 
 .submenu a {
@@ -331,7 +375,7 @@ h1 a {
 }
 
 /* .wmd { */
-  /*margin-left: 42px;*/
+/*margin-left: 42px;*/
 /* } */
 
 /*  图片*/
