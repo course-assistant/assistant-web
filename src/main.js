@@ -6,9 +6,11 @@ import 'element-ui/lib/theme-chalk/index.css';
 import MyAxiosHttp from '@/plugin/http.js';
 import Util from '@/plugin/util.js';
 import MyUI from '@/plugin/my-ui.js';
+import MyXLSX from '@/plugin/my-xlsx.js';
 Vue.use(MyAxiosHttp);
 Vue.use(Util);
 Vue.use(MyUI);
+Vue.use(MyXLSX);
 
 
 import App from './App.vue'

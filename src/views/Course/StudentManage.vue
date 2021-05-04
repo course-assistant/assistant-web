@@ -18,12 +18,40 @@
         >
           添加学生
         </el-button>
+
+        <el-button
+          type="primary"
+          icon="el-icon-upload2"
+          round
+          @click="choiceXlsx"
+        >
+          批量导入
+        </el-button>
+
+        <el-link
+          type="primary"
+          :underline="false"
+          style="margin-left: 10px"
+          @click="downTemplate"
+        >
+          下载批量导入模板
+        </el-link>
+
+        <input
+          style="display: none"
+          ref="filElem"
+          type="file"
+          class="upload-file"
+          accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+          @change="getFile"
+        />
       </div>
 
       <p style="margin: 20px 0 10px 30px; font-size: 12px; color: #a8a8b3">
         全部学生
       </p>
 
+      <!-- 学生列表 -->
       <div class="student-list">
         <el-table
           class="student-table"
@@ -85,6 +113,8 @@
 </template>
 
 <script>
+import XLSX from 'xlsx';
+
 export default {
 
   data() {
@@ -110,6 +140,7 @@ export default {
   },
 
   methods: {
+    // 刷新
     async refreshStudents() {
       // 加载班级名
       let [clsData, e] = await this.$awaitWrap(this.$get('class/findbyclassid', {
@@ -134,6 +165,7 @@ export default {
     },
 
 
+    // 删除学生
     removeStudent(id) {
       this.$cfm('确定删除？', async () => {
         let [data, err] = await this.$awaitWrap(this.$post('class/removestudent', {
@@ -165,12 +197,46 @@ export default {
       this.addStudentVisible = false;
       this.$message.success(data.msg);
     },
-    
+
+
+    // 下载模板
+    downTemplate() {
+      window.open("https://tanyiqu.oss-cn-hangzhou.aliyuncs.com/assistant/template/student_class_template.xlsx", "_blank")
+    },
 
     // 处理多选
     handleSelectionChange(val) {
       this.multipleSelection = val;
+    },
+
+    // 点击选择xlsx
+    choiceXlsx() {
+      this.$refs.filElem.dispatchEvent(new MouseEvent('click'))
+    },
+
+    // 处理批量添加
+    async getFile() {
+      const inputFile = this.$refs.filElem.files[0];
+      let students = await this.$resolveXlsx(inputFile);
+      console.log(students);
+      // 依次导入，导入失败提示
+      await (async () => {
+        students.forEach(async student => {
+          console.log(student.id);
+          let [data, err] = await this.$awaitWrap(this.$post('class/selectionbyteacher', {
+            student_id: student.id,
+            class_id: this.$route.params.class_id
+          }));
+          if (err) {
+            this.$message.warning(err);
+          } else {
+            this.$message.success(data.msg);
+          }
+        });
+      })();
+      await this.refreshStudents();
     }
+
   },
 
   // 加载数据
