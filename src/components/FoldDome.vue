@@ -82,11 +82,18 @@
                 </el-tag>
 
                 <span class="cz1">
-                  <el-button type="text"> 删除 </el-button>
+                  <el-button
+                    type="text"
+                    @click="deleteMission(mission.week_mission_id)"
+                  >
+                    删除
+                  </el-button>
                 </span>
 
                 <span class="cz2">
-                  <el-button type="text"> 开放 </el-button>
+                  <el-button type="text" @click="issueMission(mission)">
+                    开放
+                  </el-button>
                 </span>
               </a>
               <week-mission-detail class="wmd" :week_mission="mission" />
@@ -254,7 +261,10 @@ export default {
 
       // 刷新
       // this.$router.go(0);
-      location.reload()
+      // location.reload()
+      setTimeout(() => {
+        this.$router.push(`/course/${this.$route.params.course_id}/lesson`);
+      }, 500);
     },
 
 
@@ -267,10 +277,41 @@ export default {
         }
       });
       return n;
-    }
+    },
 
-    // 计算全部的任务数
+    // 发布任务
+    issueMission(mission) {
+      if (mission.week_mission_status == 1) {
+        this.$message.warning('已经是发布状态');
+        return;
+      }
+      console.log('发布任务 ' + mission.week_mission_id);
+      this.$cfm('确定发布？', async () => {
+        let [data, err] = await this.$awaitWrap(this.$post('week/issuemission', {
+          id: mission.week_mission_id
+        }));
+        if (err) {
+          this.$message.warning(err);
+          return;
+        }
+        this.$message.success(data.msg);
+      });
+    },
 
+    // 删除任务
+    deleteMission(id) {
+      this.$cfm('确定删除？', async () => {
+        let [data, err] = await this.$awaitWrap(this.$post('week/deletemission', { id }));
+        if (err) {
+          this.$message.warning(err);
+          return;
+        }
+        this.$message.success(data.msg);
+        setTimeout(() => {
+          this.$router.push(`/course/${this.$route.params.course_id}/lesson`);
+        }, 500);
+      });
+    },
   }
 }
 </script>
