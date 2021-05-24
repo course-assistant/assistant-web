@@ -31,6 +31,8 @@
                 >
                 </el-date-picker>
 
+                <!--                <img style="margin-left: 350px;" height="12px" src="@/assets/img/目录.svg" alt="">-->
+
                 <el-dropdown style="margin-left: 40px">
                   <span class="el-dropdown-link">
                     排序
@@ -66,6 +68,8 @@
                   :visible.sync="dialogVisible"
                   width="30%"
                 >
+                  <!--              <span>这是一段信息</span>-->
+
                   <div>
                     <div>
                       测试标题:
@@ -190,7 +194,81 @@
             </el-tab-pane>
 
             <el-tab-pane label="测试题库" name="second">
+
+              <!-- <el-tag color="#337ab7" effect="dark" size="mini">
+                总量10
+              </el-tag>
+              -
+              <el-tag
+                style="margin-left: 10px"
+                color="#5cb85c"
+                effect="dark"
+                size="mini"
+              >
+                选择6
+              </el-tag>
+
+              <el-tag
+                style="margin-left: 10px"
+                color="f0ad4e"
+                effect="dark"
+                size="mini"
+              >
+                判断2
+              </el-tag>
+
+              <el-tag
+                style="margin-left: 10px"
+                color="#d9534f"
+                effect="dark"
+                size="mini"
+              >
+                填空2
+              </el-tag> -->
+
               <div style="margin-top: 20px">
+                <!-- <el-input
+                  v-model="input"
+                  size="mini"
+                  placeholder="搜索题目 名称、内容 或 编号"
+                  style="width: 300px; border-radius: 50%"
+                ></el-input> -->
+
+                <!-- <img
+                  style="margin-left: 350px"
+                  height="12px"
+                  src="@/assets/img/目录.svg"
+                  alt=""
+                /> -->
+
+                <!-- <el-dropdown style="margin-left: 40px">
+                  <span class="el-dropdown-link">
+                    类别
+                    <i class="el-icon-arrow-down el-icon--right"></i>
+                  </span>
+                  <template #dropdown>
+                    <el-dropdown-menu>
+                      <el-dropdown-item>选择</el-dropdown-item>
+                      <el-dropdown-item>判断</el-dropdown-item>
+                      <el-dropdown-item>填空</el-dropdown-item>
+                    </el-dropdown-menu>
+                  </template>
+                </el-dropdown>
+
+                <el-dropdown style="margin-left: 25px">
+                  <span class="el-dropdown-link">
+                    下拉菜单
+                    <i class="el-icon-arrow-down el-icon--right"></i>
+                  </span>
+                  <template #dropdown>
+                    <el-dropdown-menu>
+                      <el-dropdown-item>选择</el-dropdown-item>
+                      <el-dropdown-item>判断</el-dropdown-item>
+                      <el-dropdown-item>填空</el-dropdown-item>
+                    </el-dropdown-menu>
+                  </template>
+                </el-dropdown> -->
+
                 <div style="margin-top: 20px">
                   <el-table
                     :expand-row-keys="expends"
@@ -205,61 +283,50 @@
                   >
                     <el-table-column type="expand">
                       <template #default="props">
-                        <!-- 选择题 -->
                         <div
                           v-if="props.row.problem.type === 1"
                           style="position: relative"
                         >
-                          <span
-                            style="position: absolute; right: 250px; top: 0"
+                          <span style="position: absolute; right: 250px; top: 0"
+                            >正确答案: A</span
                           >
-                            正确答案: {{ props.row.problem.res }}
-                          </span>
                           <p style="font-size: 16px; margin-bottom: 10px">
-                            {{ props.row.problem.title }}
+                            人声的主要作用有( )
                           </p>
 
-                          <p class="optionStyle">{{ props.row.problem.a }}</p>
-                          <p class="optionStyle">{{ props.row.problem.b }}</p>
-                          <p class="optionStyle">{{ props.row.problem.c }}</p>
-                          <p class="optionStyle">{{ props.row.problem.d }}</p>
+                          <p class="optionStyle">A. 这是A的选项</p>
+                          <p class="optionStyle">B. 这是B的选项</p>
+
+                          <p class="optionStyle">C. 这是C的选项</p>
+                          <p class="optionStyle">D. 这是D的选项</p>
                         </div>
 
-                        <!-- 判断题 -->
                         <div
-                          v-if="props.row.problem.type === 3"
+                          v-if="props.row.problem.type === 2"
                           style="position: relative"
                         >
-                          <span
-                            style="position: absolute; right: 250px; top: 0"
+                          <span style="position: absolute; right: 250px; top: 0"
+                            >正确答案: A</span
                           >
-                            正确答案: {{ props.row.problem.res }}
-                          </span>
                           <p style="font-size: 16px; margin-bottom: 10px">
-                            {{ props.row.problem.title }}
+                            人声的没有作用
                           </p>
                           <p class="optionStyle">A. 对</p>
                           <p class="optionStyle">B. 错</p>
                         </div>
 
-                        <!-- 填空题 -->
                         <div
-                          v-if="props.row.problem.type === 2"
+                          v-if="props.row.problem.type === 3"
                           style="position: relative"
                         >
-                          <span
-                            style="position: absolute; right: 250px; top: 0"
-                          >
-                            正确答案:
-                            <span
-                              v-for="(r, index) in props.row.problem.res"
-                              style="color: red; margin-left: 10px"
+                          <span style="position: absolute; right: 250px; top: 0"
+                            >正确答案:
+                            <span style="color: red; margin-left: 20px"
+                              >刻画人物形象</span
                             >
-                              {{ r }}
-                            </span>
                           </span>
                           <p style="font-size: 16px; margin-bottom: 10px">
-                            {{ props.row.problem.title }}
+                            人声的有___的作用
                           </p>
                         </div>
 
@@ -269,6 +336,13 @@
 
                     <el-table-column prop="name" label="编号" width="300">
                     </el-table-column>
+
+                    <!-- 
+                    <el-table-column prop="date" label="时间" width="220">
+                    </el-table-column> -->
+
+                    <!-- <el-table-column prop="address" label="知识点" width="380">
+                    </el-table-column> -->
 
                     <el-table-column prop="type" label="类别" width="300">
                     </el-table-column>
@@ -286,8 +360,16 @@
                   padding-bottom: 20px;
                   margin-left: 30px;
                 "
-              ></div>
+              >
+                <!-- <el-pagination
+                  background
+                  layout="prev, pager, next"
+                  :total="1000"
+                >
+                </el-pagination> -->
+              </div>
             </el-tab-pane>
+            
           </el-tabs>
         </div>
       </div>
@@ -346,24 +428,29 @@ export default {
       input: '',
       expends: [],
       tableData: [{
+        date: '2021-04-17',
         name: '1',
+        address: '人声',
         type: '选择',
+        edit: '操作',
         problem: {
           type: 1,
           title: '人声的主要作用有(  )',
           a: 'A. 这是A的选项',
-          b: 'B. 这是B的选项asdad',
-          c: 'C. 这是C的选项asdddd',
-          d: 'D. 这是D的选项da',
-          res: 'B'
+          b: 'B. 这是B的选项',
+          c: 'C. 这是C的选项',
+          d: 'D. 这是D的选项',
+          res: 'A'
         }
       },
       {
+        date: '2021-04-17',
         name: '2',
         address: '人声',
         type: '判断',
+        edit: '操作',
         problem: {
-          type: 3,
+          type: 2,
           title: '人声的主要作用有(  )',
           a: 'A',
           b: 'B',
@@ -371,14 +458,67 @@ export default {
         }
       },
       {
+        date: '2021-04-17',
         name: '3',
+        address: '人声',
         type: '填空',
+        edit: '操作',
         problem: {
-          type: 2,
+          type: 3,
           title: '人声的有___的作用',
-          res: ['刻画人物形象', '222']
+          res: '刻画人物形象'
         }
-      },]
+      },
+      {
+        date: '2021-04-17',
+        name: '4',
+        address: 'JavaWeb',
+        type: '选择',
+        edit: '操作',
+        problem: {
+          type: 1,
+          title: '下面哪个不是Form的元素',
+          a: 'A. input',
+          b: 'B. texearea',
+          c: 'C. select',
+          d: 'D. table',
+          res: 'D'
+        }
+      },
+      {
+        date: '2021-04-17',
+        name: '5',
+        address: '人声',
+        type: '选择',
+        edit: '操作',
+        problem: {
+          type: 1,
+          title: '人声的主要作用有(  )',
+          a: 'A. 这是A的选项',
+          b: 'B. 这是B的选项',
+          c: 'C. 这是C的选项',
+          d: 'D. 这是D的选项',
+          res: 'A'
+        }
+      },
+      {
+        date: '2021-04-17',
+        name: '6',
+        address: '人声',
+        type: '选择',
+        edit: '操作',
+        problem: {
+          type: 1,
+          title: '人声的主要作用有(  )',
+          a: 'A. 这是A的选项',
+          b: 'B. 这是B的选项',
+          c: 'C. 这是C的选项',
+          d: 'D. 这是D的选项',
+          res: 'A'
+        }
+      }
+
+      ]
     }
   },
   components: {
@@ -387,9 +527,8 @@ export default {
 
 
   // 加载数据
-  async beforeMount() {
+  beforeMount() {
     this.course_id = this.$route.params.course_id;
-    await this.refreshProblems();
   },
 
   created() {
@@ -397,89 +536,19 @@ export default {
   },
 
   methods: {
-
-    async refreshProblems() {
-      let [data, err] = await this.$awaitWrap(this.$get('question/all', {
-        course_id: this.course_id
-      }));
-
-      this.tableData = this.beauty(data.data);
-      console.log(data);
-    },
-
-
-    beauty(data) {
-      let questions = [];
-      data.forEach((question, index) => {
-
-        // 选择
-        if (question.question_type === 1) {
-          let q = {};
-          q.name = index - 0 + 1;
-          q.type = '选择';
-
-          // 分离
-          let s = question.question_desc.split('$');
-          q.problem = {
-            type: 1,
-            title: s[0],
-            a: s[1],
-            b: s[2],
-            c: s[3],
-            d: s[4],
-            res: question.question_answer,
-          }
-          questions.push(q);
-        }
-
-        // 判断
-        if (question.question_type === 3) {
-          let q = {};
-          q.name = index - 0 + 1;
-          q.type = '判断';
-
-          q.problem = {
-            type: 3,
-            title: question.question_desc,
-            res: question.question_answer,
-          }
-          questions.push(q);
-        }
-
-        // 填空
-        if (question.question_type === 2) {
-          let q = {};
-          q.name = index - 0 + 1;
-          q.type = '填空';
-
-          q.problem = {
-            type: 2,
-            title: question.question_desc,
-            res: [question.question_answer],
-          }
-          questions.push(q);
-        }
-      });
-
-      console.log('questions');
-      console.log(questions);
-      return questions;
-    },
-
     //时间选择器
     disabledHours() {
       return makeRange(0, 23)
     },
-
-
     disabledMinutes(hour) {
       return makeRange(0, 59)
     },
-
-
     disabledSeconds(hour, minute) {
       return makeRange(0, 59)
     },
+
+
+
 
 
     //table
@@ -487,8 +556,6 @@ export default {
       var Id = this.tableData.map(item => item.name)
       this.expends = Id
     },
-
-
     getRowKeys(row) {
       return row.name
     },
@@ -498,16 +565,15 @@ export default {
       console.log(tab, event);
     },
 
-
     //点击弹窗
     clickTest() {
       console.log('点击了');
       this.dialogVisible = true
+      // this.$router.push(this.$route.path+"/addTest")
     },
-
-
     //跳转到添加测试页面
     toAddTest() {
+
       this.$router.push(this.$route.path + "/addTest")
     }
   },
@@ -530,6 +596,7 @@ export default {
     height: calc(100% - 30px);
     margin-left: 20px;
     margin-right: 20px;
+    /*margin-top: 20px;*/
     border-radius: 16px;
     background: #fff;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
@@ -538,6 +605,8 @@ export default {
   .nav {
     margin: 20px 30px;
     height: 45px;
+    /*background-color: red;*/
+    /*display: flex;*/
   }
 
   .optionStyle {
